@@ -4,7 +4,7 @@
     <import file="nbproject/build-impl.xml"/>
     
     <property name="junit.jar" value="${basedir}/lib/junit-3.8.1.jar"/>
-    <property name="rest-api-dist.dir" value="${basedir}/dist/rest-api"/>
+    <property name="rest-api-dist.dir" value="${basedir}/dist/jsr311-api"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
     <condition property="tools.jar" value="${java.home}/lib/tools.jar">
         <available type="file" file="${java.home}/lib/tools.jar"/>
@@ -42,23 +42,19 @@
         <mkdir dir="${rest-api-dist.dir}/lib"/>
         <copy file="${dist.jar}" 
               todir="${rest-api-dist.dir}/lib"/>
-        <copy todir="${rest-api-dist.dir}/lib">
+<!--        <copy todir="${rest-api-dist.dir}/lib">
             <fileset dir="${basedir}/lib" excludes="junit*.jar"/>
-        </copy>
+        </copy>-->
         
         <!-- create docs -->
         <mkdir dir="${rest-api-dist.dir}/docs/api"/>
         <copy todir="${rest-api-dist.dir}/docs/api">
             <fileset dir="${basedir}/dist/javadoc"/>
         </copy>
-        
-        <!-- create a zip file of the source -->
-        <zip destfile="${rest-api-dist.dir}/restbeans-api.src.zip"
-             basedir="${basedir}/src" includes="**"/>
-             
+                     
         <!-- create a zip file of the distribution -->
-        <zip destfile="${basedir}/dist/rest-api.zip"
-             basedir="${basedir}/dist" includes="rest-api/**"/>
+        <zip destfile="${basedir}/dist/jsr311-api.zip"
+             basedir="${rest-api-dist.dir}" includes="**"/>
     </target>
     
     <taskdef name="junit2" classname="com.sun.ant.junit.JUnitTask">
