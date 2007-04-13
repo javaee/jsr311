@@ -12,9 +12,7 @@
 
 package javax.ws.rs.spi.streaming;
 
-import javax.ws.rs.core.HttpResponseContext;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.response.HttpResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,8 +52,9 @@ public interface TypeStreamingProvider<T> {
      * Write a type to an HTTP response.
      * 
      * @param t the type to write.
-     * @param response the HTTP response.
+     * @param httpHeaders the HTTP response headers.
+     * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
-    void writeTo(T t, HttpResponseContext response) throws IOException;    
+    void writeTo(T t, MultivaluedMap<String, String> httpHeaders, OutputStream entityStream) throws IOException;    
 }

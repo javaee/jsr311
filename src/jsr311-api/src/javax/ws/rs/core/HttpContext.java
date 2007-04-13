@@ -19,38 +19,21 @@
 
 package javax.ws.rs.core;
 
-import javax.ws.rs.container.ContainerException;
-import javax.ws.rs.response.HttpResponse;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * A HttpContext makes it possible for a web resource implementation class to 
- * access and manipulate HTTP request and response information directly. Typically
- * a HttpContext is injected into web resource implementation class using the 
- * Resource annotation.
+ * The @HttpContext annotation is used to inject information into a a class
+ * field or method parameter.
+ * @see UriInfo
+ * @see PreconditionEvaluator
+ * @see HttpHeaders
  */
-public interface HttpContext {
-    /**
-     * Get the HTTP request information.
-     * @return the HTTP request information
-     */
-    HttpRequestContext getHttpRequestContext();
-
-    /**
-     * Get the HTTP response information.
-     * @return the HTTP response information
-     */
-    HttpResponseContext getHttpResponseContext();
-    
-    /**
-     * Create a response that will forward the HTTP request to another component
-     * within the same container for further processing.
-     * @param path the path that identifies the component. The path may be relative or absolute,
-     * relative paths are relative to the request URI.
-     * @return a response object that, when returned, will cause the container to forward
-     * the request to another component.
-     * @throws ContainerException if the path cannot be reached by a local forward
-     * @throws UnsupportedOperationException if the current container does not support local forwards
-     */
-    HttpResponse createLocalForward(String path) throws ContainerException, UnsupportedOperationException;
-    
+@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface HttpContext {
 }

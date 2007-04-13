@@ -19,7 +19,7 @@
 
 package javax.ws.rs.core;
 
-import javax.ws.rs.messages.ApiMessages;
+import javax.ws.rs.core.ApiMessages;
 import javax.ws.rs.spi.header.HeaderFactory;
 import javax.ws.rs.spi.header.HeaderProvider;
 import java.text.ParseException;

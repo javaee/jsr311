@@ -19,9 +19,10 @@
 
 package javax.ws.rs.response;
 
+import javax.ws.rs.HttpHeader;
 import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.HttpContext;
-import javax.ws.rs.representation.Representation;
+import javax.ws.rs.core.EntityBody;
+import javax.ws.rs.core.HttpStatus;
 
 /**
  * Base class for HTTP responses. Subclasses offer specializations
@@ -86,6 +87,7 @@ public class HttpResponse {
      * forms the entity body of the HTTP response.
      * @return the representation or null if none is set.
      */
+    @EntityBody
     public Representation<?> getRepresentation() {
         return representation;
     }
@@ -114,6 +116,7 @@ public class HttpResponse {
      * Get the response status code.
      * @return the response status code.
      */
+    @HttpStatus
     public int getStatus() {
         return this.status;
     }
@@ -122,6 +125,7 @@ public class HttpResponse {
      * Get the cache control information that will be sent with the response
      * @return cache control information
      */
+    @HttpHeader("Cache-Control")
     public CacheControl getCacheControl() {
         return this.cacheControl;
     }
@@ -135,17 +139,4 @@ public class HttpResponse {
         this.cacheControl = cacheControl;
     }
 
-    /**
-     * Add the HTTP headers associated with any representation and cache control.
-     * Subclasses that override this method to write their own headers should
-     * also call the superclass method to ensure that all response headers are
-     * written.
-     * @param context the current HTTP context
-     */
-    public void addResponseHeaders(HttpContext context) {
-        if (cacheControl != null)
-            context.getHttpResponseContext().getHttpHeaders().add("Cache-Control", cacheControl);
-        if (representation != null)
-            representation.addResponseHeaders(context);
-    }
 }

@@ -10,18 +10,15 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.representation;
+package javax.ws.rs.response;
 
-import javax.ws.rs.Entity;
+import javax.ws.rs.HttpHeader;
+import javax.ws.rs.core.EntityBody;
 import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.HttpContext;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.messages.ApiMessages;
-import javax.ws.rs.spi.header.HeaderFactory;
-import javax.ws.rs.spi.header.HeaderProvider;
+import javax.ws.rs.core.ApiMessages;
 import java.net.URI;
 import java.util.Date;
-import javax.ws.rs.core.MultivaluedMap;
 
 /**
  * Generic base class of all representations.
@@ -29,7 +26,7 @@ import javax.ws.rs.core.MultivaluedMap;
  * @author Paul.Sandoz@Sun.Com
  * @author Marc.Hadley@Sun.Com
  */
-public class Representation<T> implements Entity<T> {
+public class Representation<T> {
     /**
      * The content of the representation
      */
@@ -102,6 +99,7 @@ public class Representation<T> implements Entity<T> {
      * Get the content
      * @return the content
      */
+    @EntityBody
     public T getContent() {
         return content;
     }
@@ -118,6 +116,7 @@ public class Representation<T> implements Entity<T> {
      * Get the media type
      * @return the media type
      */
+    @HttpHeader("Content-Type")
     public MediaType getMediaType() {
         return mediaType;
     }
@@ -145,6 +144,7 @@ public class Representation<T> implements Entity<T> {
      * 
      * @return the content language
      */
+    @HttpHeader("Content-Language")
     public String getLanguage() {
         return contentLanguage;
     }    
@@ -165,6 +165,7 @@ public class Representation<T> implements Entity<T> {
      * 
      * @return the content location
      */
+    @HttpHeader("Content-Location")
     public URI getContentLocation() {
         return contentLocation;
     }    
@@ -183,6 +184,7 @@ public class Representation<T> implements Entity<T> {
      * Get the last modified date
      * @return the last modified date
      */
+    @HttpHeader("Last-Modified")
     public Date getLastModified() {
         return lastModified;
     }
@@ -199,6 +201,7 @@ public class Representation<T> implements Entity<T> {
      * Get the entity tag
      * @return the entity tag
      */
+    @HttpHeader("ETag")
     public EntityTag getETag() {
         return eTag;
     }
@@ -220,22 +223,5 @@ public class Representation<T> implements Entity<T> {
         this.eTag = new EntityTag(eTag);
     }
 
-    /**
-     * Add entity and response headers associated with the representation to the
-     * HttpResponseContext.
-     * @param context the current context to which the headers should be written
-     */
-    public void addResponseHeaders(HttpContext context) {
-        final MultivaluedMap<String, Object> responseHeaders = context.getHttpResponseContext().getHttpHeaders();
-        if (contentLanguage != null)
-            responseHeaders.putSingle("Content-Language", contentLanguage);
-        if (contentLocation != null)
-            responseHeaders.putSingle("Content-Location", contentLocation.toASCIIString());
-        if (lastModified != null)
-            responseHeaders.putSingle("Last-Modified", lastModified);
-        if (eTag != null)
-            responseHeaders.putSingle("ETag", eTag);
-        if (mediaType != null)
-            responseHeaders.putSingle("Content-Type", mediaType);
-    }
+
 }

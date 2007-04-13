@@ -10,10 +10,10 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.representation;
+package javax.ws.rs.response;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.representation.Representation;
+import javax.ws.rs.response.Representation;
 import javax.xml.bind.JAXBContext;
 
 /**

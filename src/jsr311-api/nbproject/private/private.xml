@@ -6,4 +6,10 @@
             <line>71</line>
         </file>
     </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/Entity.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/core/HttpRequestContext.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/representation/Representation.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/response/TemporaryRedirect.java</file>
+    </open-files>
 </project-private>

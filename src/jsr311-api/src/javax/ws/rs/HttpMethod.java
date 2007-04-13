@@ -46,7 +46,7 @@ import java.lang.annotation.Target;
  * @see UriParam
  * @see QueryParam
  * @see MatrixParam
- * @see HeaderParam
+ * @see HttpHeader
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

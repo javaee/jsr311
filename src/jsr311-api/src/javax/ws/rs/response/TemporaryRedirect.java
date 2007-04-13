@@ -19,7 +19,7 @@
 
 package javax.ws.rs.response;
 
-import javax.ws.rs.core.HttpContext;
+import javax.ws.rs.HttpHeader;
 import java.net.URI;
 
 /**
@@ -66,17 +66,9 @@ public class TemporaryRedirect extends HttpResponse {
      * 
      * @return the URI of the newly created resource
      */
+    @HttpHeader("Location")
     public URI getLocation() {
         return location;
     }
 
-    /**
-     * Add the HTTP headers for this type of response to the response context.
-     * @param context the current HTTP context
-     */
-    public void addResponseHeaders(HttpContext context) {
-        URI absoluteLocation = context.getHttpRequestContext().getBaseURI().resolve(location);
-        context.getHttpResponseContext().getHttpHeaders().putSingle("Location", absoluteLocation.toASCIIString());
-        super.addResponseHeaders(context);
-    }
 }

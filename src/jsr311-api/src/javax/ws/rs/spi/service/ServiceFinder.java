@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.ws.rs.messages.ApiMessages;
+import javax.ws.rs.core.ApiMessages;
 
 
 /**

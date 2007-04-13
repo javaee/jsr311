@@ -59,12 +59,4 @@ public class NotModified extends HttpResponse {
         this.eTag = eTag;
     }
     
-    /**
-     * Add the HTTP headers for this type of response to the response context.
-     * @param context the current HTTP context
-     */
-    public void addResponseHeaders(HttpContext context) {
-        context.getHttpResponseContext().getHttpHeaders().putSingle("ETag", eTag);
-        super.addResponseHeaders(context);
-    }
 }
