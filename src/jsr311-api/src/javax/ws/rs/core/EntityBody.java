@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * Used to annotate a field or bean property that provides the HTTP entity body
  * @author mh124079
  */
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EntityBody {
