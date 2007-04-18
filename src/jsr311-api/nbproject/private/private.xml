@@ -7,9 +7,12 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/Entity.java</file>
-        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/core/HttpRequestContext.java</file>
-        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/representation/Representation.java</file>
-        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/response/TemporaryRedirect.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/HeaderParam.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/MatrixParam.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/WebApplicationException.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/core/MultivaluedMap.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/core/PreconditionEvaluator.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/core/ResponseBuilder.java</file>
+        <file>file:/Users/mh124079/Work/Active/JSR%20311/java.net/src/jsr311-api/src/javax/ws/rs/spi/package.html</file>
     </open-files>
 </project-private>

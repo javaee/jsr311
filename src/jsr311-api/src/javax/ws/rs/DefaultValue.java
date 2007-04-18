@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
  * is not supplied, the value will
  * be null for class types and the Java-defined default for primitive types.
  * @see QueryParam
- * @see HttpHeader
+ * @see HeaderParam
  * @see MatrixParam
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})

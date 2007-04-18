@@ -10,7 +10,7 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi.streaming;
+package javax.ws.rs.spi;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.IOException;

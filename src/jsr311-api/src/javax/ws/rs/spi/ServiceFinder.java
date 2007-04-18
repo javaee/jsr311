@@ -10,7 +10,7 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi.service;
+package javax.ws.rs.spi;
 
 import java.io.BufferedReader;
 import java.io.IOException;

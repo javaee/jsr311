@@ -10,41 +10,38 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi.streaming;
-
-import javax.ws.rs.spi.service.ServiceFinder;
+package javax.ws.rs.spi;
 
 /**
- * Factory for getting {@link TypeStreamingProvider} instances.
+ * Factory for getting {@link HeaderProvider} instances.
  *
  * @author Paul.Sandoz@Sun.Com
  * @author Marc.Hadley@Sun.Com
  */
-public final class TypeStreamingFactory {
+public final class HeaderFactory {
     
     /**
-     * Get a {@link TypeStreamingProvider} that supports the type (or {@link Class})
+     * Get a {@link HeaderProvider} that supports the type (or {@link Class})
      * requested.
      * <p>
-     * The list of service-provider supporting the {@link TypeStreamingProvider} 
+     * The list of service-provider supporting the {@link HeaderProvider} 
      * service-provider will be iterated over until the first one supports the type 
      * is found.
      * <p>
+     * @return the instance of {@link HeaderProvider} supporting the type.
      * @param type the supporting type.
-     * @return the instance of {@link TypeStreamingProvider} supporting the type.
-     * @throws IllegalArgumentException if a {@link TypeStreamingProvider} instance 
-     *         cannot be obtained for the type.
+     * @throws IllegalArgumentException if a header provider cannot be found for the supplied type
      */
     @SuppressWarnings("unchecked")
-    public static <T> TypeStreamingProvider<T> getTypeStreamingProvider(Class<T> type) throws IllegalArgumentException {        
+    public static <T> HeaderProvider<T> getHeaderProvider(Class<T> type) throws IllegalArgumentException {        
         // This is obviously slow
         // Caching the providers using a Map with key of type and value of provider
         // for previously created resources will be faster
-        for (TypeStreamingProvider<T> tsp : ServiceFinder.find(TypeStreamingProvider.class)) {
+        for (HeaderProvider<T> tsp : ServiceFinder.find(HeaderProvider.class)) {
             if (tsp.supports(type))
                 return tsp;
         }     
         
-        throw new IllegalArgumentException("A type streaming provider for type, " + type + ", is not supported");
+        throw new IllegalArgumentException("A header provider for type, " + type + ", is not supported");
     }
 }

@@ -19,8 +19,7 @@
 
 package javax.ws.rs.core;
 
-import java.sql.Date;
-import javax.ws.rs.response.HttpResponse;
+import java.util.Date;
 
 /**
  * An injectable evaluator for preconditions.
@@ -34,7 +33,7 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a Response that should be returned if the
      * preconditions are not met.
      */
-    HttpResponse evaluate(String eTag);
+    Response evaluate(String eTag);
 
     /**
      * Evaluate request preconditions based on the passed in value.
@@ -42,7 +41,7 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a Response that should be returned if the
      * preconditions are not met.
      */
-    HttpResponse evaluate(Date lastModified);
+    Response evaluate(Date lastModified);
     
     /**
      * Evaluate request preconditions based on the passed in value.
@@ -51,5 +50,5 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a Response that should be returned if the
      * preconditions are not met.
      */
-    HttpResponse evaluate(Date lastModified, String eTag);
+    Response evaluate(Date lastModified, String eTag);
 }

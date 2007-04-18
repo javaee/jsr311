@@ -69,7 +69,7 @@ public interface HttpHeaders {
      * @return a mutable map of HTTP header names and values that will be
      * included in the response. Any headers explicitly set will override
      * automatically generated values.
-     * @see javax.ws.rs.spi.header.HeaderProvider
+     * @see javax.ws.rs.spi.HeaderProvider
      */
     MultivaluedMap<String, Object> getResponseHeaders();
     

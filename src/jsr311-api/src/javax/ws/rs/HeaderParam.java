@@ -11,7 +11,7 @@
  */
 
 /*
- * HttpHeader.java
+ * HeaderParam.java
  *
  * Created on January 24, 2007, 2:33 PM
  *
@@ -28,25 +28,19 @@ import java.lang.annotation.Target;
 /**
  * Binds a HTTP header to a Java method parameter, class field or bean
  * property.
- * <p>For injected values, the class of the annotated parameter, field or bean must
+ * <p>The class of the annotated parameter, field or bean must
  * have a constructor
  * that accepts a single String or List<String> argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
  * (see, for example, {@link Integer#valueOf(String)})</p>.
- * <p>When extracting values they will be serialized using one of the following
- * mechanisms in the order
- * listed:</p>
- * <ul>
- * <li>Using an available <code>HeaderProvider</code> for the value's class</li> 
- * <li>Using the objects's <code>toString</code> method</li> 
- * </ul>
+ * 
  * @see DefaultValue
- * @see javax.ws.rs.spi.header.HeaderProvider
+ * @see javax.ws.rs.spi.HeaderProvider
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface HttpHeader {
+public @interface HeaderParam {
     /**
      * Defines the name of the HTTP header whose value will be used
      * to initialize the value of the annotated method argument, class field or

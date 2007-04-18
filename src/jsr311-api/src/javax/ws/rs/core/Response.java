@@ -9,27 +9,24 @@
  * See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 /*
- * HttpStatus.java
+ * Response.java
  *
- * Created on April 13, 2007, 4:18 PM
+ * Created on April 18, 2007, 9:00 AM
  *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
  */
 
 package javax.ws.rs.core;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Used to annotate a field or bean property that provides the HTTP status code
+ *
  * @author mh124079
  */
-@Target({ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface HttpStatus {
+public interface Response {
+    Object getEntity();
+    int getStatus();
+    MultivaluedMap<String, Object> getMetadata();
 }

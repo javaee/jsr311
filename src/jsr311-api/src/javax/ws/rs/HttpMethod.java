@@ -29,24 +29,24 @@ import java.lang.annotation.Target;
  * requests. Annotated methods must satisfy the following constraints:
  * <ul>
  * <li>Methods must have a return type of <code>void</code>,
- * <code>Representation&lt;T&gt;</code>, <code>T</code> or
- * <code>HttpResponse</code>. Return values will be serialized
- * in the HTTP response entity body.
+ * <code>Response</code> or <code>T</code>. Return values will be serialized
+ * in the HTTP response. A <code>Response</code> return allows the application
+ * to supply additional metadata that will accompany the response entity.
  * <li>Methods may have a single optional parameter of type
- * <code>Entity&lt;T&gt;</code></li>. The parameter provides access to
+ * that is not annotated. The parameter provides access to
  * the contents of the HTTP request entity body. The parameter will be null if
- * the HTTP request entity body is of zero length.
+ * the HTTP request entity body is of zero length.</li>
  * <li>Methods may have zero or more additional method arguments, each of which
  * must be annotated with either <code>@UriParam</code>, 
  * <code>@HeaderParam</code>, 
- * <code>@MatrixParam</code> or <code>@QueryParam</code></li>
+ * <code>@MatrixParam</code>, <code>@QueryParam</code> or
+ * <code>@HttpContext</code></li>
  * </ul>
  *
- * @see javax.ws.rs.representation.Representation
  * @see UriParam
  * @see QueryParam
  * @see MatrixParam
- * @see HttpHeader
+ * @see HeaderParam
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

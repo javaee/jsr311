@@ -20,8 +20,8 @@
 package javax.ws.rs.core;
 
 import javax.ws.rs.core.ApiMessages;
-import javax.ws.rs.spi.header.HeaderFactory;
-import javax.ws.rs.spi.header.HeaderProvider;
+import javax.ws.rs.spi.HeaderFactory;
+import javax.ws.rs.spi.HeaderProvider;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.HashMap;

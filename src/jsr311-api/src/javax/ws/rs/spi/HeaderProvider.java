@@ -10,7 +10,7 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi.header;
+package javax.ws.rs.spi;
 
 import java.text.ParseException;
 
