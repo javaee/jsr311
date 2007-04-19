@@ -43,6 +43,24 @@ public abstract class Response implements ResponseProvider {
         throw new IllegalArgumentException("No ResponseBuilder implementation found");
     }
     
+    public static Response representation(Object entity) {
+        Response response = newInstance();
+        response.entity(entity);
+        return response;
+    }
+    
+    public static Response representation(Object entity, MediaType type) {
+        Response response = representation(entity);
+        response.type(type);
+        return response;
+    }
+
+    public static Response representation(Object entity, String type) {
+        Response response = representation(entity);
+        response.type(type);
+        return response;
+    }
+
     public static Response ok() {
         Response response = newInstance();
         response.status(200);
