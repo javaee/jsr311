@@ -29,26 +29,32 @@ public interface PreconditionEvaluator {
     
     /**
      * Evaluate request preconditions based on the passed in value.
+     * 
+     * 
      * @param eTag an ETag for the current state of the resource
-     * @return null if the preconditions are met, a Response that should be returned if the
+     * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
      * preconditions are not met.
      */
-    Response evaluate(String eTag);
+    ResponseProvider evaluate(String eTag);
 
     /**
      * Evaluate request preconditions based on the passed in value.
+     * 
+     * 
      * @param lastModified a date that specifies the modification date of the resource
-     * @return null if the preconditions are met, a Response that should be returned if the
+     * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
      * preconditions are not met.
      */
-    Response evaluate(Date lastModified);
+    ResponseProvider evaluate(Date lastModified);
     
     /**
      * Evaluate request preconditions based on the passed in value.
+     * 
+     * 
      * @param lastModified a date that specifies the modification date of the resource
      * @param eTag an ETag for the current state of the resource
-     * @return null if the preconditions are met, a Response that should be returned if the
+     * @return null if the preconditions are met, a ReResponseProviderhat should be returned if the
      * preconditions are not met.
      */
-    Response evaluate(Date lastModified, String eTag);
+    ResponseProvider evaluate(Date lastModified, String eTag);
 }

@@ -58,24 +58,4 @@ public interface HttpHeaders {
      */
     public List<Cookie> getCookies();
     
-    /**
-     * Get a mutable map of HTTP response headers. The returned map is case-insensitive wrt
-     * keys. Values will be serialized using one of the following mechanisms in the order
-     * listed:
-     * <ul>
-     * <li>Using an available <code>HeaderProvider</code> for the value's class</li> 
-     * <li>Using the objects's <code>toString</code> method</li> 
-     * </ul>
-     * @return a mutable map of HTTP header names and values that will be
-     * included in the response. Any headers explicitly set will override
-     * automatically generated values.
-     * @see javax.ws.rs.spi.HeaderProvider
-     */
-    MultivaluedMap<String, Object> getResponseHeaders();
-    
-    /**
-     * Get a mutable list of cookies that will be set by the response
-     * @return list of new cookies that will be set
-     */
-    List<NewCookie> getNewCookies();
 }

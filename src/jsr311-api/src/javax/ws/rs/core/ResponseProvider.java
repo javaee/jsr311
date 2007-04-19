@@ -11,7 +11,7 @@
  */
 
 /*
- * Response.java
+ * ResponseProvider.java
  *
  * Created on April 18, 2007, 9:00 AM
  *
@@ -25,8 +25,8 @@ package javax.ws.rs.core;
  *
  * @author mh124079
  */
-public interface Response {
+public interface ResponseProvider {
     Object getEntity();
     int getStatus();
-    MultivaluedMap<String, Object> getMetadata();
+    void addMetadata(MultivaluedMap<String, Object> metadata);
 }
