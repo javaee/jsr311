@@ -13,7 +13,7 @@
 package javax.ws.rs;
 
 import javax.ws.rs.core.ResponseProvider;
-import javax.ws.rs.core.ResponseBuilder;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -32,8 +32,8 @@ public class WebApplicationException extends RuntimeException {
      * Construct a new instance with a blank message and default HTTP status code of 500
      */
     public WebApplicationException() {
-	super();
-        response = ResponseBuilder.serverError();
+        super();
+        response = Response.serverError();
     }
 
     /**
@@ -41,7 +41,7 @@ public class WebApplicationException extends RuntimeException {
      * @param response the response that will be returned to the client
      */
     public WebApplicationException(ResponseProvider response) {
-	super();
+        super();
         this.response = response;        
     }
     
@@ -50,7 +50,7 @@ public class WebApplicationException extends RuntimeException {
      * @param status the HTTP status code that will be returned to the client
      */
     public WebApplicationException(int status) {
-        this(ResponseBuilder.serverError().status(status));
+        this(Response.serverError().status(status));
     }
     
     /**
@@ -59,7 +59,7 @@ public class WebApplicationException extends RuntimeException {
      */
     public WebApplicationException(Throwable cause) {
         super(cause);
-        response = ResponseBuilder.serverError();
+        response = Response.serverError();
     }
     
     /**
@@ -78,7 +78,7 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, int status) {
-        this(cause, ResponseBuilder.serverError().status(status));
+        this(cause, Response.serverError().status(status));
     }
     
     /**
