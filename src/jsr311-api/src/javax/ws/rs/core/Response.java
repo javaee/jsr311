@@ -24,8 +24,16 @@ import java.util.Date;
 import javax.ws.rs.spi.ServiceFinder;
 
 /**
- *
- * @author mh124079
+ * A class used to build return values that contain metadata instead of or in addition
+ * to an entity. Static methods are provided to obtain an initial instance,
+ * instance methods provide the ability to set metadata. E.g. to create a response
+ * that indicates the creation of a new resource:
+ * <pre>@HttpMethod
+ * Response addWidget(...) {
+ *   Widget w = ...
+ *   URI widgetId = ...
+ *   return Response.created(w, widgetId).type("application/widgets+xml");
+ * }</pre>
  */
 public abstract class Response implements ResponseProvider {
     
@@ -115,7 +123,7 @@ public abstract class Response implements ResponseProvider {
         return response;
     }
     
-    public static Response TemporaryRedirect(URI location) {
+    public static Response temporaryRedirect(URI location) {
         Response response = newInstance();
         response.status(307).location(location);
         return response;
@@ -144,4 +152,6 @@ public abstract class Response implements ResponseProvider {
     public abstract Response cacheControl(CacheControl cacheControl);
     
     public abstract Response header(String name, Object value);
+    
+    public abstract Response cookie(NewCookie cookie);
 }

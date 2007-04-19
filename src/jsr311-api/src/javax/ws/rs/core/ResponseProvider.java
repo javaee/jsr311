@@ -22,8 +22,11 @@
 package javax.ws.rs.core;
 
 /**
- *
- * @author mh124079
+ * Defines the contract between a returned instance and the runtime should
+ * the returned instance need to provide metadata to the runtime. An application
+ * class can implement this interface directly or a method can return an instance
+ * of Response instead.
+ * @see Response
  */
 public interface ResponseProvider {
     Object getEntity();
