@@ -10,16 +10,20 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi;
+package javax.ws.rs.ext;
 
 import java.text.ParseException;
 
 /**
  * A provider that supports the conversion of an HTTP header, of type T, to and
- * from a {@link String}.
+ * from a {@link String}. To add a HeaderProvider implementation, annotate the
+ * implementation class with @Service.
+ *
+ * @see Service
  *
  * @author Paul.Sandoz@Sun.Com
  */
+@Contract
 public interface HeaderProvider<T> {
     
     /**

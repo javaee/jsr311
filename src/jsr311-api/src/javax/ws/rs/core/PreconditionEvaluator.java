@@ -35,7 +35,7 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
      * preconditions are not met.
      */
-    ResponseProvider evaluate(String eTag);
+    Response evaluate(String eTag);
 
     /**
      * Evaluate request preconditions based on the passed in value.
@@ -45,7 +45,7 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
      * preconditions are not met.
      */
-    ResponseProvider evaluate(Date lastModified);
+    Response evaluate(Date lastModified);
     
     /**
      * Evaluate request preconditions based on the passed in value.
@@ -56,5 +56,5 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met, a ReResponseProviderhat should be returned if the
      * preconditions are not met.
      */
-    ResponseProvider evaluate(Date lastModified, String eTag);
+    Response evaluate(Date lastModified, String eTag);
 }
