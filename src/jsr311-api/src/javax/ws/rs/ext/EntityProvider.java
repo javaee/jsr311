@@ -20,24 +20,22 @@ import java.io.OutputStream;
 /**
  * A provider that supports the conversion of a type to and from a stream.
  * To add a EntityProvider implementation, annotate the
- * implementation class with @Service.
+ * implementation class with @Provider.
  *
- * @see Service
+ * @see Provider
  *
  * @author Paul.Sandoz@Sun.Com
  */
 @Contract
 public interface EntityProvider<T> {
-
     /**
-     * Ascertain if the EntityProvider supports the streaming
-     * of a particular type.
-     * 
-     * @param type the type that is to be streamed.
-     * @return true if the streaming of the type is supported, otherwise false.
+     * Ascertain if the Provider supports a particular type.
+     *
+     * @param type the type that is to be supported.
+     * @return true if the type is supported, otherwise false.
      */
     boolean supports(Class<?> type);
-    
+
     /**
      * Read a type from the {@link InputStream}.
      * 

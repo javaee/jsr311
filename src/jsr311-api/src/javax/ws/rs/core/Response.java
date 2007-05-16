@@ -21,6 +21,8 @@ package javax.ws.rs.core;
 
 import java.net.URI;
 import java.util.Date;
+import javax.ws.rs.ext.Contract;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * Defines the contract between a returned instance and the runtime when
@@ -67,6 +69,7 @@ public interface Response {
      *   return Builder.created(w, widgetId).build();
      * }</pre>
      */
+    @Contract
     public static abstract class Builder {
         
         /**
@@ -74,9 +77,10 @@ public interface Response {
          * @return a new Builder
          */
         protected static synchronized Builder newInstance() {
-            // TBD find a Builder implementation and create a new instance of it
-            
-            throw new UnsupportedOperationException("No Builder implementation found");
+            Builder b = ProviderFactory.newInstance().createInstance();
+            if (b==null)
+                throw new UnsupportedOperationException("No Builder implementation found");
+            return b;
         }
         
         /**
@@ -319,7 +323,7 @@ public interface Response {
          * @param name the name of the header
          * @param value the value of the header, the header will be serialized
          * using a HeaderProvider for the class of the value
-         * @see javax.ws.rs.HeaderProvider
+         * @see javax.ws.rs.ext.HeaderProvider
          * @return the updated Builder
          */
         public abstract Builder header(String name, Object value);

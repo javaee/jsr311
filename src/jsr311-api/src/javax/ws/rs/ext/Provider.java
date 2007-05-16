@@ -11,7 +11,7 @@
  */
 
 /*
- * Service.java
+ * Provider.java
  *
  * Created on May 15, 2007, 11:59 AM
  *
@@ -33,6 +33,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Service {
+public @interface Provider {
     
 }

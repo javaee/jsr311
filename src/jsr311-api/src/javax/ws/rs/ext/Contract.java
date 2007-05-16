@@ -27,8 +27,8 @@ import java.lang.annotation.Target;
 
 /**
  * Marks an interface as defining an extension contract. Implementations of
- * the extension contract are marked using the Service annotation.
- * @see Service
+ * the extension contract are marked using the Provider annotation.
+ * @see Provider
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

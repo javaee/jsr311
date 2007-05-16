@@ -23,6 +23,7 @@ import javax.ws.rs.ext.HeaderProvider;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Map;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * An abstraction for a media type. Instances are immutable.
@@ -33,7 +34,7 @@ public class MediaType {
     private String type;
     private String subtype;
     private Map<String, String> parameters;
-    private static final HeaderProvider<MediaType> mediaTypeProvider = null; // TBD find a HeaderProvider<MediaType>
+    private static final HeaderProvider<MediaType> mediaTypeProvider = ProviderFactory.newInstance().createHeaderProvider();
 
     /**
      * The value of a type or subtype wildcard.

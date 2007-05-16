@@ -17,23 +17,22 @@ import java.text.ParseException;
 /**
  * A provider that supports the conversion of an HTTP header, of type T, to and
  * from a {@link String}. To add a HeaderProvider implementation, annotate the
- * implementation class with @Service.
+ * implementation class with @Provider.
  *
- * @see Service
+ * @see Provider
  *
  * @author Paul.Sandoz@Sun.Com
  */
 @Contract
 public interface HeaderProvider<T> {
-    
     /**
-     * Ascertain if the HeaderProvider supports a particular type.
+     * Ascertain if the Provider supports a particular type.
      *
      * @param type the type that is to be supported.
      * @return true if the type is supported, otherwise false.
      */
     boolean supports(Class<?> type);
-
+    
     /**
      * Convert a HTTP header of type T to a {@link String}.
      * 
