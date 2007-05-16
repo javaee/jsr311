@@ -46,7 +46,7 @@ public abstract class ProviderFactory {
     }
     
     /**
-     * Create a new instance of the specified class.
+     * Create a new instance of a provider for the specified interface.
      * @return a new provider instance
      */
     public abstract <T> T createInstance();
