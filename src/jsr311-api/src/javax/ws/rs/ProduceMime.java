@@ -26,8 +26,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines the MIME type(s) that the methods of a resource class can produce.
- * Method level annotations override a class level annotation. The container
+ * Defines the MIME type(s) that the methods of a resource class or
+ * EntityProvider can produce.
+ * If not specified then a container will assume that any type can be produced.
+ * Method level annotations override a class level annotation. A container
  * is responsible for ensuring that the method invoked is capable of producing
  * one of the MIME types requested in the HTTP request. If no such method is
  * available the container must respond with a HTTP "406 Not Acceptable" as
@@ -44,7 +46,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ProduceMime {
     /**
-     * A comma separated list of MIME types. E.g. "image/jpeg,image/gif"
+     * A list of MIME types. E.g. "image/jpeg,image/gif"
      */
-    String value() default "*/*";    
+    String[] value();    
 }

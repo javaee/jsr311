@@ -1,5 +1,5 @@
 
-package javax.ws.rs.messages;
+package javax.ws.rs.core;
 
 import com.sun.localization.Localizable;
 import com.sun.localization.LocalizableMessageFactory;
@@ -12,7 +12,7 @@ import com.sun.localization.Localizer;
  */
 public final class ApiMessages {
 
-    private final static LocalizableMessageFactory messageFactory = new LocalizableMessageFactory("javax.ws.rs.messages.api");
+    private final static LocalizableMessageFactory messageFactory = new LocalizableMessageFactory("javax.ws.rs.core.api");
     private final static Localizer localizer = new Localizer();
 
     public static Localizable localizableMEDIA_TYPE_INVALID(Object arg0) {

@@ -6,21 +6,7 @@
   </head>
   <body>
     <p>Low-level interfaces and annotations used to create RESTful service
-    resources. E.g.:</p>
-    <pre>&#064;URITemplate("widgets/{widgetid}")
-public class WidgetResource extends WebResource {
-
-  public void handleRequest(HTTPRequestContext requestContext, HTTPResponseContext responseContext) {
-    if (requestContext.getHttpMethod().equals("GET")) {
-      String replyStr = "&lt;widget id='"+
-        requestContext.getURIParameters().getFirst("widgetId")+"'/&gt;";
-      StringRepresentation representation = new StringRepresentation(replyStr,
-        "application/widgets+xml");
-      response.setRepresentation(new HttpResponse(representatin));
-    }
-    else ...
-  }
-
-}</pre>
+    resources.</p>
+</pre>
   </body>
 </html>

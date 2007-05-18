@@ -10,32 +10,32 @@
  * permissions and limitations under the License.
  */
 
-package javax.ws.rs.spi.streaming;
+package javax.ws.rs.ext;
 
-import javax.ws.rs.core.HttpResponseContext;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.response.HttpResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * A provider that supports the streaming of a type from an {@link InputStream}
- * and to an {@link OutputStream}.
+ * A provider that supports the conversion of a type to and from a stream.
+ * To add a EntityProvider implementation, annotate the
+ * implementation class with @Provider.
+ *
+ * @see Provider
  *
  * @author Paul.Sandoz@Sun.Com
  */
-public interface TypeStreamingProvider<T> {
-
+@Contract
+public interface EntityProvider<T> {
     /**
-     * Ascertain if the TypeStreamingProvider supports the streaming
-     * of a particular type.
+     * Ascertain if the Provider supports a particular type.
      *
-     * @param type the type that is to be streamed.
-     * @return true if the streaming of the type is supported, otherwise false.
+     * @param type the type that is to be supported.
+     * @return true if the type is supported, otherwise false.
      */
     boolean supports(Class<?> type);
-    
+
     /**
      * Read a type from the {@link InputStream}.
      * 
@@ -54,8 +54,9 @@ public interface TypeStreamingProvider<T> {
      * Write a type to an HTTP response.
      * 
      * @param t the type to write.
-     * @param response the HTTP response.
+     * @param httpHeaders the HTTP response headers.
+     * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
-    void writeTo(T t, HttpResponseContext response) throws IOException;    
+    void writeTo(T t, MultivaluedMap<String, String> httpHeaders, OutputStream entityStream) throws IOException;    
 }

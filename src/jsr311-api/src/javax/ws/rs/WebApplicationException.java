@@ -12,7 +12,9 @@
 
 package javax.ws.rs;
 
-import javax.ws.rs.response.HttpResponse;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Builder;
+
 
 /**
  * Runtime exception for applications.
@@ -24,22 +26,22 @@ import javax.ws.rs.response.HttpResponse;
  */
 public class WebApplicationException extends RuntimeException {
 
-    private HttpResponse response;
+    private Response response;
 
     /**
      * Construct a new instance with a blank message and default HTTP status code of 500
      */
     public WebApplicationException() {
-	super();
-        response = new HttpResponse(500);
+        super();
+        response = Builder.serverError().build();
     }
 
     /**
      * Construct a new instance with a blank message and specified HTTP status code
      * @param response the response that will be returned to the client
      */
-    public WebApplicationException(HttpResponse response) {
-	super();
+    public WebApplicationException(Response response) {
+        super();
         this.response = response;        
     }
     
@@ -48,7 +50,7 @@ public class WebApplicationException extends RuntimeException {
      * @param status the HTTP status code that will be returned to the client
      */
     public WebApplicationException(int status) {
-	this(new HttpResponse(status));
+        this(Builder.serverError().status(status).build());
     }
     
     /**
@@ -57,7 +59,7 @@ public class WebApplicationException extends RuntimeException {
      */
     public WebApplicationException(Throwable cause) {
         super(cause);
-        response = new HttpResponse(500);
+        response = Builder.serverError().build();
     }
     
     /**
@@ -65,7 +67,7 @@ public class WebApplicationException extends RuntimeException {
      * @param response the response that will be returned to the client
      * @param cause the underlying cause of the exception
      */
-    public WebApplicationException(Throwable cause, HttpResponse response) {
+    public WebApplicationException(Throwable cause, Response response) {
         super(cause);
         this.response = response;
     }
@@ -76,7 +78,7 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, int status) {
-        this(cause, new HttpResponse(status));
+        this(cause, Builder.serverError().status(status).build());
     }
     
     /**
@@ -84,7 +86,7 @@ public class WebApplicationException extends RuntimeException {
      *
      * @return the HTTP response.
      */
-    public HttpResponse getHttpResponse() {
+    public Response getResponse() {
         return response;
     }
 }

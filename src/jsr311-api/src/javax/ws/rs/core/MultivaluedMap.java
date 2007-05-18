@@ -19,6 +19,8 @@
 
 package javax.ws.rs.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +36,6 @@ public interface MultivaluedMap<K, V> extends Map<K, List<V>> {
      * 
      * @param key the key
      * @param value the single value of the key
-     * @see java.lang.Object#toString
      */
     void putSingle(K key, V value);
     
@@ -42,7 +43,6 @@ public interface MultivaluedMap<K, V> extends Map<K, List<V>> {
      * Add a value to the current list of values for the supplied key.
      * @param key the key 
      * @param value the value to be added.
-     * @see java.lang.Object#toString
      */
     void add(K key, V value);
     

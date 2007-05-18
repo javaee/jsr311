@@ -19,6 +19,7 @@
 
 package javax.ws.rs;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,14 +28,18 @@ import java.lang.annotation.Target;
 /**
  * Binds a HTTP header to a Java method parameter, class field or bean
  * property.
- * The class of the annotated parameter, field or bean must have a constructor
+ * <p>The class of the annotated parameter, field or bean must
+ * have a constructor
  * that accepts a single String or List<String> argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
- * (see, for example, {@link Integer#valueOf(String)}).
+ * (see, for example, {@link Integer#valueOf(String)})</p>.
+ * 
  * @see DefaultValue
+ * @see javax.ws.rs.ext.HeaderProvider
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface HeaderParam {
     /**
      * Defines the name of the HTTP header whose value will be used

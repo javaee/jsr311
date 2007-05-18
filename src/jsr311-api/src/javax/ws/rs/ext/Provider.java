@@ -11,13 +11,13 @@
  */
 
 /*
- * HttpContext.java
+ * Provider.java
  *
- * Created on November 16, 2006, 3:37 PM
+ * Created on May 15, 2007, 11:59 AM
  *
  */
 
-package javax.ws.rs.core;
+package javax.ws.rs.ext;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -26,14 +26,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The @HttpContext annotation is used to inject information into a a class
- * field or method parameter.
- * @see UriInfo
- * @see PreconditionEvaluator
- * @see HttpHeaders
+ * Marks an implementation of a extension contract. The marked class must
+ * implement one or more interfaces marked with the Contract annotation.
+ * @see Contract
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface HttpContext {
+public @interface Provider {
+    
 }

@@ -19,13 +19,11 @@
 
 package javax.ws.rs.core;
 
-import javax.ws.rs.messages.ApiMessages;
-import javax.ws.rs.spi.header.HeaderFactory;
-import javax.ws.rs.spi.header.HeaderProvider;
+import javax.ws.rs.ext.HeaderProvider;
 import java.text.ParseException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * An abstraction for a media type. Instances are immutable.
@@ -36,7 +34,8 @@ public class MediaType {
     private String type;
     private String subtype;
     private Map<String, String> parameters;
-    private static final HeaderProvider<MediaType> mediaTypeProvider = HeaderFactory.getHeaderProvider(MediaType.class);
+    private static final HeaderProvider<MediaType> mediaTypeProvider = 
+            ProviderFactory.newInstance().createHeaderProvider(MediaType.class);
 
     /**
      * The value of a type or subtype wildcard.
@@ -141,6 +140,7 @@ public class MediaType {
      * @param obj the object to compare to
      * @return true if the two media types are the same, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
@@ -148,5 +148,14 @@ public class MediaType {
             return false;
         MediaType other = (MediaType)obj;
         return (this.type.equalsIgnoreCase(other.type) && this.subtype.equalsIgnoreCase(other.subtype));
+    }
+    
+    /**
+     * Generate a hashcode from the type and subtype.
+     * @return a hashcode
+     */
+    @Override
+    public int hashCode() {
+        return (this.type.toLowerCase()+this.subtype.toLowerCase()).hashCode();
     }
 }
