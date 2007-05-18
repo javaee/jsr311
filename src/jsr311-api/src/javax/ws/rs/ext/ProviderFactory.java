@@ -18,7 +18,7 @@
  */
 
 package javax.ws.rs.ext;
-
+ 
 import java.util.Iterator;
 import java.util.List;
 import sun.misc.Service;
@@ -47,19 +47,22 @@ public abstract class ProviderFactory {
     
     /**
      * Create a new instance of a provider for the specified interface.
+     * @param type the type of provider
      * @return a new provider instance
      */
-    public abstract <T> T createInstance();
+    public abstract <T> T createInstance(Class<T> type);
 
     /**
      * Create a new instance of a HeaderProvider for the specified class.
+     * @param type the type of value class used to represent the header
      * @return a new provider instance
      */
-    public abstract <T> HeaderProvider<T> createHeaderProvider();
+    public abstract <T> HeaderProvider<T> createHeaderProvider(Class<T> type);
 
     /**
      * Create a new instance of an EntityProvider for the specified class.
+     * @param type the type of value class used to represent the entity
      * @return a new provider instance
      */
-    public abstract <T> EntityProvider<T> createEntityProvider();
+    public abstract <T> EntityProvider<T> createEntityProvider(Class<T> type);
 }
