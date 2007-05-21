@@ -32,7 +32,7 @@ public interface PreconditionEvaluator {
      * 
      * 
      * @param eTag an ETag for the current state of the resource
-     * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
+     * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
      */
     Response evaluate(String eTag);
@@ -42,7 +42,7 @@ public interface PreconditionEvaluator {
      * 
      * 
      * @param lastModified a date that specifies the modification date of the resource
-     * @return null if the preconditions are met, a RResponseProviderthat should be returned if the
+     * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
      */
     Response evaluate(Date lastModified);
@@ -53,7 +53,7 @@ public interface PreconditionEvaluator {
      * 
      * @param lastModified a date that specifies the modification date of the resource
      * @param eTag an ETag for the current state of the resource
-     * @return null if the preconditions are met, a ReResponseProviderhat should be returned if the
+     * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
      */
     Response evaluate(Date lastModified, String eTag);
