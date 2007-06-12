@@ -158,4 +158,13 @@ public class MediaType {
     public int hashCode() {
         return (this.type.toLowerCase()+this.subtype.toLowerCase()).hashCode();
     }
+    
+    /**
+     * Convert the media type to a string.
+     * @return a stringified media type
+     */
+    @Override
+    public String toString() {
+        return mediaTypeProvider.toString(this);
+    }
 }

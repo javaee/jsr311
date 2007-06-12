@@ -35,7 +35,7 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
      */
-    Response evaluate(String eTag);
+    Response evaluate(EntityTag eTag);
 
     /**
      * Evaluate request preconditions based on the passed in value.
@@ -56,5 +56,5 @@ public interface PreconditionEvaluator {
      * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
      */
-    Response evaluate(Date lastModified, String eTag);
+    Response evaluate(Date lastModified, EntityTag eTag);
 }

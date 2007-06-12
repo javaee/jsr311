@@ -84,7 +84,8 @@ public interface Response {
         }
         
         /**
-         * Create a Response instance from the current Builder.
+         * Create a Response instance from the current Builder. The builder
+         * is reset to a blank state equivalent to calling the ok method.
          * @return a Response instance
          */
         public abstract Response build();
