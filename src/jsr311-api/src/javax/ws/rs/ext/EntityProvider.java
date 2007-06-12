@@ -58,5 +58,5 @@ public interface EntityProvider<T> {
      * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
-    void writeTo(T t, MultivaluedMap<String, String> httpHeaders, OutputStream entityStream) throws IOException;    
+    void writeTo(T t, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException;    
 }

@@ -96,7 +96,7 @@ public interface Response {
          */
         public static Builder representation(Object entity) {
             Builder b = newInstance();
-            b.entity(entity);
+            b.status(200).entity(entity);
             return b;
         }
         

@@ -48,5 +48,5 @@ public @interface ProduceMime {
     /**
      * A list of MIME types. E.g. "image/jpeg,image/gif"
      */
-    String[] value();    
+    String[] value() default "*/*";    
 }
