@@ -29,14 +29,14 @@ import sun.misc.Service;
 public abstract class ProviderFactory {
     
     /** 
-     * Creates a new instance of ProviderFactory. The implementation of
+     * Get an instance of ProviderFactory. The implementation of
      * ProviderFactory that will be instantiated is determined using the 
      * Services API (as detailed in the JAR specification) to determine
      * the classname. The Services API will look for a classname in the file
      * META-INF/services/javax.ws.rs.ext.ProviderFactory in jars available
      * to the runtime.
      */
-    public static ProviderFactory newInstance() {
+    public static ProviderFactory getInstance() {
        Iterator ps = Service.providers(ProviderFactory.class); 
        while (ps.hasNext()) { 
            ProviderFactory pf = (ProviderFactory)ps.next();
