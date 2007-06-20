@@ -3,6 +3,9 @@
     <description>Builds, tests, and runs the project RestApi.</description>
     <import file="nbproject/build-impl.xml"/>
     
+    <!-- initialize build properties -->
+    <property file="${basedir}/build.properties" />
+
     <property name="junit.jar" value="${basedir}/lib/junit-3.8.1.jar"/>
     <property name="rest-api-dist.dir" value="${basedir}/dist/jsr311-api"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
@@ -10,6 +13,22 @@
         <available type="file" file="${java.home}/lib/tools.jar"/>
     </condition>
 
+    <!-- task that generates a manifest file -->
+    <macrodef name="createManifest">
+        <attribute name="file"/>
+        <sequential>
+            <copy tofile="@{file}"
+                  file="${manifest.root}/manifest.mf"
+                  overwrite="yes"/>
+            <replace file="@{file}">
+                <replacefilter token="@@@@SPEC_VERSION@@@@"
+                               value="${release.spec.version}" />
+                <replacefilter token="@@@@BUILD_ID@@@@"
+                               value="${build.id}"/>
+            </replace>
+        </sequential>
+    </macrodef>
+    
     <path id="test.classpath">
       <fileset dir="${rest-api-dist.dir}/lib" includes="*.jar"/>
       <fileset dir="${basedir}/lib" includes="junit*.jar"/>
@@ -24,6 +43,12 @@
     </taskdef>    
     
     <target name="-pre-compile">
+        <tstamp>
+            <format property="now" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
+        </tstamp>
+        <property name="build.id" value="${now}" />
+        <createManifest file="${basedir}/build/manifest.mf"/>
+
         <resourcegen destDir="src">
           <resource dir="src" includes="**/*.properties"/>
         </resourcegen>
