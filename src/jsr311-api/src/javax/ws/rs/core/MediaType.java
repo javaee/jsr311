@@ -35,7 +35,7 @@ public class MediaType {
     private String subtype;
     private Map<String, String> parameters;
     private static final HeaderProvider<MediaType> mediaTypeProvider = 
-            ProviderFactory.newInstance().createHeaderProvider(MediaType.class);
+            ProviderFactory.getInstance().createHeaderProvider(MediaType.class);
 
     /**
      * The value of a type or subtype wildcard.
