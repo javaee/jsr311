@@ -77,7 +77,7 @@ public interface Response {
          * @return a new Builder
          */
         protected static synchronized Builder newInstance() {
-            Builder b = ProviderFactory.newInstance().createInstance(Builder.class);
+            Builder b = ProviderFactory.getInstance().createInstance(Builder.class);
             if (b==null)
                 throw new UnsupportedOperationException("No Builder implementation found");
             return b;
