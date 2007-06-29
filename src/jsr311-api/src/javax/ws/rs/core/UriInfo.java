@@ -31,22 +31,44 @@ public interface UriInfo {
     
     /**
      * Get the URI path of the current request relative to the base URI as
-     * a string.
-     * <p>
-     * All sequences of escaped octets are decoded.
+     * a string. All sequences of escaped octets are decoded, equivalent to
+     * <code>getURIPath(true)</code>.
      * @return the relative URI path.
      */
     public String getURIPath();
+    
+    /**
+     * Get the URI path of the current request relative to the base URI as
+     * a string.
+     *
+     * @param decode controls whether sequences of escaped octets are decoded
+     * (true) or not (false).
+     * @return the relative URI path.
+     */
+    public String getURIPath(boolean decode);
+
+    /**
+     * Get the URI path of the current request relative to the base URI as a 
+     * list of {@link PathSegment}. This method is useful when the URI
+     * path needs to be parsed, particularly when matrix parameters may be
+     * present in the URI path. All sequences of escaped octets are decoded,
+     * equivalent to <code>getURIPathSegments(true)</code>.
+     * @return the list of {@link PathSegment}.
+     * @see PathSegment
+     */
+    public List<PathSegment> getURIPathSegments();
     
     /**
      * Get the URI path of the current request relative to the base URI as a 
      * list of {@link PathSegment}. This method is useful when the URI
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the URI path.
+     * @param decode controls whether sequences of escaped octets are decoded
+     * (true) or not (false).
      * @return the list of {@link PathSegment}.
      * @see PathSegment
      */
-    public List<PathSegment> getURIPathSegments();
+    public List<PathSegment> getURIPathSegments(boolean decode);
     
     /**
      * Get the complete URI of the request.
@@ -68,19 +90,36 @@ public interface UriInfo {
     
     /**
      * Get the values of any embedded URI parameters.
-     * <p>
-     * All sequences of escaped octets are decoded.
+     * All sequences of escaped octets are decoded,
+     * equivalent to <code>getURIParameters(true)</code>.
      * @return a map of parameter names and values.
      * @see javax.ws.rs.UriTemplate
      */
     public MultivaluedMap<String, String> getURIParameters();
     
     /**
+     * Get the values of any embedded URI parameters.
+     * 
+     * @param decode controls whether sequences of escaped octets are decoded
+     * (true) or not (false).
+     * @return a map of parameter names and values.
+     * @see javax.ws.rs.UriTemplate
+     */
+    public MultivaluedMap<String, String> getURIParameters(boolean decode);
+    
+    /**
      * Get the URI query parameters of the current request.
-     * <p>
-     * All sequences of escaped octets are decoded.
+     * All sequences of escaped octets are decoded,
+     * equivalent to <code>getQueryParameters(true)</code>.
      * @return a map of query parameter names and values.
      */
     public MultivaluedMap<String, String> getQueryParameters();
     
+    /**
+     * Get the URI query parameters of the current request.
+     * @param decode controls whether sequences of escaped octets are decoded
+     * (true) or not (false).
+     * @return a map of query parameter names and values.
+     */
+    public MultivaluedMap<String, String> getQueryParameters(boolean decode);
 }

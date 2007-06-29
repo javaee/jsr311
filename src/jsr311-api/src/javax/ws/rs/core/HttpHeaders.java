@@ -34,20 +34,19 @@ public interface HttpHeaders {
     public MultivaluedMap<String, String> getRequestHeaders();
 
     /**
-     * Get a list of media types that are acceptable for the response. This is
-     * a shortcut for <code>getHttpHeaders().get("Accept")</code>.
+     * Get a list of media types that are acceptable for the response.
      * @return list of requested response media types
      */
     public List<MediaType> getAcceptableMediaTypes();
     
     /**
-     * Get the media type of the entity
+     * Get the media type of the request entity
      * @return the media type
      */
     public MediaType getMediaType();
     
     /**
-     * Get the language of the entity
+     * Get the language of the request entity
      * @return the language of the entity
      */
     public String getLanguage();

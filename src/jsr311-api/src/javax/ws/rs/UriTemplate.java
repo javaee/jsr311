@@ -56,4 +56,13 @@ public @interface UriTemplate {
      * <p>E.g.: @UriTemplate("widgets/{id}")</p>
      */
     String value();
+    
+    /**
+     * Controls whether the literal part of the supplied value (those characters
+     * that are not part of a template variable) are URL encoded. If true, any
+     * characters in the URI template that are not valid URI character will be
+     * automatically encoded. If false then all characters must be valid URI
+     * characters.
+     */
+    boolean encode() default true;
 }

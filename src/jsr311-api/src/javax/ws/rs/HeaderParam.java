@@ -27,12 +27,11 @@ import java.lang.annotation.Target;
 
 /**
  * Binds a HTTP header to a Java method parameter, class field or bean
- * property.
- * <p>The class of the annotated parameter, field or bean must
+ * property. The class of the annotated parameter, field or bean must
  * have a constructor
  * that accepts a single String or List<String> argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
- * (see, for example, {@link Integer#valueOf(String)})</p>.
+ * (see, for example, {@link Integer#valueOf(String)}).
  * 
  * @see DefaultValue
  * @see javax.ws.rs.ext.HeaderProvider
