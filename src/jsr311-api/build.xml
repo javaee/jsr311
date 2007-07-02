@@ -5,14 +5,14 @@
     
     <!-- initialize build properties -->
     <property file="${basedir}/build.properties" />
-
+    
     <property name="junit.jar" value="${basedir}/lib/junit-3.8.1.jar"/>
     <property name="rest-api-dist.dir" value="${basedir}/dist/jsr311-api"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
     <condition property="tools.jar" value="${java.home}/lib/tools.jar">
         <available type="file" file="${java.home}/lib/tools.jar"/>
     </condition>
-
+    
     <!-- task that generates a manifest file -->
     <macrodef name="createManifest">
         <attribute name="file"/>
@@ -30,16 +30,16 @@
     </macrodef>
     
     <path id="test.classpath">
-      <fileset dir="${rest-api-dist.dir}/lib" includes="*.jar"/>
-      <fileset dir="${basedir}/lib" includes="junit*.jar"/>
-      <pathelement location="${build.test.classes.dir}"/>
-      <pathelement location="${tools.jar}"/>
+        <fileset dir="${rest-api-dist.dir}/lib" includes="*.jar"/>
+        <fileset dir="${basedir}/lib" includes="junit*.jar"/>
+        <pathelement location="${build.test.classes.dir}"/>
+        <pathelement location="${tools.jar}"/>
     </path>
-     
+    
     <taskdef name="resourcegen" classname="com.sun.tools.localizer.resourcegen.ResourceGenTask">
-      <classpath>
-        <fileset dir="lib" includes="*.jar" />
-      </classpath>
+        <classpath>
+            <fileset dir="lib" includes="*.jar" />
+        </classpath>
     </taskdef>    
     
     <target name="-pre-compile">
@@ -48,16 +48,16 @@
         </tstamp>
         <property name="build.id" value="${now}" />
         <createManifest file="${basedir}/build/manifest.mf"/>
-
+        
         <resourcegen destDir="src">
-          <resource dir="src" includes="**/*.properties"/>
+            <resource dir="src" includes="**/*.properties"/>
         </resourcegen>
     </target>
     
     <target name="-post-clean">
-       <!--<delete dir="gen-src"/>  -->      
+        <!--<delete dir="gen-src"/>  -->      
     </target>
-        
+    
     <target name="dist" depends="jar, javadoc">
         <!-- Copy the README -->
         <copy file="${basedir}/README.txt" 
@@ -67,59 +67,65 @@
         <mkdir dir="${rest-api-dist.dir}/lib"/>
         <copy file="${dist.jar}" 
               todir="${rest-api-dist.dir}/lib"/>
-<!--        <copy todir="${rest-api-dist.dir}/lib">
+        <!--
+        <copy todir="${rest-api-dist.dir}/lib">
             <fileset dir="${basedir}/lib" excludes="junit*.jar"/>
-        </copy>-->
+        </copy>
+         -->
         
         <!-- create docs -->
         <mkdir dir="${rest-api-dist.dir}/docs/api"/>
         <copy todir="${rest-api-dist.dir}/docs/api">
             <fileset dir="${basedir}/dist/javadoc"/>
         </copy>
-                     
+        
+        <!-- create a zip file of src -->
+        <zip destfile="${rest-api-dist.dir}/lib/jsr311-api.src.zip"
+             basedir="${src.dir}" includes="**"/>
+        
         <!-- create a zip file of the distribution -->
         <zip destfile="${basedir}/dist/jsr311-api.zip"
              basedir="${rest-api-dist.dir}" includes="**"/>
     </target>
     
     <taskdef name="junit2" classname="com.sun.ant.junit.JUnitTask">
-      <classpath>
-        <pathelement path="${basedir}/lib/junit-anttask.jar" />
-        <pathelement path="${basedir}/lib/junit-3.8.1.jar" />
-      </classpath>
+        <classpath>
+            <pathelement path="${basedir}/lib/junit-anttask.jar" />
+            <pathelement path="${basedir}/lib/junit-3.8.1.jar" />
+        </classpath>
     </taskdef>
-
+    
     <target name="hudson-unit-tests" depends="init">
         <mkdir dir="${build.test.classes.dir}"/>
         <mkdir dir="${build.test.results.dir}"/>
         <javac srcdir="${test.src.dir}" 
-		destdir="${build.test.classes.dir}" debug="true" 
-		classpathref="test.classpath"/>
+               destdir="${build.test.classes.dir}" debug="true" 
+               classpathref="test.classpath"/>
         <copy todir="${build.test.classes.dir}">
             <fileset dir="${test.src.dir}" excludes="**/*.java"/>
         </copy>
-        <junit2 showoutput="true" fork="true" dir="${basedir}" failureproperty="tests.failed" errorproperty="tests.failed">
-                    <batchtest todir="${build.test.results.dir}">
-                        <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
-                    </batchtest>
-                    <classpath>
-		      <fileset dir="${rest-api-dist.dir}/lib"/>
-		      <pathelement location="${build.test.classes.dir}"/>
-		      <pathelement location="${tools.jar}"/>
-		    </classpath>
-                    <syspropertyset>
-                        <propertyref prefix="test-sys-prop."/>
-                        <mapper type="glob" from="test-sys-prop.*" to="*"/>
-                    </syspropertyset>
-                    <formatter type="brief" usefile="false"/>
-                    <formatter type="xml"/>
-                    <jvmarg line="${run.jvmargs}"/>
+        <junit2 showoutput="true" fork="true" dir="${basedir}" 
+        failureproperty="tests.failed" errorproperty="tests.failed">
+            <batchtest todir="${build.test.results.dir}">
+                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+            <classpath>
+                <fileset dir="${rest-api-dist.dir}/lib"/>
+                <pathelement location="${build.test.classes.dir}"/>
+                <pathelement location="${tools.jar}"/>
+            </classpath>
+            <syspropertyset>
+                <propertyref prefix="test-sys-prop."/>
+                <mapper type="glob" from="test-sys-prop.*" to="*"/>
+            </syspropertyset>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <jvmarg line="${run.jvmargs}"/>
         </junit2>
     </target>
-
+    
     <target name="clean-tests" depends="init">
-      <delete dir="${build.test.classes.dir}"/>
+        <delete dir="${build.test.classes.dir}"/>
     </target>
-
     
 </project>
