@@ -1,0 +1,56 @@
+\chapter{Context}
+\label{context}
+
+\jaxrs\ provides facilities for obtaining and processing information about the deployment context of an application and the context of individual requests. This chapter describes these facilities.
+
+\section{URIs and URI Templates}
+
+An instance of \UriInfo\ can be injected into a class field or method parameter using the \HttpContext\ annotation. \UriInfo\ provides both static and dynamic, per-request information about the components of a request URI. E.g. the following would return the names of any query parameters in a request:
+
+\begin{listing}{1}
+@HttpMethod(GET)
+@ProduceMime{"text/plain"}
+public String listQueryParamNames(@HttpContext UriInfo info) {
+  StringBuilder buf = new StringBuilder();
+  for (String param: info.getQueryParameters().keySet()) {
+    buf.append(param);
+    buf.append("\n");
+  }
+  return buf.toString();
+}
+\end{listing}
+
+\section{Headers}
+
+An instance of \HttpHeaders\ can be injected into a class field or method parameter using the \HttpContext\ annotation. \HttpHeaders\ provides access to request header information either in map form or via strongly typed convenience methods. E.g. the following would return the names of all the headers in a request:
+
+\begin{listing}{1}
+@HttpMethod(GET)
+@ProduceMime{"text/plain"}
+public String listHeaderNames(@HttpContext HttpHeaders headers) {
+  StringBuilder buf = new StringBuilder();
+  for (String header: headers.getRequestHeaders().keySet()) {
+    buf.append(header);
+    buf.append("\n");
+  }
+  return buf.toString();
+}
+\end{listing}
+
+Note that response headers may be provided using the \Response\ interface, see \ref{resource_method_return} for more details.
+
+\section{Preconditions}
+
+\jaxrs\ simplifies support for preconditions using the \PreconditionEvaluator\ interface. An instance of \PreconditionEvaluator\ can be injected into a class field or method parameter using the \HttpContext\ annotation. The methods of \ \PreconditionEvaluator\ allow a resource method to evaluate whether the current state of the resource matches any preconditions in the request and if not they return a \Response\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks that the current entity tag matches any preconditions in the request before updating the resource:
+
+\begin{listing}{1}
+@HttpMethod(PUT)
+public Response updateFoo(@HttpContext PreconditionEvaluator pre, Foo foo) {
+	EntityTag tag = getCurrentTag();
+	Response response = pre.evaluate(tag);
+	if (response != null)
+	  return response;
+	else
+	  return doUpdate(foo);
+}
+\end{listing}

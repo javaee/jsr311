@@ -21,7 +21,7 @@ The following are the goals of the API:
 
 \item[Format independence] The API will be applicable to a wide variety of HTTP entity body content types. It will provide the necessary pluggability to allow additional types to be added by an application in a standard manner.
 
-\item[Container independence] Artifacts using the API will be deployable in a variety of Web-tier containers. The specification will define how artifacts are deployed in a Servlet\cite{servlet} container and as a JAX-WS\cite{jsr224} Provider and will provide the necessary pluggability to allow additional containers to be supported in a standard manner.
+\item[Container independence] Artifacts using the API will be deployable in a variety of Web-tier containers. The specification will define how artifacts are deployed in a Servlet\cite{servlet} container and as a JAX-WS\cite{jsr224} Provider.
 
 \item[Inclusion in Java EE] The specification will define the environment for a Web resource class hosted in a Java EE container and will specify how to use Java EE features and components within a Web resource class.
 
@@ -71,6 +71,16 @@ All parts of this specification are normative, with the exception of examples, n
 \begin{nnnote*}
 This is a note.
 \end{nnnote*}
+
+\section{Terminology}
+
+\begin{description}
+\item[Resource class] A Java class that uses \jaxrs\ annotations to implement a corresponding Web resource, see chapter \ref{resource_classes}.
+\item[Root resource class] A resource class annotated with \UriTemplate. Root resource classes provide the roots of the resource class tree and provide access to sub-resources, see chapter \ref{resource_classes}.
+\item[Resource method] A method of a resource class that is used to handle requests on the corresponding resource, see section \ref{resource_method}.
+\item[Sub-resource locator] A method of a resource class that is used to locate sub-resources of the corresponding resource, see section \ref{sub_resources}.
+\item[Sub-resource method] A method of a resource class that is used to handle requests on a sub-resource of the corresponding resource, see section \ref{sub_resources}.
+\end{description}
 
 \section{Expert Group Members} 
 
