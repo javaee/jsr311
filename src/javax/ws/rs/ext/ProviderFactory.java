@@ -21,12 +21,15 @@ package javax.ws.rs.ext;
  
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import sun.misc.Service;
 
 /**
  * Factory for creating instances of provider classes.
  */
 public abstract class ProviderFactory {
+    
+    private static AtomicReference<ProviderFactory> pfr = new AtomicReference<ProviderFactory>();
     
     /** 
      * Get an instance of ProviderFactory. The implementation of
@@ -37,12 +40,16 @@ public abstract class ProviderFactory {
      * to the runtime.
      */
     public static ProviderFactory getInstance() {
+       ProviderFactory pf = pfr.get();
+       if (pf != null)
+           return pf;
        Iterator ps = Service.providers(ProviderFactory.class); 
        while (ps.hasNext()) { 
-           ProviderFactory pf = (ProviderFactory)ps.next();
-           return pf;
-       } 
-       return null;
+           pf = (ProviderFactory)ps.next();
+           pfr.set(pf);
+           break;
+       }
+       return pf;
     }
     
     /**
