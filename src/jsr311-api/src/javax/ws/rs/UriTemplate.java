@@ -27,8 +27,8 @@ import java.lang.annotation.Target;
 
 /**
  * Identifies the URI path that a resource class or class method
- * will serve requests for. All
- * Web resource classes require an @UriTemplate annotation.
+ * will serve requests for. Root
+ * resource classes require an @UriTemplate annotation.
  * Classes may also be annotated with 
  * <code>@ConsumeMime</code> and <code>@ProduceMime</code> to filter the
  * requests they will receive.
@@ -65,4 +65,14 @@ public @interface UriTemplate {
      * characters.
      */
     boolean encode() default true;
+    
+    /**
+     * Controls whether a trailing template variable is limited to a single path
+     * segment (<code>true</code>) or not (<code>false</code>). E.g. 
+     * <code>@UriTemplate("widgets/{id}")</code> would
+     * match widgets/foo but not widgets/foo/bar whereas 
+     * <code>@UriTemplate(value="widgets/{id}", limit=false)</code> would match 
+     * both.
+     */
+    boolean limited() default true;
 }
