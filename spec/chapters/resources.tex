@@ -26,6 +26,8 @@ The \code{encode} property controls whether the value of the \UriTemplate\ annot
 @UriTemplate(value="widget%20list/{id}" encode=false)
 \end{listing}
 
+The \code{limited} property controls whether a trailing template variable matches a single path segment or multiple. Setting the property to false allows a single template variable to match a path and can be used, e.g., when a template represents a path prefix followed by an arbitrary length path.
+
 \subsection{Sub Resources}
 \label{sub_resources}
 
