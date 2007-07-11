@@ -110,6 +110,26 @@ An implementation MUST allow other runtime exceptions to propagate to the underl
 
 \begin{ednote}What to do about checked exceptions ? If we allow them on resource methods then do we need some standard runtime exception that can be used to wrap the checked exception so it can be propagated to the container in a standard way ?\end{ednote}
 
+\subsection{HEAD and OPTIONS}
+\label{head_and_options}
+
+\code{HEAD} and \code{OPTIONS} requests receive additional support. On receipt of \code{HEAD} request an implementation MUST:
+
+\begin{enumerate}
+\item Call a method annotated with \HttpMethod\ that supports \code{HEAD} or, if none present,
+\item\label{get_not_head} Call a method annotated with \HttpMethod\ that supports \code{GET} and discard any returned entity.
+\end{enumerate}
+
+Note that option \ref{get_not_head} may result in reduced performance where entity creation is significant.
+
+On receipt of an \code{OPTIONS} request an implementation MUST:
+
+\begin{enumerate}
+\item Call a method annotated with \HttpMethod\ that supports \code{OPTIONS} or, if none present,
+\item Generate an automatic response from the declared metadata of the matching class.
+\end{enumerate}
+
+
 \section{Declaring Media Type Capabilities}
 \label{declaring_method_capabilities}
 
@@ -182,7 +202,7 @@ Matching of requests to resource methods proceeds in two stages:
 \item Find the set of resource methods that meet the following criteria:
 \begin{itemize}
 \item If \code{uri} is not empty or equal to \lq/\rq, the method must be annotated with  a URI template that, when transformed into a regular expression using the process described in section \ref{template_to_regex}, matches \code{uri}.
-\item The request method is supported. If no methods support the request method an implementation MUST generate a method not allowed response (HTTP 405 status).
+\item The request method is supported. If no methods support the request method an implementation MUST generate a method not allowed response (HTTP 405 status). Note the additional support for \code{HEAD} and \code{OPTIONS} described in section \ref{head_and_options}.
 \item The media type of the request entity body (if any) is a supported input data format (see section \ref{declaring_method_capabilities}). If no methods support the media type of the request entity body an implementation MUST generate an unsupported media type response (HTTP 415 status).
 \item At least one of the acceptable response entity body media types is a supported output data format (see section \ref{declaring_method_capabilities}). If no methods support one of the acceptable response entity body media types an implementation MUST generate a not acceptable response (HTTP 406 status).
 \end{itemize} 
