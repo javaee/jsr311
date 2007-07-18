@@ -42,7 +42,6 @@ import java.lang.annotation.Target;
  * @see ConsumeMime
  * @see ProduceMime
  */
-@Inherited
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UriTemplate {
