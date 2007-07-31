@@ -71,22 +71,30 @@ public interface UriInfo {
     public List<PathSegment> getURIPathSegments(boolean decode);
     
     /**
-     * Get the complete URI of the request.
-     * <p>
-     * This is equivalent to the URI that is produce from the
-     * the following method calls on an instance of HttpRequestContext:
-     * <p>
-     * <code>request.getBaseURI().resolver(request.getURIPath()).</code>
-     * @return the complete URI of the application
+     * Get the complete URI of the request. This is a shortcut for
+     * <code>uriInfo.getBaseURI().resolve(uriInfo.getURIPath()).</code>
+     * @return the complete URI of the request
      */
     public URI getURI();
     
     /**
-     * Get the base URI of the REST beans application. URIs of resource beans
+     * Get the URI of the current request in the form of a UriBuilder.
+     * @return a UriBuilder initialized with the current request URI.
+     */
+    public UriBuilder getURIBuilder();
+
+    /**
+     * Get the base URI of the application. URIs of resource beans
      * are all relative to this base URI.
      * @return the base URI of the application
      */
     public URI getBaseURI();
+    
+    /**
+     * Get the base URI of the application in the form of a UriBuilder.
+     * @return a UriBuilder initialized with the base URI of the application.
+     */
+    public UriBuilder getBaseURIBuilder();
     
     /**
      * Get the values of any embedded URI parameters.
