@@ -40,16 +40,21 @@ public abstract class ProviderFactory {
      * to the runtime.
      */
     public static ProviderFactory getInstance() {
-       ProviderFactory pf = pfr.get();
-       if (pf != null)
-           return pf;
-       Iterator ps = Service.providers(ProviderFactory.class); 
-       while (ps.hasNext()) { 
-           pf = (ProviderFactory)ps.next();
-           pfr.set(pf);
-           break;
-       }
-       return pf;
+        ProviderFactory pf = pfr.get();
+        if (pf != null)
+            return pf;
+        synchronized(pfr) {
+            pf = pfr.get();
+            if (pf != null)
+                return pf;
+            Iterator ps = Service.providers(ProviderFactory.class); 
+            while (ps.hasNext()) { 
+                pf = (ProviderFactory)ps.next();
+                pfr.set(pf);
+                break;
+            }
+        }
+        return pf;
     }
     
     /**
