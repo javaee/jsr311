@@ -75,7 +75,7 @@ public abstract class UriBuilder {
      * to initialize the UriBuilder.
      * @return a new UriBuilder
      */
-    public static UriBuilder fromResource(Class resource) {
+    public static UriBuilder fromResource(Class<?> resource) {
         UriBuilder b = newInstance();
         b.path(resource);
         return b;
@@ -140,7 +140,7 @@ public abstract class UriBuilder {
     
     /**
      * Set the URI port.
-     * @param port the URI port
+     * @param port the URI port, a value of -1 will unset an explicit port.
      * @return the updated UriBuilder
      */
     public abstract UriBuilder port(int port);
@@ -148,7 +148,7 @@ public abstract class UriBuilder {
     /**
      * Set the URI path using an unencoded value, equivalent to 
      * <code>replacePath(path, true)</code>. This method will overwrite 
-     * any existing path segments.
+     * any existing path segments and associated matrix parameters.
      * @param path the URI path, may contain URI template parameters
      * @return the updated UriBuilder
      */
@@ -157,7 +157,8 @@ public abstract class UriBuilder {
     }
 
     /**
-     * Set the URI path. This method will overwrite any existing path segments.
+     * Set the URI path. This method will overwrite any existing path segments
+     * and associated matrix parameters.
      * @param path the URI path, may contain URI template parameters
      * @param encode controls whether the supplied value is automatically encoded
      * (true) or not (false). If false, the value must be valid with all illegal
@@ -169,7 +170,9 @@ public abstract class UriBuilder {
     /**
      * Append unencoded path segments to the existing list of segments, equivalent
      * to <code>path(true, segments)</code>. When constructing
-     * the final path, each segment will be separated by '/' if necessary.
+     * the final path, each segment will be separated by '/' if necessary. 
+     * Existing '/' characters are preserved thus a single segment value can 
+     * represent multiple URI path segments.
      * @param segments the path segments, may contain URI template parameters
      * @return the updated UriBuilder
      */
@@ -180,6 +183,8 @@ public abstract class UriBuilder {
     /**
      * Append path segments to the existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary.
+     * Existing '/' characters are preserved thus a single segment value can 
+     * represent multiple URI path segments.
      * @param segments the path segments, may contain URI template parameters
      * @param encode controls whether the supplied values are automatically encoded
      * (true) or not (false). If false, the values must be valid with all illegal
@@ -329,7 +334,12 @@ public abstract class UriBuilder {
     /**
      * Build a URI, using the supplied values in order to replace any URI
      * template parameters. Any URI template parameters without a value will be
-     * replaced by the empty string.
+     * replaced by the empty string. 
+     * <p>All instances of the same template parameter
+     * will be replaced by the same value that corresponds to the position of the
+     * first instance of the template parameter. e.g. the template "{a}/{b}/{a}"
+     * with values {"x", "y", "z"} will result in the the URI "x/y/x", <i>not</i>
+     * "x/y/z".
      * @param values a list of URI template parameter values
      * @return the URI built from the UriBuilder
      */
