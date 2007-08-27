@@ -16,6 +16,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.ws.rs.core.MediaType;
 
 /**
  * A provider that supports the conversion of a type to and from a stream.
@@ -47,16 +48,20 @@ public interface EntityProvider<T> {
      * @param entityStream the {@link InputStream} of the HTTP entity.
      * @throws java.io.IOException if an IO error arises
      */
-    T readFrom(Class<T> type, 
-            String mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException;
+    T readFrom(Class<T> type, MediaType mediaType, 
+            MultivaluedMap<String, String> httpHeaders, 
+            InputStream entityStream) throws IOException;
     
     /**
      * Write a type to an HTTP response.
      * 
      * @param t the type to write.
+     * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders the HTTP response headers.
      * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
-    void writeTo(T t, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException;    
+    void writeTo(T t, MediaType mediaType, 
+            MultivaluedMap<String, Object> httpHeaders,
+            OutputStream entityStream) throws IOException;    
 }
