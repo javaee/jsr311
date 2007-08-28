@@ -113,7 +113,7 @@ An implementation MUST allow other runtime exceptions to propagate to the underl
 \subsection{HEAD and OPTIONS}
 \label{head_and_options}
 
-\code{HEAD} and \code{OPTIONS} requests receive additional support. On receipt of \code{HEAD} request an implementation MUST:
+\code{HEAD} and \code{OPTIONS} requests receive additional support. On receipt of \code{HEAD} request an implementation MUST either:
 
 \begin{enumerate}
 \item Call a method annotated with \HttpMethod\ that supports \code{HEAD} or, if none present,
@@ -122,7 +122,7 @@ An implementation MUST allow other runtime exceptions to propagate to the underl
 
 Note that option \ref{get_not_head} may result in reduced performance where entity creation is significant.
 
-On receipt of an \code{OPTIONS} request an implementation MUST:
+On receipt of an \code{OPTIONS} request an implementation MUST either:
 
 \begin{enumerate}
 \item Call a method annotated with \HttpMethod\ that supports \code{OPTIONS} or, if none present,
@@ -218,4 +218,11 @@ Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a met
 \subsection{Converting URI Templates to Regular Expressions}
 \label{template_to_regex}
 
-A URI template is converted into a regular expression by substituting \lq(.*?)\rq\ for each occurrence of \{$\backslash($[w-$\backslash.$\_~]+?$\backslash)$\} within the URI template and escaping any regular expression characters in the rest of the URI template.
+A URI template is converted into a regular expression by:
+\begin{enumerate}
+\item If required, i.e. \UriTemplate\code{.encode=true}, URI encoding any invalid characters in the template, ignoring URI template variable specifications.
+\item Escaping any regular expression characters in the URI template, again ignoring URI template variable specifications.
+\item Substituting \lq(.*?)\rq\ for each occurrence of a URI template variable (\{$\backslash($[w-$\backslash.$\_~]+?$\backslash)$\}) within the URI template.
+\end{enumerate}
+
+Note that the above renders the name of template variables irrelevant for template matching purposes. However, implementations will need to retain template variable names in order to facilitate the extraction of template variable values via \UriParam\ or \UriInfo\code{.getURIParameters}.

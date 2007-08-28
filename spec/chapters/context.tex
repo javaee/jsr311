@@ -1,7 +1,7 @@
 \chapter{Context}
 \label{context}
 
-\jaxrs\ provides facilities for obtaining and processing information about the deployment context of an application and the context of individual requests. This chapter describes these facilities.
+\jaxrs\ provides facilities for obtaining and processing information about the deployment context of a resource class and the context of individual requests. This chapter describes these facilities.
 
 \section{URIs and URI Templates}
 
@@ -18,7 +18,7 @@ public String listQueryParamNames(@HttpContext UriInfo info) {
   }
   return buf.toString();
 }
-\end{listing}
+\end{listing} 
 
 \section{Headers}
 
@@ -54,3 +54,7 @@ public Response updateFoo(@HttpContext PreconditionEvaluator pre, Foo foo) {
 	  return doUpdate(foo);
 }
 \end{listing}
+
+\section{Injection Scope}
+
+When the \HttpContext\ annotation is applied to a resource class field, an implementation is only required to inject the applicable context into those resource class instances created by the implementation runtime. Objects returned by sub-resource locators are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
