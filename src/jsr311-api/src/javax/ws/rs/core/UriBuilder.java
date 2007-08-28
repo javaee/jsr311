@@ -19,9 +19,8 @@
 
 package javax.ws.rs.core;
 
-import com.sun.org.apache.xerces.internal.impl.xs.identity.ValueStore;
+import java.lang.reflect.Method;
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
 import javax.ws.rs.ext.Contract;
 import javax.ws.rs.ext.ProviderFactory;
@@ -182,7 +181,7 @@ public abstract class UriBuilder {
     public abstract UriBuilder replacePath(String path) throws IllegalArgumentException;
 
     /**
-     * Append unencoded path segments to the existing list of segments. When constructing
+     * Append path segments to the existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary. 
      * Existing '/' characters are preserved thus a single segment value can 
      * represent multiple URI path segments.
@@ -194,15 +193,47 @@ public abstract class UriBuilder {
     public abstract UriBuilder path(String... segments) throws IllegalArgumentException;
 
     /**
-     * Append path segments to the existing list of segments. When constructing
+     * Append path segments from a UriTemplate-annotated class to the
+     * existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary.
-     * @param resource a root resource whose @UriTemplate value will be used to
-     * obtain the path segments
+     * @param resource a resource whose @UriTemplate value will be 
+     * used to obtain the path segment
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if resource.encode is false and
      * resource.value contains illegal characters
      */
     public abstract UriBuilder path(Class resource) throws IllegalArgumentException;
+    
+    /**
+     * Append path segments from a UriTemplate-annotated method to the
+     * existing list of segments. When constructing
+     * the final path, each segment will be separated by '/' if necessary.
+     * This method is a convenience shortcut to <code>path(Method)</code>, it
+     * can only be used in cases where there is a single method with the
+     * specified name that is annotated with @UriTemplate.
+     * @param resource the resource containing the method
+     * @param method the name of the method whose @UriTemplate value will be 
+     * used to obtain the path segment
+     * @return the updated UriBuilder
+     * @throws IllegalArgumentException if the specified method does not exist
+     * or there is more than one variant of the method annotated with 
+     * UriTemplate
+     * @throws IllegalArgumentException if resource.encode is false and
+     * resource.value contains illegal characters
+     */
+    public abstract UriBuilder path(Class resource, String method) throws IllegalArgumentException;
+    
+    /**
+     * Append path segments from a list of UriTemplate-annotated methods to the
+     * existing list of segments. When constructing
+     * the final path, each segment will be separated by '/' if necessary.
+     * @param methods a list of methods whose @UriTemplate values will be 
+     * used to obtain the path segments
+     * @return the updated UriBuilder
+     * @throws IllegalArgumentException if resource.encode is false and
+     * resource.value contains illegal characters
+     */
+    public abstract UriBuilder path(Method... methods) throws IllegalArgumentException;
     
     /**
      * Set the matrix parameters of the final segment of the current URI path.
