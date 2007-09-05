@@ -30,90 +30,90 @@ import java.util.List;
 public interface UriInfo {
     
     /**
-     * Get the URI path of the current request relative to the base URI as
+     * Get the path of the current request relative to the base URI as
      * a string. All sequences of escaped octets are decoded, equivalent to
-     * <code>getURIPath(true)</code>.
+     * <code>getPath(true)</code>.
      * @return the relative URI path.
      */
-    public String getURIPath();
+    public String getPath();
     
     /**
-     * Get the URI path of the current request relative to the base URI as
+     * Get the path of the current request relative to the base URI as
      * a string.
      *
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
      * @return the relative URI path.
      */
-    public String getURIPath(boolean decode);
+    public String getPath(boolean decode);
 
     /**
-     * Get the URI path of the current request relative to the base URI as a 
-     * list of {@link PathSegment}. This method is useful when the URI
+     * Get the path of the current request relative to the base URI as a 
+     * list of {@link PathSegment}. This method is useful when the
      * path needs to be parsed, particularly when matrix parameters may be
-     * present in the URI path. All sequences of escaped octets are decoded,
-     * equivalent to <code>getURIPathSegments(true)</code>.
+     * present in the path. All sequences of escaped octets are decoded,
+     * equivalent to <code>getPathSegments(true)</code>.
      * @return the list of {@link PathSegment}.
      * @see PathSegment
      */
-    public List<PathSegment> getURIPathSegments();
+    public List<PathSegment> getPathSegments();
     
     /**
-     * Get the URI path of the current request relative to the base URI as a 
-     * list of {@link PathSegment}. This method is useful when the URI
+     * Get the path of the current request relative to the base URI as a 
+     * list of {@link PathSegment}. This method is useful when the
      * path needs to be parsed, particularly when matrix parameters may be
-     * present in the URI path.
+     * present in the path.
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
      * @return the list of {@link PathSegment}.
      * @see PathSegment
      */
-    public List<PathSegment> getURIPathSegments(boolean decode);
+    public List<PathSegment> getPathSegments(boolean decode);
     
     /**
-     * Get the complete URI of the request. This is a shortcut for
-     * <code>uriInfo.getBaseURI().resolve(uriInfo.getURIPath()).</code>
-     * @return the complete URI of the request
+     * Get the absolute URI of the request. This is a shortcut for
+     * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
+     * @return the absolute URI of the request
      */
-    public URI getURI();
+    public URI getAbsolute();
     
     /**
-     * Get the URI of the current request in the form of a UriBuilder.
+     * Get the absolute URI of the current request in the form of a UriBuilder.
      * @return a UriBuilder initialized with the current request URI.
      */
-    public UriBuilder getURIBuilder();
+    public UriBuilder getBuilder();
 
     /**
      * Get the base URI of the application. URIs of resource beans
      * are all relative to this base URI.
      * @return the base URI of the application
      */
-    public URI getBaseURI();
+    public URI getBase();
     
     /**
      * Get the base URI of the application in the form of a UriBuilder.
      * @return a UriBuilder initialized with the base URI of the application.
      */
-    public UriBuilder getBaseURIBuilder();
+    public UriBuilder getBaseBuilder();
     
     /**
-     * Get the values of any embedded URI parameters.
+     * Get the values of any embedded URI template parameters.
      * All sequences of escaped octets are decoded,
      * equivalent to <code>getURIParameters(true)</code>.
      * @return a map of parameter names and values.
      * @see javax.ws.rs.UriTemplate
      */
-    public MultivaluedMap<String, String> getURIParameters();
+    public MultivaluedMap<String, String> getTemplateParameters();
     
     /**
-     * Get the values of any embedded URI parameters.
+     * Get the values of any embedded URI template parameters.
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
      * @return a map of parameter names and values.
      * @see javax.ws.rs.UriTemplate
      */
-    public MultivaluedMap<String, String> getURIParameters(boolean decode);
+    public MultivaluedMap<String, String> getTemplateParameters(boolean decode);
     
     /**
      * Get the URI query parameters of the current request.
