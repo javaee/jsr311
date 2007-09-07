@@ -100,6 +100,10 @@ public class MediaType {
         return this.type;
     }
     
+    public boolean isWildcardType() {
+        return this.getType().equals(MEDIA_TYPE_WILDCARD);
+    }
+    
     /**
      * Getter for subtype.
      * @return value of subtype.
@@ -108,6 +112,10 @@ public class MediaType {
         return this.subtype;
     }
 
+    public boolean isWildcardSubtype() {
+        return this.getSubtype().equals(MEDIA_TYPE_WILDCARD);
+    }
+    
     /**
      * Getter for parameter map.
      * @return an immutable map of parameters.
