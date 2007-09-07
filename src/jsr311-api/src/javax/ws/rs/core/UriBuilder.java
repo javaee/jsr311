@@ -38,6 +38,15 @@ import javax.ws.rs.ext.ProviderFactory;
  * media type for query parameters and
  * <a href="http://ietf.org/rfc/rfc3986.txt">RFC 3986</a> for all other
  * components.</p>
+ *
+ * <p>URI templates are allowed in most components of a URI but their value is
+ * restricted to a particular component. E.g. 
+ * <blockquote><code>UriBuilder.fromPath("{arg1}").build("foo#bar");</code></blockquote>
+ * would result in encoding of the '#' such that the resulting URI is 
+ * "foo%23bar". To create a URI "foo#bar" use
+ * <blockquote><code>UriBuilder.fromPath("{arg1}").fragment("{arg2}").build("foo", "bar")</code></blockquote>
+ * instead.
+ *
  * @see java.net.URI
  * @see javax.ws.rs.UriTemplate
  */
@@ -73,15 +82,16 @@ public abstract class UriBuilder {
     /**
      * Create a new instance initialized from an existing URI with automatic encoding 
      * (see {@link #encode} method) turned on.
-     * @param uri a URI that will be used to initialize the UriBuilder.
+     * @param uri a URI that will be used to initialize the UriBuilder, may not
+     * contain URI parameters.
      * @return a new UriBuilder
      * @throws IllegalArgumentException if uri is not a valid URI or is null
      */
     public static UriBuilder fromUri(String uri) {
         URI u;
         try {
-            u = new URI(uri);
-        } catch (URISyntaxException ex) {
+            u = URI.create(uri);
+        } catch (NullPointerException ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
         return fromUri(u);
@@ -178,15 +188,6 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if ssp cannot be parsed or is null
      */
     public abstract UriBuilder schemeSpecificPart(String ssp) throws IllegalArgumentException;
-    
-    /**
-     * Set the URI authority. This method will overwrite any existing user-info
-     * host and port. 
-     * @param authority the URI authority, may contain URI template parameters
-     * @return the updated UriBuilder
-     * @throws IllegalArgumentException if authority is invalid or is null
-     */
-    public abstract UriBuilder authority(String authority) throws IllegalArgumentException;
     
     /**
      * Set the URI user-info.
