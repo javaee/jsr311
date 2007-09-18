@@ -43,6 +43,16 @@
         </resourcegen>
     </target>
     
+    <target name="-post-compile">
+        <!-- Include the localizer jar in the classes -->
+        <!-- This dependency will be removed before 1.0 release -->
+	<unzip src="lib/localizer.jar" dest="build/classes">
+            <patternset>
+                <exclude name="META-INF/**"/>
+            </patternset>
+        </unzip>
+    </target>
+
     <target name="dist" depends="jar, javadoc">
         <!-- Copy the README -->
         <copy file="${basedir}/README.txt" 
