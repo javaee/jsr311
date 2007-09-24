@@ -179,7 +179,7 @@ Matching of requests to resource methods proceeds in two stages:
 
 \item Filter the set of resource classes by rejecting those whose regular expression does not match \code{uri}. If the set is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
 
-\item Sort the set of matching resource classes using the number of matching groups as the primary key and the number of characters in the regular expression as a secondary key.
+\item Sort the set of matching resource classes using the number of characters in the regular expression not resulting from template variables as the primary key and the number of matching groups as a secondary key.
 
 \item Select the first matching class, instantiate an object of that class and set \code{uri} to the value of the final matching group.
 
