@@ -1,13 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<html>
-  <head>
-    <title></title>
-  </head>
-  <body>
-    <p>High-level interfaces and annotations used to create RESTful service 
-    resources. E.g.:</p>
-    <pre>&#064;UriTemplate("widgets/{widgetid}")
+/**
+ * High-level interfaces and annotations used to create RESTful service 
+ * resources. E.g.:
+<pre>
+&#064;UriTemplate("widgets/{widgetid}")
 &#064;ConsumeMime("application/widgets+xml")
 &#064;ProduceMime("application/widgets+xml")
 public class WidgetResource {
@@ -24,6 +19,7 @@ public class WidgetResource {
   }
   
   ...
-}</pre>
-  </body>
-</html>
+}
+</pre>
+ */
+package javax.ws.rs;
