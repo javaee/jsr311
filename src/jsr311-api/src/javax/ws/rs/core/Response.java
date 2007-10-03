@@ -79,7 +79,7 @@ public interface Response {
         protected static synchronized Builder newInstance() {
             Builder b = ProviderFactory.getInstance().createInstance(Builder.class);
             if (b==null)
-                throw new UnsupportedOperationException("No Builder implementation found");
+                throw new UnsupportedOperationException(ApiMessages.NO_BUILDER_IMPL());
             return b;
         }
         

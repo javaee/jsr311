@@ -27,6 +27,18 @@ public final class ApiMessages {
         return localizer.localize(localizableMEDIA_TYPE_INVALID(arg0));
     }
 
+    public static Localizable localizableNO_BUILDER_IMPL() {
+        return messageFactory.getMessage("no.builder.impl");
+    }
+
+    /**
+     * No Builder implementation found.
+     * 
+     */
+    public static String NO_BUILDER_IMPL() {
+        return localizer.localize(localizableNO_BUILDER_IMPL());
+    }
+
     public static Localizable localizableCONTENT_CANNOT_BE_NULL() {
         return messageFactory.getMessage("content.cannot.be.null");
     }
