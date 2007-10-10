@@ -25,17 +25,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a HTTP query parameter to a Java method parameter, class field or bean
- * property. The value is URL decoded unless this is disabled using the Encoded
+ * Binds a HTTP query parameter to a Java method parameter.
+ * The value is URL decoded unless this is disabled using the Encoded
  * annotation. A default value can be specified using the DefaultValue annotation.
- * The class of the annotated parameter, field or bean must have a constructor
+ * The class of the annotated parameter must have a constructor
  * that accepts a single String or List<String> argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
  * (see, for example, {@link Integer#valueOf(String)}).
  * @see DefaultValue
  * @see Encoded
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface QueryParam {
     /**

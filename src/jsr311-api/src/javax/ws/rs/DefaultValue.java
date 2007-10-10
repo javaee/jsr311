@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines the default value of a method parameter, field or bean property that
+ * Defines the default value of a method parameter that
  * is bound from a URI query or matrix parameter or a HTTP header 
  * using the @QueryParam, @MatrixParam
  * or @HeaderParam annotations respectively. The 
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * @see HeaderParam
  * @see MatrixParam
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DefaultValue {
     /**

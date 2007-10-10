@@ -26,8 +26,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a HTTP header to a Java method parameter, class field or bean
- * property. The class of the annotated parameter, field or bean must
+ * Binds a HTTP header to a Java method parameter.
+ * A default value can be specified using the DefaultValue annotation.
+ * The class of the annotated parameter must
  * have a constructor
  * that accepts a single String or List<String> argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
@@ -36,7 +37,7 @@ import java.lang.annotation.Target;
  * @see DefaultValue
  * @see javax.ws.rs.ext.HeaderProvider
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface HeaderParam {

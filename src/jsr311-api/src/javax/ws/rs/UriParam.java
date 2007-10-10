@@ -24,17 +24,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a method parameter, class field or property to a URI template
+ * Binds a method parameter to a URI template
  * parameter value.  The value is URL decoded unless this is disabled using the Encoded
  * annotation.
- * The class of the annotated parameter, field or property 
+ * The class of the annotated parameter 
  * must have a constructor that accepts a single String argument, or a static method 
  * named <code>valueOf</code> that accepts a single String argument
  * (see, for example, {@link Integer#valueOf(String)}).
  *
  * @see Encoded
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UriParam {
     /**
