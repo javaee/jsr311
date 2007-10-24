@@ -21,6 +21,7 @@ package javax.ws.rs.core;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 import javax.ws.rs.ext.Contract;
 import javax.ws.rs.ext.ProviderFactory;
 
@@ -71,6 +72,8 @@ public interface Response {
      */
     @Contract
     public static abstract class Builder {
+        private Builder() {
+        }
         
         /**
          * Create a new builder instance.
@@ -122,6 +125,18 @@ public interface Response {
         public static Builder representation(Object entity, String type) {
             Builder b = representation(entity);
             b.type(type);
+            return b;
+        }
+        
+        /**
+         * Create a new Builder that contains a representation.
+         * @param entity the representation entity data
+         * @param variant representation metadata
+         * @return a new Builder
+         */
+        public static Builder representation(Object entity, Variant variant) {
+            Builder b = representation(entity);
+            b.variant(variant);
             return b;
         }
         
@@ -233,6 +248,17 @@ public interface Response {
         }
         
         /**
+         * Create a new Builder for a not acceptable response.
+         * @param variants list of variants that were available
+         * @return a new Builder
+         */
+        public static Builder notAcceptable(List<Variant> variants) {
+            Builder b = newInstance();
+            b.status(406).variants(variants);
+            return b;
+        }
+        
+        /**
          * Set the status on the Builder.
          * @param status the response status
          * @return the updated Builder
@@ -263,6 +289,23 @@ public interface Response {
          */
         public abstract Builder type(String type);
         
+        /**
+         * Set representation metadata on the Builder.
+         * 
+         * @return the updated Builder
+         * @param variant metadata of the response entity
+         */
+        public abstract Builder variant(Variant variant);
+        
+        /**
+         * Create an entity that lists the available variants. Typically used
+         * in conjunction with a 406 No Acceptable status code.
+         * 
+         * @return the updated Builder
+         * @param variants a list of available representation variants
+         */
+        public abstract Builder variants(List<Variant> variants);
+
         /**
          * Set the language on the Builder.
          * 
