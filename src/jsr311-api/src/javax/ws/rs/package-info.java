@@ -7,12 +7,12 @@
 &#064;ProduceMime("application/widgets+xml")
 public class WidgetResource {
 
-  &#064;HttpMethod(GET)
+  &#064;GET
   public String getWidget(&#064;UriParam("widgetid") String id) {
     return getWidgetAsXml(id);
   }
   
-  &#064;HttpMethod(PUT)
+  &#064;PUT
   public void updateWidget(&#064;UriParam("widgetid") String id,
     Source update) {
     updateWidgetFromXml(id, update);
