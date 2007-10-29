@@ -23,9 +23,9 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * An injectable interface that provides access to request URI information
+ * An injectable interface that provides access to application and request 
+ * URI information
  * @see HttpContext
- * @author mh124079
  */
 public interface UriInfo {
     
@@ -71,30 +71,47 @@ public interface UriInfo {
     public List<PathSegment> getPathSegments(boolean decode);
     
     /**
-     * Get the absolute URI of the request. This is a shortcut for
-     * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
-     * @return the absolute URI of the request
+     * Get the absolute request URI. This includes query parameters and
+     * any supplied fragment.
+     * @return the absolute request URI
      */
-    public URI getAbsolute();
+    public URI getRequestUri();
     
     /**
-     * Get the absolute URI of the current request in the form of a UriBuilder.
-     * @return a UriBuilder initialized with the current request URI.
+     * Get the absolute request URI in the form of a UriBuilder.
+     * @return a UriBuilder initialized with the absolute request URI.
      */
-    public UriBuilder getBuilder();
+    public UriBuilder getRequestUriBuilder();
+    
+    /**
+     * Get the absolute path of the request. This includes everything preceding
+     * the path (host, port etc) but excludes query parameters and fragment.
+     * This is a shortcut for
+     * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
+     * @return the absolute path of the request
+     */
+    public URI getAbsolutePath();
+    
+    /**
+     * Get the absolute path of the request in the form of a UriBuilder.
+     * This includes everything preceding
+     * the path (host, port etc) but excludes query parameters and fragment.
+     * @return a UriBuilder initialized with the absolute path of the request.
+     */
+    public UriBuilder getAbsolutePathBuilder();
 
     /**
      * Get the base URI of the application. URIs of resource beans
      * are all relative to this base URI.
      * @return the base URI of the application
      */
-    public URI getBase();
+    public URI getBaseUri();
     
     /**
      * Get the base URI of the application in the form of a UriBuilder.
      * @return a UriBuilder initialized with the base URI of the application.
      */
-    public UriBuilder getBaseBuilder();
+    public UriBuilder getBaseUriBuilder();
     
     /**
      * Get the values of any embedded URI template parameters.
