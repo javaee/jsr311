@@ -50,13 +50,10 @@ public interface Response {
     int getStatus();
 
     /**
-     * Write any metadata associated with the response to the supplied map. Values
-     * will be serialized using a HeaderProvider for the class of the value. Multivalued
-     * entries will be serialized as separate headers.
-     * @param metadata a map to write the metadata to
-     * @see javax.ws.rs.ext.HeaderProvider
+     * Get metadata associated with the response as a map.
+     * @return response metadata as a map
      */
-    void addMetadata(MultivaluedMap<String, Object> metadata);
+    MultivaluedMap<String, Object> getMetadata();
     
     /**
      * A class used to build Response instances that contain metadata instead of or in addition
