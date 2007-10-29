@@ -296,7 +296,7 @@ public interface Response {
         
         /**
          * Create an entity that lists the available variants. Typically used
-         * in conjunction with a 406 No Acceptable status code.
+         * in conjunction with a 406 Not Acceptable status code.
          * 
          * @return the updated Builder
          * @param variants a list of available representation variants
