@@ -28,12 +28,12 @@ import javax.ws.rs.ext.ProviderFactory;
 /**
  * Defines the contract between a returned instance and the runtime when
  * an application needs to provide metadata to the runtime. An application
- * class can implement this interface directly or can use the nested Builder
- * class to create an instance.
+ * class can extend this class directly or can use one the static 
+ * methods to create an instance using a Builder.
  * 
  * @see Response.Builder
  */
-public interface Response {
+public abstract class Response {
     
     /**
      * Return the entity for the response. The response will be serialized using an
@@ -41,30 +41,177 @@ public interface Response {
      * @return an object instance or null if there is no entity
      * @see javax.ws.rs.ext.EntityProvider
      */
-    Object getEntity();
+    public abstract Object getEntity();
     
     /**
      * Get the status code associated with the response.
      * @return the response status code or -1 if the status was not set
      */
-    int getStatus();
+    public abstract int getStatus();
 
     /**
      * Get metadata associated with the response as a map.
      * @return response metadata as a map
      */
-    MultivaluedMap<String, Object> getMetadata();
+    public abstract MultivaluedMap<String, Object> getMetadata();
     
     /**
-     * A class used to build Response instances that contain metadata instead of or in addition
-     * to an entity. Static methods are provided to obtain an initial instance,
-     * instance methods provide the ability to set metadata. E.g. to create a response
-     * that indicates the creation of a new resource:
+     * Create a new Builder with an OK status.
+     * @return a new Builder
+     */
+    public static Builder ok() {
+        Builder b = Builder.newInstance();
+        b.status(200);
+        return b;
+    }
+
+    /**
+     * Create a new Builder that contains a representation.
+     * @param entity the representation entity data
+     * @param type the media type of the entity
+     * @return a new Builder
+     */
+    public static Builder ok(Object entity, MediaType type) {
+        Builder b = ok();
+        b.entity(entity);
+        b.type(type);
+        return b;
+    }
+
+    /**
+     * Create a new Builder that contains a representation.
+     * @param entity the representation entity data
+     * @param type the media type of the entity
+     * @return a new Builder
+     */
+    public static Builder ok(Object entity, String type) {
+        Builder b = ok();
+        b.entity(entity);
+        b.type(type);
+        return b;
+    }
+
+    /**
+     * Create a new Builder that contains a representation.
+     * @param entity the representation entity data
+     * @param variant representation metadata
+     * @return a new Builder
+     */
+    public static Builder ok(Object entity, Variant variant) {
+        Builder b = ok();
+        b.entity(entity);
+        b.variant(variant);
+        return b;
+    }
+
+    /**
+     * Create a new Builder with an server error status.
+     * @return a new Builder
+     */
+    public static Builder serverError() {
+        Builder b = Builder.newInstance();
+        b.status(500);
+        return b;
+    }
+
+    /**
+     * Create a new Builder for a created resource.
+     * @param entity the representation of the new resource
+     * @param location the URI of the new resource
+     * @return a new Builder
+     */
+    public static Builder created(Object entity, URI location) {
+        Builder b = created(location);
+        b.entity(entity);
+        return b;
+    }
+
+    /**
+     * Create a new Builder for a created resource.
+     * @param location the URI of the new resource
+     * @return a new Builder
+     */
+    public static Builder created(URI location) {
+        Builder b = Builder.newInstance();
+        b.status(201).location(location);
+        return b;
+    }
+
+    /**
+     * Create a new Builder for an empty response.
+     * @return a new Builder
+     */
+    public static Builder noContent() {
+        Builder b = Builder.newInstance();
+        b.status(204);
+        return b;
+    }
+
+    /**
+     * Create a new Builder with a not-modified status.
+     * @return a new Builder
+     */
+    public static Builder notModified() {
+        Builder b = Builder.newInstance();
+        b.status(304);
+        return b;
+    }
+
+    /**
+     * Create a new Builder with a not-modified status.
+     * @param tag a tag for the unmodified entity
+     * @return a new Builder
+     */
+    public static Builder notModified(EntityTag tag) {
+        Builder b = notModified();
+        b.tag(tag);
+        return b;
+    }
+
+    /**
+     * Create a new Builder with a not-modified status.
+     * @param tag a tag for the unmodified entity
+     * @return a new Builder
+     */
+    public static Builder notModified(String tag) {
+        Builder b = notModified();
+        b.tag(tag);
+        return b;
+    }
+
+    /**
+     * Create a new Builder for a temporary redirection.
+     * @param location the redirection URI
+     * @return a new Builder
+     */
+    public static Builder temporaryRedirect(URI location) {
+        Builder b = Builder.newInstance();
+        b.status(307).location(location);
+        return b;
+    }
+
+    /**
+     * Create a new Builder for a not acceptable response.
+     * @param variants list of variants that were available
+     * @return a new Builder
+     */
+    public static Builder notAcceptable(List<Variant> variants) {
+        Builder b = Builder.newInstance();
+        b.status(406).variants(variants);
+        return b;
+    }
+        
+    /**
+     * A class used to build Response instances that contain metadata instead 
+     * of or in addition to an entity. An initial instance may be obtained via
+     * static methods of the Response class, instance methods provide the
+     * ability to set metadata. E.g. to create a response that indicates the 
+     * creation of a new resource:
      * <pre>@HttpMethod
      * Response addWidget(...) {
      *   Widget w = ...
      *   URI widgetId = ...
-     *   return Builder.created(w, widgetId).build();
+     *   return Response.created(w, widgetId).build();
      * }</pre>
      */
     @Contract
@@ -90,171 +237,7 @@ public interface Response {
          */
         public abstract Response build();
         
-        /**
-         * Create a new Builder that contains a representation.
-         * @param entity the representation entity data
-         * @return a new Builder
-         */
-        public static Builder representation(Object entity) {
-            Builder b = newInstance();
-            b.status(200).entity(entity);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder that contains a representation.
-         * @param entity the representation entity data
-         * @param type the media type of the entity
-         * @return a new Builder
-         */
-        public static Builder representation(Object entity, MediaType type) {
-            Builder b = representation(entity);
-            b.type(type);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder that contains a representation.
-         * @param entity the representation entity data
-         * @param type the media type of the entity
-         * @return a new Builder
-         */
-        public static Builder representation(Object entity, String type) {
-            Builder b = representation(entity);
-            b.type(type);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder that contains a representation.
-         * @param entity the representation entity data
-         * @param variant representation metadata
-         * @return a new Builder
-         */
-        public static Builder representation(Object entity, Variant variant) {
-            Builder b = representation(entity);
-            b.variant(variant);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with an OK status.
-         * @return a new Builder
-         */
-        public static Builder ok() {
-            Builder b = newInstance();
-            b.status(200);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with an OK status.
-         * @param entity the representation entity data
-         * @return a new Builder
-         */
-        public static Builder ok(Object entity) {
-            Builder b = ok();
-            b.entity(entity);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with an server error status.
-         * @return a new Builder
-         */
-        public static Builder serverError() {
-            Builder b = newInstance();
-            b.status(500);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder for a created resource.
-         * @param entity the representation of the new resource
-         * @param location the URI of the new resource
-         * @return a new Builder
-         */
-        public static Builder created(Object entity, URI location) {
-            Builder b = created(location);
-            b.entity(entity);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder for a created resource.
-         * @param location the URI of the new resource
-         * @return a new Builder
-         */
-        public static Builder created(URI location) {
-            Builder b = newInstance();
-            b.status(201).location(location);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder for an empty response.
-         * @return a new Builder
-         */
-        public static Builder noContent() {
-            Builder b = newInstance();
-            b.status(204);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with a not-modified status.
-         * @return a new Builder
-         */
-        public static Builder notModified() {
-            Builder b = newInstance();
-            b.status(304);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with a not-modified status.
-         * @param tag a tag for the unmodified entity
-         * @return a new Builder
-         */
-        public static Builder notModified(EntityTag tag) {
-            Builder b = notModified();
-            b.tag(tag);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder with a not-modified status.
-         * @param tag a tag for the unmodified entity
-         * @return a new Builder
-         */
-        public static Builder notModified(String tag) {
-            Builder b = notModified();
-            b.tag(tag);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder for a temporary redirection.
-         * @param location the redirection URI
-         * @return a new Builder
-         */
-        public static Builder temporaryRedirect(URI location) {
-            Builder b = newInstance();
-            b.status(307).location(location);
-            return b;
-        }
-        
-        /**
-         * Create a new Builder for a not acceptable response.
-         * @param variants list of variants that were available
-         * @return a new Builder
-         */
-        public static Builder notAcceptable(List<Variant> variants) {
-            Builder b = newInstance();
-            b.status(406).variants(variants);
-            return b;
-        }
-        
+
         /**
          * Set the status on the Builder.
          * @param status the response status
