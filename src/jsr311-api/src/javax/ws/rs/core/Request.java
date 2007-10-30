@@ -37,7 +37,7 @@ public interface Request {
      * @see Variant.ListBuilder
      * @throws IllegalArgumentException if variants is empty
      */
-    Variant selectVariant(List<Variant> variants);
+    Variant selectVariant(List<Variant> variants) throws IllegalArgumentException;
     
     /**
      * Evaluate request preconditions based on the passed in value.
