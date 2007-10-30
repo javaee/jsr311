@@ -13,8 +13,6 @@
 package javax.ws.rs;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Builder;
-
 
 /**
  * Runtime exception for applications.
@@ -33,7 +31,7 @@ public class WebApplicationException extends RuntimeException {
      */
     public WebApplicationException() {
         super();
-        response = Builder.serverError().build();
+        response = Response.serverError().build();
     }
 
     /**
@@ -50,7 +48,7 @@ public class WebApplicationException extends RuntimeException {
      * @param status the HTTP status code that will be returned to the client
      */
     public WebApplicationException(int status) {
-        this(Builder.serverError().status(status).build());
+        this(Response.serverError().status(status).build());
     }
     
     /**
@@ -59,7 +57,7 @@ public class WebApplicationException extends RuntimeException {
      */
     public WebApplicationException(Throwable cause) {
         super(cause);
-        response = Builder.serverError().build();
+        response = Response.serverError().build();
     }
     
     /**
@@ -78,7 +76,7 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, int status) {
-        this(cause, Builder.serverError().status(status).build());
+        this(cause, Response.serverError().status(status).build());
     }
     
     /**
