@@ -15,16 +15,28 @@ public final class ApiMessages {
     private final static LocalizableMessageFactory messageFactory = new LocalizableMessageFactory("javax.ws.rs.core.api");
     private final static Localizer localizer = new Localizer();
 
-    public static Localizable localizableMEDIA_TYPE_INVALID(Object arg0) {
-        return messageFactory.getMessage("media.type.invalid", arg0);
+    public static Localizable localizableILLEGAL_CONFIG_SYNTAX() {
+        return messageFactory.getMessage("illegal.config.syntax");
     }
 
     /**
-     * Invalid media type: {0}
+     * Illegal configuration-file syntax.
      * 
      */
-    public static String MEDIA_TYPE_INVALID(Object arg0) {
-        return localizer.localize(localizableMEDIA_TYPE_INVALID(arg0));
+    public static String ILLEGAL_CONFIG_SYNTAX() {
+        return localizer.localize(localizableILLEGAL_CONFIG_SYNTAX());
+    }
+
+    public static Localizable localizablePROVIDER_COULD_NOT_BE_CREATED(Object arg0, Object arg1) {
+        return messageFactory.getMessage("provider.could.not.be.created", arg0, arg1);
+    }
+
+    /**
+     * Provider {0} could not be instantiated: {1}
+     * 
+     */
+    public static String PROVIDER_COULD_NOT_BE_CREATED(Object arg0, Object arg1) {
+        return localizer.localize(localizablePROVIDER_COULD_NOT_BE_CREATED(arg0, arg1));
     }
 
     public static Localizable localizableNO_BUILDER_IMPL() {
@@ -39,16 +51,28 @@ public final class ApiMessages {
         return localizer.localize(localizableNO_BUILDER_IMPL());
     }
 
-    public static Localizable localizableCONTENT_CANNOT_BE_NULL() {
-        return messageFactory.getMessage("content.cannot.be.null");
+    public static Localizable localizableCOOKIE_INVALID(Object arg0) {
+        return messageFactory.getMessage("cookie.invalid", arg0);
     }
 
     /**
-     * content parameter cannot be null.
+     * Invalid cookie: {0}
      * 
      */
-    public static String CONTENT_CANNOT_BE_NULL() {
-        return localizer.localize(localizableCONTENT_CANNOT_BE_NULL());
+    public static String COOKIE_INVALID(Object arg0) {
+        return localizer.localize(localizableCOOKIE_INVALID(arg0));
+    }
+
+    public static Localizable localizableCACHE_CONTROL_INVALID(Object arg0) {
+        return messageFactory.getMessage("cache.control.invalid", arg0);
+    }
+
+    /**
+     * Invalid cache control: {0}
+     * 
+     */
+    public static String CACHE_CONTROL_INVALID(Object arg0) {
+        return localizer.localize(localizableCACHE_CONTROL_INVALID(arg0));
     }
 
     public static Localizable localizableILLEGAL_PROVIDER_CLASS_NAME(Object arg0) {
@@ -87,28 +111,40 @@ public final class ApiMessages {
         return localizer.localize(localizablePROVIDER_NOT_FOUND(arg0));
     }
 
-    public static Localizable localizablePROVIDER_COULD_NOT_BE_CREATED(Object arg0, Object arg1) {
-        return messageFactory.getMessage("provider.could.not.be.created", arg0, arg1);
+    public static Localizable localizableCONTENT_CANNOT_BE_NULL() {
+        return messageFactory.getMessage("content.cannot.be.null");
     }
 
     /**
-     * Provider {0} could not be instantiated: {1}
+     * content parameter cannot be null.
      * 
      */
-    public static String PROVIDER_COULD_NOT_BE_CREATED(Object arg0, Object arg1) {
-        return localizer.localize(localizablePROVIDER_COULD_NOT_BE_CREATED(arg0, arg1));
+    public static String CONTENT_CANNOT_BE_NULL() {
+        return localizer.localize(localizableCONTENT_CANNOT_BE_NULL());
     }
 
-    public static Localizable localizableILLEGAL_CONFIG_SYNTAX() {
-        return messageFactory.getMessage("illegal.config.syntax");
+    public static Localizable localizableMEDIA_TYPE_INVALID(Object arg0) {
+        return messageFactory.getMessage("media.type.invalid", arg0);
     }
 
     /**
-     * Illegal configuration-file syntax.
+     * Invalid media type: {0}
      * 
      */
-    public static String ILLEGAL_CONFIG_SYNTAX() {
-        return localizer.localize(localizableILLEGAL_CONFIG_SYNTAX());
+    public static String MEDIA_TYPE_INVALID(Object arg0) {
+        return localizer.localize(localizableMEDIA_TYPE_INVALID(arg0));
+    }
+
+    public static Localizable localizableETAG_INVALID(Object arg0) {
+        return messageFactory.getMessage("etag.invalid", arg0);
+    }
+
+    /**
+     * Invalid entity tag: {0}
+     * 
+     */
+    public static String ETAG_INVALID(Object arg0) {
+        return localizer.localize(localizableETAG_INVALID(arg0));
     }
 
 }

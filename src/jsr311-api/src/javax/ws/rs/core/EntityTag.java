@@ -19,6 +19,10 @@
 
 package javax.ws.rs.core;
 
+import java.text.ParseException;
+import javax.ws.rs.ext.HeaderProvider;
+import javax.ws.rs.ext.ProviderFactory;
+
 /**
  * An abstraction for the value of a HTTP Entity Tag, used as the value of an ETag response header.
  * @see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.11">HTTP/1.1 section 3.11</a>
@@ -27,6 +31,8 @@ public class EntityTag {
     
     private String value;
     private boolean weak;
+    private static final HeaderProvider<EntityTag> tagProvider = 
+            ProviderFactory.getInstance().createHeaderProvider(EntityTag.class);
     
     /**
      * Creates a new instance of a strong EntityTag
@@ -45,6 +51,20 @@ public class EntityTag {
     public EntityTag(String value, boolean weak) {
         this.value = value;
         this.weak = weak;
+    }
+    
+    /**
+     * Creates a new instance of EntityTag by parsing the supplied string.
+     * @param value the entity tag string
+     * @return the newly created EntityTag
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static EntityTag parse(String value) throws IllegalArgumentException {
+        try {
+            return tagProvider.fromString(value);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(ApiMessages.ETAG_INVALID(value),ex);
+        }
     }
     
     /**
@@ -69,6 +89,7 @@ public class EntityTag {
      * @param obj the object to compare to
      * @return true if the two tags are the same, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
@@ -78,5 +99,15 @@ public class EntityTag {
         if (value.equals(other.getValue()) && weak==other.isWeak())
             return true;
         return false;
+    }
+
+    /**
+     * Convert the entity tag to a string suitable for use as the value of the
+     * corresponding HTTP header.
+     * @return a stringified entity tag
+     */
+    @Override
+    public String toString() {
+        return tagProvider.toString(this);
     }
 }

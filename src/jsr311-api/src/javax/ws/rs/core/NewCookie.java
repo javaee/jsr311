@@ -19,8 +19,9 @@
 
 package javax.ws.rs.core;
 
-import java.net.URI;
-import java.util.regex.Matcher;
+import java.text.ParseException;
+import javax.ws.rs.ext.HeaderProvider;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * Used to create a new HTTP cookie, transferred in a response.
@@ -36,6 +37,8 @@ public class NewCookie extends Cookie {
     private String comment = null;
     private int maxAge = DEFAULT_MAX_AGE;
     private boolean secure = false;
+    private static final HeaderProvider<NewCookie> cookieProvider = 
+            ProviderFactory.getInstance().createHeaderProvider(NewCookie.class);
     
     /**
      * Create a new instance.
@@ -101,6 +104,20 @@ public class NewCookie extends Cookie {
     }
 
     /**
+     * Creates a new instance of NewCookie by parsing the supplied string.
+     * @param value the cookie string
+     * @return the newly created NewCookie
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static NewCookie parse(String value) throws IllegalArgumentException {
+        try {
+            return cookieProvider.fromString(value);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(ApiMessages.COOKIE_INVALID(value),ex);
+        }
+    }
+    
+    /**
      * Get the comment associated with the cookie.
      * @return the comment or null if none set
      */
@@ -130,4 +147,13 @@ public class NewCookie extends Cookie {
         return secure;
     }
 
+    /**
+     * Convert the cookie to a string suitable for use as the value of the
+     * corresponding HTTP header.
+     * @return a stringified cookie
+     */
+    @Override
+    public String toString() {
+        return cookieProvider.toString(this);
+    }
 }

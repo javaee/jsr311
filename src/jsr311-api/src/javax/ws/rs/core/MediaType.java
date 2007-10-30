@@ -48,8 +48,22 @@ public class MediaType {
     private static final Map<String, String> emptyMap = Collections.emptyMap();
     
     /**
+     * Creates a new instance of MediaType by parsing the supplied string.
+     * @param type the media type string
+     * @return the newly created MediaType
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static MediaType parse(String type) throws IllegalArgumentException {
+        try {
+            return mediaTypeProvider.fromString(type);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(ApiMessages.MEDIA_TYPE_INVALID(type),ex);
+        }
+    }
+
+    /**
      * Creates a new instance of MediaType with the supplied type, subtype and parameters.
-     * @param type the primnary type
+     * @param type the primary type
      * @param subtype the subtype
      * @param parameters a map of media type parameters
      */
@@ -61,28 +75,11 @@ public class MediaType {
     
     /**
      * Creates a new instance of MediaType with the supplied type and subtype.
-     * @param type the primnary type
+     * @param type the primary type
      * @param subtype the subtype
      */
     public MediaType(String type, String subtype) {
         this(type,subtype,null);
-    }
-
-    /**
-     * Creates a new instance of MediaType by parsing the supplied string.
-     * @param type the media type string
-     * @throws IllegalArgumentException if the supplied string cannot be parsed
-     */
-    public MediaType(String type) throws IllegalArgumentException {
-        MediaType mediaType;
-        try {
-            mediaType = mediaTypeProvider.fromString(type);
-            this.type = mediaType.type;
-            this.subtype = mediaType.subtype;
-            this.parameters = mediaType.parameters;
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException(ApiMessages.MEDIA_TYPE_INVALID(type),ex);
-        }
     }
 
     /**
@@ -100,6 +97,10 @@ public class MediaType {
         return this.type;
     }
     
+    /**
+     * Checks if the primary type is a wildcard.
+     * @return true if the primary type is a wildcard
+     */
     public boolean isWildcardType() {
         return this.getType().equals(MEDIA_TYPE_WILDCARD);
     }
@@ -112,6 +113,10 @@ public class MediaType {
         return this.subtype;
     }
 
+    /**
+     * Checks if the subtype is a wildcard
+     * @return true if the subtype is a wildcard  
+     */
     public boolean isWildcardSubtype() {
         return this.getSubtype().equals(MEDIA_TYPE_WILDCARD);
     }
@@ -168,7 +173,8 @@ public class MediaType {
     }
     
     /**
-     * Convert the media type to a string.
+     * Convert the media type to a string suitable for use as the value of a
+     * corresponding HTTP header.
      * @return a stringified media type
      */
     @Override

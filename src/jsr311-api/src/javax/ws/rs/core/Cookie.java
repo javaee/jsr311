@@ -19,6 +19,10 @@
 
 package javax.ws.rs.core;
 
+import java.text.ParseException;
+import javax.ws.rs.ext.HeaderProvider;
+import javax.ws.rs.ext.ProviderFactory;
+
 /**
  * Represents the value of a HTTP cookie, transferred in a request. 
  * RFC 2109 specifies the legal characters for name,
@@ -37,6 +41,8 @@ public class Cookie {
     private int version = DEFAULT_VERSION;
     private String path = null;
     private String domain = null;
+    private static final HeaderProvider<Cookie> cookieProvider = 
+            ProviderFactory.getInstance().createHeaderProvider(Cookie.class);
     
     /**
      * Create a new instance.
@@ -79,6 +85,20 @@ public class Cookie {
     }
     
     /**
+     * Creates a new instance of Cookie by parsing the supplied string.
+     * @param value the cookie string
+     * @return the newly created Cookie
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static Cookie parse(String value) throws IllegalArgumentException {
+        try {
+            return cookieProvider.fromString(value);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(ApiMessages.COOKIE_INVALID(value),ex);
+        }
+    }
+    
+    /**
      * Get the name of the cookie
      * @return the name
      */
@@ -118,4 +138,13 @@ public class Cookie {
         return path;
     }
 
+    /**
+     * Convert the cookie to a string suitable for use as the value of the
+     * corresponding HTTP header.
+     * @return a stringified cookie
+     */
+    @Override
+    public String toString() {
+        return cookieProvider.toString(this);
+    }
 }
