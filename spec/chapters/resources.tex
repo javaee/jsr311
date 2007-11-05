@@ -42,18 +42,18 @@ The following example illustrates the difference:
 
 \begin{listing}{1}
 @UriTemplate("widgets")
-public class WidgetList {
+public class WidgetsResource {
   @HttpMethod
   @UriTemplate("offers")
   WidgetList getDiscounted() {...}
   
   @UriTemplate("{id}")
-  Widget findWidget(@UriParam("id") String id) {
+  WidgetResource findWidget(@UriParam("id") String id) {
     return lookupWidget(id);
   }
 }\end{listing}
 
-In the above a \code{GET} request for the \code{widgets/offers} resource is handled directly by the \code{getDiscounted} sub-resource method of \code{WidgetList} whereas a \code{GET} request for \code{widgets/{\em xxx}} is handled by whatever object is returned by the \code{findWidget} sub-resource locator.
+In the above a \code{GET} request for the \code{widgets/offers} resource is handled directly by the \code{getDiscounted} sub-resource method of the resource class \code{WidgetsResource} whereas a \code{GET} request for \code{widgets/{\em xxx}} is handled by whatever resource class instance is returned by the \code{findWidget} sub-resource locator (a \code{WidgetResource}).
 
 Note that a set of sub-resource methods annotated with the same URI template value are functionally equivalent to a similarly annotated sub-resource locator that returns an instance of a resource class with the same set of resource methods.
 
@@ -140,7 +140,7 @@ The following example illustrates the \ProduceMime\ annotation:
 \begin{listing}{1}
 @UriTemplate("widgets")
 @ProduceMime("application/widgets+xml")
-public class WidgetList {
+public class WidgetsResource {
   
   @HttpMethod
   String getAll() {...}
@@ -160,7 +160,7 @@ public class WidgetList {
 public class WidgetProvider implements EntityProvider<Widget> {...}
 \end{listing}
 
-In the above, the \code{getAll} resource method returns a \code{String} in the \code{application/widgets+xml} format, the \code{getDescription} sub-resource method returns a \code{String} as \code{text/html} and the \code{getWidget} sub-resource method return a \code{Widget} instance that can be mapped to either \code{application/widgets+xml} or \code{application/json} using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \EntityProvider).
+In the above, the \code{getAll} resource method returns a \code{String} in the \code{application/widgets+xml} format, the \code{getDescription} sub-resource method returns a \code{String} as \code{text/html} and the \code{getWidget} sub-resource method return a \code{Widget} entity instance that can be mapped to either \code{application/widgets+xml} or \code{application/json} using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \EntityProvider).
 
 An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
 
