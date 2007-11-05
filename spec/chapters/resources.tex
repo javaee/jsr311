@@ -167,7 +167,7 @@ An implementation MUST NOT invoke a method whose effective value of \ProduceMime
 \section{Matching Requests to Resource Methods}
 \label{mapping_requests_to_java_methods}
 
-Matching of requests to resource methods proceeds in two stages:
+A request is matched to the corresponding resource method or sub-resource method by comparing the request URI, the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in two stages as follows:
 
 \begin{enumerate}
 \item Obtain the object that will handle the request.
@@ -191,7 +191,7 @@ Matching of requests to resource methods proceeds in two stages:
 
 \item Filter the set of sub-resource locators by rejecting those whose regular expression does not match \code{uri}. If the set is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
 
-\item Sort the set of matching sub-resource locators using the number of matching groups as the primary key and the number of characters in the regular expression as a secondary key.
+\item Sort the set of matching sub-resource locators using the number of characters in the regular expression not resulting from template variables as the primary key and the number of matching groups as a secondary key.
 
 \item Set \code{uri} to the value of the final matching group and invoke the first matching method to obtain the next matching resource object. Repeat from step \ref{check_uri} using the new object.
 \end{enumerate}
