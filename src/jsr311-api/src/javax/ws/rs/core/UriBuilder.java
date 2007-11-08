@@ -23,14 +23,14 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-import javax.ws.rs.UriTemplate;
+import javax.ws.rs.Path;
 import javax.ws.rs.ext.Contract;
 import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * URI template aware utility class for building URIs from their components. See
- * {@link javax.ws.rs.UriTemplate#value} for an explanation of URI templates.
- *
+ * {@link javax.ws.rs.Path#value} for an explanation of URI templates.
+ * 
  * <p>Many methods support automatic encoding of illegal characters, see
  * {@link #encode} method. Encoding and validation of URI
  * components follow the rules of the 
@@ -38,7 +38,7 @@ import javax.ws.rs.ext.ProviderFactory;
  * media type for query parameters and
  * <a href="http://ietf.org/rfc/rfc3986.txt">RFC 3986</a> for all other
  * components.</p>
- *
+ * 
  * <p>URI templates are allowed in most components of a URI but their value is
  * restricted to a particular component. E.g. 
  * <blockquote><code>UriBuilder.fromPath("{arg1}").build("foo#bar");</code></blockquote>
@@ -46,9 +46,9 @@ import javax.ws.rs.ext.ProviderFactory;
  * "foo%23bar". To create a URI "foo#bar" use
  * <blockquote><code>UriBuilder.fromPath("{arg1}").fragment("{arg2}").build("foo", "bar")</code></blockquote>
  * instead.
- *
+ * 
  * @see java.net.URI
- * @see javax.ws.rs.UriTemplate
+ * @see javax.ws.rs.UrPath
  */
 @Contract
 public abstract class UriBuilder {
@@ -129,12 +129,13 @@ public abstract class UriBuilder {
     /**
      * Create a new instance initialized from a root resource class with automatic encoding 
      * (see {@link #encode} method) turned on.
-     * @param resource a root resource whose @UriTemplate value will be used 
-     * to initialize the UriBuilder. The value of the encode property of the UriTemplate 
-     * annotation will be used when processing the value of the @UriTemplate but it
+     * 
+     * @param resource a root resource whose @Path value will be used 
+     * to initialize the UriBuilder. The value of the encode property of the Path 
+     * annotation will be used when processing the value of the @Path but it
      * will not be used to modify the state of automaic encoding for the builder.
      * @return a new UriBuilder
-     * @throws IllegalArgumentException if resource is not annotated with UriTemplate, or
+     * @throws IllegalArgumentException if resource is not annotated with UrPathor
      * if resource.encode is false and resource.value, or
      * if resource is null
      * contains illegal characters
@@ -241,52 +242,54 @@ public abstract class UriBuilder {
     public abstract UriBuilder path(String... segments) throws IllegalArgumentException;
 
     /**
-     * Append path segments from a UriTemplate-annotated class to the
+     * Append path segments from a Path-annotated class to the
      * existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary.
-     * The value of the encode property of the UriTemplate 
-     * annotation will be used when processing the value of the @UriTemplate but it
+     * The value of the encode property of the Path 
+     * annotation will be used when processing the value of the @Path but it
      * will not be used to modify the state of automaic encoding for the builder.
-     * @param resource a resource whose @UriTemplate value will be 
+     * 
+     * @param resource a resource whose @Path value will be 
      * used to obtain the path segment.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if resource is null, or
      * if resource.encode is false and resource.value contains illegal characters, or
-     * if resource is not annotated with UriTemplate
-     * 
+     * if resource is not annotated with UrPath
      */
     public abstract UriBuilder path(Class resource) throws IllegalArgumentException;
     
     /**
-     * Append path segments from a UriTemplate-annotated method to the
+     * Append path segments from a Path-annotated method to the
      * existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary.
      * This method is a convenience shortcut to <code>path(Method)</code>, it
      * can only be used in cases where there is a single method with the
-     * specified name that is annotated with @UriTemplate.
+     * specified name that is annotated with @Path.
+     * 
      * @param resource the resource containing the method
-     * @param method the name of the method whose @UriTemplate value will be 
+     * @param method the name of the method whose @UPathvalue will be 
      * used to obtain the path segment
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if resource or method is null, or
      * if the specified method does not exist,
      * or there is more than or less than one variant of the method annotated with 
-     * UriTemplate
+     * UriPath
      */
     public abstract UriBuilder path(Class resource, String method) throws IllegalArgumentException;
     
     /**
-     * Append path segments from a list of UriTemplate-annotated methods to the
+     * Append path segments from a list of Path-annotated methods to the
      * existing list of segments. When constructing
      * the final path, each segment will be separated by '/' if necessary.
-     * The value of the encode property of the UriTemplate 
-     * annotation will be used when processing the value of the @UriTemplate but it
+     * The value of the encode property of the Path 
+     * annotation will be used when processing the value of the @Path but it
      * will not be used to modify the state of automaic encoding for the builder.
-     * @param methods a list of methods whose @UriTemplate values will be 
+     * 
+     * @param methods a list of methods whose @Path values will be 
      * used to obtain the path segments
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if any element of methods is null or is
-     * not annotated with a UriTemplate
+     * not annotated with a UrPath
      */
     public abstract UriBuilder path(Method... methods) throws IllegalArgumentException;
     
