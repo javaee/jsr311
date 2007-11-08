@@ -48,7 +48,7 @@ import javax.ws.rs.ext.ProviderFactory;
  * instead.
  * 
  * @see java.net.URI
- * @see javax.ws.rs.UrPath
+ * @see javax.ws.rs.Path
  */
 @Contract
 public abstract class UriBuilder {
