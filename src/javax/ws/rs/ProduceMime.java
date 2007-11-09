@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 
 /**
  * Defines the MIME type(s) that the methods of a resource class or
- * EntityProvider can produce.
+ * MessageBodyWriter can produce.
  * If not specified then a container will assume that any type can be produced.
  * Method level annotations override a class level annotation. A container
  * is responsible for ensuring that the method invoked is capable of producing
@@ -40,6 +40,7 @@ import java.lang.annotation.Target;
  * the container will use the value of the <code>ProduceMime</code> when
  * sending a response.</p>
  *
+ * @see javax.ws.rs.ext.MessageBodyWriter
  */
 @Inherited
 @Target({ElementType.TYPE, ElementType.METHOD})
