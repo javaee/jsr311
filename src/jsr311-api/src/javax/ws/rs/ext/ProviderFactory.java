@@ -22,6 +22,7 @@ package javax.ws.rs.ext;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.ws.rs.core.MediaType;
 import sun.misc.Service;
 
 /**
@@ -72,9 +73,20 @@ public abstract class ProviderFactory {
     public abstract <T> HeaderProvider<T> createHeaderProvider(Class<T> type);
 
     /**
-     * Create a new instance of an EntityProvider for the specified class.
-     * @param type the type of value class used to represent the entity
+     * Create a new instance of a MessageBodyReader for the specified class.
+     * @param type the type of value class used to represent the message body
+     * @param mediaType the media type to be read
      * @return a new provider instance
      */
-    public abstract <T> EntityProvider<T> createEntityProvider(Class<T> type);
+    public abstract <T> MessageBodyReader<T> createMessageBodyReader(
+            Class<T> type, MediaType mediaType);
+
+    /**
+     * Create a new instance of a MessageBodyWriter for the specified class.
+     * @param type the type of value class used to represent the message body
+     * @param mediaType the media type to be written
+     * @return a new provider instance
+     */
+    public abstract <T> MessageBodyWriter<T> createMessageBodyWriter(
+            Class<T> type, MediaType mediaType);
 }
