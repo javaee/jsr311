@@ -22,7 +22,7 @@ package javax.ws.rs.core;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.ws.rs.ext.ProviderFactory;
+import javax.ws.rs.ext.RuntimeDelegate;
 
 /**
  * Abstraction for a resource representation variant. 
@@ -66,9 +66,7 @@ public interface Variant {
          * @return a new Builder
          */
         public static ListBuilder newInstance() {
-            ListBuilder b = ProviderFactory.getInstance().createInstance(ListBuilder.class);
-            if (b==null)
-                throw new UnsupportedOperationException(ApiMessages.NO_BUILDER_IMPL());
+            ListBuilder b = RuntimeDelegate.getInstance().createVariantListBuilder();
             return b;
         }
                 

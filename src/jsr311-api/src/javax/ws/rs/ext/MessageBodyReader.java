@@ -36,7 +36,6 @@ import javax.ws.rs.core.MultivaluedMap;
  * @see Provider
  * @see javax.ws.rs.ConsumeMime
  */
-@Contract
 public interface MessageBodyReader<T> {
     
     /**

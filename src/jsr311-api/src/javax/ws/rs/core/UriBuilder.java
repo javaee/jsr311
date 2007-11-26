@@ -23,9 +23,9 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.ws.rs.Path;
-import javax.ws.rs.ext.Contract;
-import javax.ws.rs.ext.ProviderFactory;
+import javax.ws.rs.ext.RuntimeDelegate;
 
 /**
  * URI template aware utility class for building URIs from their components. See
@@ -50,7 +50,6 @@ import javax.ws.rs.ext.ProviderFactory;
  * @see java.net.URI
  * @see javax.ws.rs.Path
  */
-@Contract
 public abstract class UriBuilder {
     
     /**
@@ -58,10 +57,8 @@ public abstract class UriBuilder {
      * (see {@link #encode} method) turned on.
      * @return a new instance of UriBuilder
      */
-    protected static synchronized UriBuilder newInstance() {
-        UriBuilder b = ProviderFactory.getInstance().createInstance(UriBuilder.class);
-        if (b==null)
-            throw new UnsupportedOperationException("No UriBuilder implementation found");
+    protected static UriBuilder newInstance() {
+        UriBuilder b = RuntimeDelegate.getInstance().createUriBuilder();
         return b;
     }
     

@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 
 /**
  * Associates the name of a HTTP method with an annotation. A Java method annotated
- * with an annotation that is itself annotated with this annotation will
+ * with a runtime annotation that is itself annotated with this annotation will
  * be used to handle HTTP requests of the indicated HTTP method.
  * Such Java methods must satisfy the following constraints:
  * <ul>
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * the contents of the HTTP request entity body. The parameter will be null if
  * the HTTP request entity body is of zero length.</li>
  * <li>Methods may have zero or more additional method arguments, each of which
- * must be annotated with either <code>@UriParam</code>, 
+ * must be annotated with either <code>@PathParam</code>, 
  * <code>@HeaderParam</code>, 
  * <code>@MatrixParam</code>, <code>@QueryParam</code> or
  * <code>@HttpContext</code></li>
@@ -51,7 +51,7 @@ import java.lang.annotation.Target;
  * @see PUT
  * @see DELETE
  * @see HEAD
- * @see UriParam
+ * @see PathParam
  * @see QueryParam
  * @see MatrixParam
  * @see HeaderParam
