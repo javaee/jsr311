@@ -70,31 +70,35 @@ public interface UriInfo {
      */
     public List<PathSegment> getPathSegments(boolean decode);
     
+    public URI getRequestUri();
+    
+    public UriBuilder getRequestUriBuilder();
+    
     /**
      * Get the absolute URI of the request. This is a shortcut for
-     * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
+     * <code>uriInfo.getBaseUri().resolve(uriInfo.getPath()).</code>
      * @return the absolute URI of the request
      */
-    public URI getAbsolute();
+    public URI getAbsolutePath();
     
     /**
      * Get the absolute URI of the current request in the form of a UriBuilder.
      * @return a UriBuilder initialized with the current request URI.
      */
-    public UriBuilder getBuilder();
+    public UriBuilder getAbsolutePathBuilder();
 
     /**
      * Get the base URI of the application. URIs of resource beans
      * are all relative to this base URI.
      * @return the base URI of the application
      */
-    public URI getBase();
+    public URI getBaseUri();
     
     /**
      * Get the base URI of the application in the form of a UriBuilder.
      * @return a UriBuilder initialized with the base URI of the application.
      */
-    public UriBuilder getBaseBuilder();
+    public UriBuilder getBaseUriBuilder();
     
     /**
      * Get the values of any embedded URI template parameters.
