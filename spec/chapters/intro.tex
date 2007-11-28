@@ -11,7 +11,7 @@ REST; for more information about the REST architectural style and RESTful Web se
 
 \section{Status}
 
-This is an early draft review; this specification is not yet complete. A list of open issues can be found at:
+This is an editors draft; this specification is not yet complete. A list of open issues can be found at:
 
 \begin{quote}
 https://jsr311.dev.java.net/servlets/ProjectIssues
@@ -20,7 +20,7 @@ https://jsr311.dev.java.net/servlets/ProjectIssues
 Javadocs can be found online at:
 
 \begin{quote}
-https://jsr311.dev.java.net/nonav/releases/0.3/index.html
+https://jsr311.dev.java.net/nonav/javadoc/index.html
 \end{quote}
 
 The reference implementation can be obtained at:
@@ -101,11 +101,12 @@ This is a note.
 \section{Terminology}
 
 \begin{description}
-\item[Resource class] A Java class that uses \jaxrs\ annotations to implement a corresponding Web resource, see chapter \ref{resource_classes}.
-\item[Root resource class] A resource class annotated with \UriTemplate. Root resource classes provide the roots of the resource class tree and provide access to sub-resources, see chapter \ref{resource_classes}.
-\item[Resource method] A method of a resource class that is used to handle requests on the corresponding resource, see section \ref{resource_method}.
-\item[Sub-resource locator] A method of a resource class that is used to locate sub-resources of the corresponding resource, see section \ref{sub_resources}.
-\item[Sub-resource method] A method of a resource class that is used to handle requests on a sub-resource of the corresponding resource, see section \ref{sub_resources}.
+\item[Resource class] A Java class that uses \jaxrs\ annotations to implement a corresponding Web resource, see chapter \ref{resources}.
+\item[Root resource class] A {\em resource class} annotated with \Path. Root resource classes provide the roots of the resource class tree and provide access to sub-resources, see chapter \ref{resources}.
+\item[Request method designator] A runtime annotation annotated with \HttpMethod. Used to identify the HTTP request method to be handled by a {\em resource method}.
+\item[Resource method] A method of a {\em resource class} annotated with a {\em request method designator} that is used to handle requests on the corresponding resource, see section \ref{resource_method}.
+\item[Sub-resource locator] A method of a {\em resource class} that is used to locate sub-resources of the corresponding resource, see section \ref{sub_resources}.
+\item[Sub-resource method] A method of a {\em resource class} that is used to handle requests on a sub-resource of the corresponding resource, see section \ref{sub_resources}.
 \end{description}
 
 \section{Expert Group Members} 

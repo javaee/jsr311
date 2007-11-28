@@ -1,6 +1,6 @@
 \chapter{Environment}
 
-The container-managed resources available to a \jaxrs\ resource class depend on the environment in which the \jaxrs\ resource class is deployed. As described in chapter \ref{context}, all resource classes can access the \UriInfo, \HttpHeaders\ and \PreconditionEvaluator\ contexts regardless of container. The following sections describe the additional container-managed resources available to a \jaxrs\ resource class deployed in a variety of environments.
+The container-managed resources available to a \jaxrs\ resource class depend on the environment in which the \jaxrs\ resource class is deployed. As described in chapter \ref{context}, all resource classes can access the \UriInfo, \HttpHeaders\ and \Request\ contexts regardless of container. The following sections describe the additional container-managed resources available to a \jaxrs\ resource class deployed in a variety of environments.
 
 \section{Servlet Container}
 
@@ -18,4 +18,4 @@ TBD. We anticipate offering the same resource injection capabilities as are prov
 
 \section{Other}
 
-Other container technologies MAY specify their own set of injectable resources but MUST, at a minimum, support access to the \UriInfo, \HttpHeaders\ and \PreconditionEvaluator\ as described in chapter \ref{context}.
+Other container technologies MAY specify their own set of injectable resources but MUST, at a minimum, support access to the \UriInfo, \HttpHeaders\ and \Request\ as described in chapter \ref{context}.
