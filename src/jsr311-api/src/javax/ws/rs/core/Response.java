@@ -56,13 +56,35 @@ public abstract class Response {
     public abstract MultivaluedMap<String, Object> getMetadata();
     
     /**
+     * Create a new ResponseBuilder with the supplied status.
+     * @param status the response status
+     * @return a new ResponseBuilder
+     */
+    public static ResponseBuilder status(int status) {
+        ResponseBuilder b = ResponseBuilder.newInstance();
+        b.status(status);
+        return b;
+    }
+
+    /**
      * Create a new ResponseBuilder with an OK status.
      * 
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder ok() {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(200);
+        ResponseBuilder b = status(200);
+        return b;
+    }
+
+    /**
+     * Create a new ResponseBuilder that contains a representation.
+     * 
+     * @param entity the representation entity data
+     * @return a new ResponseBuilder
+     */
+    public static ResponseBuilder ok(Object entity) {
+        ResponseBuilder b = ok();
+        b.entity(entity);
         return b;
     }
 
@@ -114,21 +136,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder serverError() {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(500);
-        return b;
-    }
-
-    /**
-     * Create a new ResponseBuilder for a created resource.
-     * 
-     * @param entity the representation of the new resource
-     * @param location the URI of the new resource
-     * @return a new ResponseBuilder
-     */
-    public static ResponseBuilder created(Object entity, URI location) {
-        ResponseBuilder b = created(location);
-        b.entity(entity);
+        ResponseBuilder b = status(500);
         return b;
     }
 
@@ -139,8 +147,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder created(URI location) {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(201).location(location);
+        ResponseBuilder b = status(201).location(location);
         return b;
     }
 
@@ -150,8 +157,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder noContent() {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(204);
+        ResponseBuilder b = status(204);
         return b;
     }
 
@@ -161,8 +167,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder notModified() {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(304);
+        ResponseBuilder b = status(304);
         return b;
     }
 
@@ -197,8 +202,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder temporaryRedirect(URI location) {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(307).location(location);
+        ResponseBuilder b = status(307).location(location);
         return b;
     }
 
@@ -209,8 +213,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder notAcceptable(List<Variant> variants) {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(406).variants(variants);
+        ResponseBuilder b = status(406).variants(variants);
         return b;
     }
         
@@ -297,7 +300,6 @@ public abstract class Response {
         /**
          * Create an entity that lists the available variants. Typically used
          * in conjunction with a 406 Not Acceptable status code.
-         * 
          * 
          * @param variants a list of available representation variants
          * @return the updated ResponseBuilder
