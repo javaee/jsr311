@@ -49,14 +49,10 @@ public abstract class Response {
     public abstract int getStatus();
 
     /**
-     * Write any metadata associated with the response to the supplied map. Values
-     * will be serialized using a HeaderProvider for the class of the value. Multivalued
-     * entries will be serialized as separate headers.
-     * @param metadata a map to write the metadata to
-     * @see javax.ws.rs.ext.HeaderProvider
+     * Get metadata associated with the response as a map.
+     * @return response metadata as a map
      */
-    public abstract void addMetadata(MultivaluedMap<String, Object> metadata);
-
+    public abstract MultivaluedMap<String, Object> getMetadata();
     
     /**
      * Create a new Builder with an OK status.
