@@ -50,7 +50,8 @@ public abstract class Response {
     public abstract int getStatus();
 
     /**
-     * Get metadata associated with the response as a map.
+     * Get metadata associated with the response as a map. The returned map
+     * may be subsequently modified by the JAX-RS runtime.
      * @return response metadata as a map
      */
     public abstract MultivaluedMap<String, Object> getMetadata();
