@@ -19,20 +19,23 @@
 
 package javax.ws.rs;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that the annotated Java method should be used to handle HTTP
- * requests. Annotated methods must satisfy the following constraints:
+ * Associates the name of a HTTP method with an annotation. A Java method annotated
+ * with an annotation that is itself annotated with this annotation will
+ * be used to handle HTTP requests of the indicated HTTP method.
+ * Such Java methods must satisfy the following constraints:
  * <ul>
  * <li>Methods must have a return type of <code>void</code>,
  * <code>Response</code> or <code>T</code>. Return values will be serialized
  * in the HTTP response. A <code>Response</code> return allows the application
  * to supply additional metadata that will accompany the response entity.
- * <li>Methods may have a single optional parameter of type
+ * <li>Methods may have a single optional parameter
  * that is not annotated. The parameter provides access to
  * the contents of the HTTP request entity body. The parameter will be null if
  * the HTTP request entity body is of zero length.</li>
@@ -43,13 +46,19 @@ import java.lang.annotation.Target;
  * <code>@HttpContext</code></li>
  * </ul>
  *
+ * @see GET
+ * @see POST
+ * @see PUT
+ * @see DELETE
+ * @see HEAD
  * @see UriParam
  * @see QueryParam
  * @see MatrixParam
  * @see HeaderParam
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface HttpMethod {
     
     /**
@@ -74,14 +83,7 @@ public @interface HttpMethod {
     public static final String HEAD="HEAD";
     
     /**
-     * Specifies the name of a HTTP method. E.g. "GET". If not specified the
-     * name of the annotated method must begin with one of the method constants
-     * (in lowercase). E.g. <pre>
-     * &#064;HttpMethod
-     * public void deleteSomething()</pre>
-     * is equivalent to <pre>
-     * &#064;HttpMethod(DELETE)
-     * public void deleteSomething()</pre>
+     * Specifies the name of a HTTP method. E.g. "GET".
      */
-    String value() default "";        
+    String value();        
 }
