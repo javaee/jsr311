@@ -25,7 +25,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Variant.ListBuilder;
+import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.core.UriBuilder;
 
 /**
@@ -126,10 +126,11 @@ public abstract class RuntimeDelegate {
     public abstract ResponseBuilder createResponseBuilder();
     
     /**
-     * Create a new instance of a ListBuilder.
-     * @return new ListBuilder instance
+     * Create a new instance of a VariantListBuilder.
+     * 
+     * @return new VariantListBuilder instance
      */
-    public abstract ListBuilder createVariantListBuilder();
+    public abstract VariantListBuilder createVariantListBuilder();
     
     /**
      * Obtain an instance of a HeaderDelegate for the supplied class. An 
