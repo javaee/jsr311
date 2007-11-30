@@ -19,82 +19,126 @@
 
 package javax.ws.rs.core;
 
-import java.net.URI;
-import java.util.regex.Matcher;
+import java.text.ParseException;
+import javax.ws.rs.ext.HeaderProvider;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
- * Represents a new cookie that will be sent in a response.
+ * Used to create a new HTTP cookie, transferred in a response.
  * @see <a href="http://www.ietf.org/rfc/rfc2109.txt">IETF RFC 2109</a>
  */
-public class NewCookie implements Cookie {
-    
-    private String comment = null;
-    private int maxAge = -1;
-    private boolean secure = false;
-    private String name;
-    private String value;
-    private int version = 1;
-    private String path = null;
-    private String domain = null;
+public class NewCookie extends Cookie {
     
     /**
-     * Make a new instance using the supplied name and value.
-     * @param name the cookie name
-     * @param value the cookie value
+     * Specifies that the cookie expires with the current application/browser session.
+     */
+    public static final int DEFAULT_MAX_AGE = -1;
+    
+    private String comment = null;
+    private int maxAge = DEFAULT_MAX_AGE;
+    private boolean secure = false;
+    private static final HeaderProvider<NewCookie> cookieProvider = 
+            ProviderFactory.getInstance().createHeaderProvider(NewCookie.class);
+    
+    /**
+     * Create a new instance.
+     * @param name the name of the cookie
+     * @param value the value of the cookie
      */
     public NewCookie(String name, String value) {
-        this.name = name;
-        this.value = value;
+        super(name, value);
     }
     
     /**
-     * Make a new instance copying the information in the supplied cookie.
-     * @param cookie the cookie clone
+     * Create a new instance.
+     * @param name the name of the cookie
+     * @param value the value of the cookie
+     * @param path the URI path for which the cookie is valid
+     * @param domain the host domain for which the cookie is valid
+     * @param comment the comment
+     * @param maxAge the maximum age of the cookie in seconds
+     * @param secure specifies whether the cookie will only be sent over a secure connection
+     */
+    public NewCookie(String name, String value, String path, String domain, 
+            String comment, int maxAge, boolean secure) {
+        super(name, value, path, domain);
+        this.comment = comment;
+        this.maxAge = maxAge;
+        this.secure = secure;
+    }
+    
+    /**
+     * Create a new instance.
+     * @param name the name of the cookie
+     * @param value the value of the cookie
+     * @param path the URI path for which the cookie is valid
+     * @param domain the host domain for which the cookie is valid
+     * @param version the version of the specification to which the cookie complies
+     * @param comment the comment
+     * @param maxAge the maximum age of the cookie in seconds
+     * @param secure specifies whether the cookie will only be sent over a secure connection
+     */
+    public NewCookie(String name, String value, String path, String domain, 
+            int version, String comment, int maxAge, boolean secure) {
+        super(name, value, path, domain, version);
+        this.comment = comment;
+        this.maxAge = maxAge;
+        this.secure = secure;
+    }
+    
+    /**
+     * Create a new instance copying the information in the supplied cookie.
+     * @param cookie the cookie to clone
      */
     public NewCookie(Cookie cookie) {
-        this.name = cookie.getName();
-        this.value = cookie.getValue();
-        this.version = cookie.getVersion();
-        this.domain = cookie.getDomain();
-        this.path = cookie.getPath();
+        super(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), 
+                cookie.getVersion());
     }
 
     /**
+     * Create a new instance supplementing the information in the supplied cookie.
+     * @param cookie the cookie to clone
+     * @param comment the comment
+     * @param maxAge the maximum age of the cookie in seconds
+     * @param secure specifies whether the cookie will only be sent over a secure connection
+     */
+    public NewCookie(Cookie cookie, String comment, int maxAge, boolean secure) {
+        this(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), 
+                cookie.getVersion(), comment, maxAge, secure);
+    }
+
+    /**
+     * Creates a new instance of NewCookie by parsing the supplied string.
+     * @param value the cookie string
+     * @return the newly created NewCookie
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static NewCookie parse(String value) throws IllegalArgumentException {
+        try {
+            return cookieProvider.fromString(value);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException("Cookie invalid", ex);
+        }
+    }
+    
+    /**
      * Get the comment associated with the cookie.
-     * @return the comment
+     * @return the comment or null if none set
      */
     public String getComment() {
         return comment;
     }
 
     /**
-     * Set the comment associated with the cookie.
-     * @param comment the comment
-     */
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    /**
      * Get the maximum age of the the cookie in seconds. Cookies older than
-     * the maximum age are discarded. A value of -1 indicates that the cookie
+     * the maximum age are discarded. A cookie can be unset by sending a new
+     * cookie with maximum age of 0 since it will overwrite any existing cookie
+     * and then be immediately discarded. The default value of -1 indicates that the cookie
      * will be discarded at the end of the browser/application session.
      * @return the maximum age in seconds
      */
     public int getMaxAge() {
         return maxAge;
-    }
-
-    /**
-     * Set the maximum age of the the cookie in seconds. Cookies older than
-     * the maximum age are discarded. A cookie can be unset by sending a new
-     * cookie with maximum age of 0 since it will overwrite any existing cookie
-     * and then be immediately discarded. A value of -1 indicates that the cookie
-     * will be discarded at the end of the browser/application session.
-     * @param maxAge the maximum age in seconds
-     */
-    public void setMaxAge(int maxAge) {
-        this.maxAge = maxAge;
     }
 
     /**
@@ -108,88 +152,12 @@ public class NewCookie implements Cookie {
     }
 
     /**
-     * Set whether the cookie will only be sent over a secure connection.
-     * Defaults to false.
-     * @param secure true if the cookie will only be sent over a secure connection,
-     * false otherwise.
+     * Convert the cookie to a string suitable for use as the value of the
+     * corresponding HTTP header.
+     * @return a stringified cookie
      */
-    public void setSecure(boolean secure) {
-        this.secure = secure;
+    @Override
+    public String toString() {
+        return cookieProvider.toString(this);
     }
-
-    /**
-     * @inheritDoc 
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set the name of the cookie.
-     * @param name the name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @inheritDoc 
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Set the value of the cookie.
-     * @param value the value
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * @inheritDoc 
-     */
-    public int getVersion() {
-        return version;
-    }
-
-    /**
-     * Set the version of the cookie.
-     * @param version the version. If not set, the default is version 1
-     */
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    /**
-     * @inheritDoc 
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * Set the path of the cookie.
-     * @param path the path
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    /**
-     * @inheritDoc 
-     */
-    public String getDomain() {
-        return domain;
-    }
-
-    /**
-     * Set the domain of the cookie.
-     * @param domain the domain
-     */
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-    
 }

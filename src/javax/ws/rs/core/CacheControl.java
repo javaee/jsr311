@@ -18,12 +18,13 @@
 
 package javax.ws.rs.core;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import javax.ws.rs.ext.HeaderProvider;
+import javax.ws.rs.ext.ProviderFactory;
 
 /**
  * An abstraction for the value of a HTTP Cache-Control response header.
@@ -42,6 +43,8 @@ public class CacheControl {
     private int maxAge = -1;
     private int sMaxAge = -1;
     private Map<String, String> cacheExtension;
+    private static final HeaderProvider<CacheControl> cacheControlProvider = 
+            ProviderFactory.getInstance().createHeaderProvider(CacheControl.class);
     
     /**
      * Create a new instance of CacheControl. The new instance will have the 
@@ -70,6 +73,20 @@ public class CacheControl {
         proxyRevalidate = false;
     }
 
+    /**
+     * Creates a new instance of CacheControl by parsing the supplied string.
+     * @param value the cache control string
+     * @return the newly created CacheControl
+     * @throws IllegalArgumentException if the supplied string cannot be parsed
+     */
+    public static CacheControl parse(String value) throws IllegalArgumentException {
+        try {
+            return cacheControlProvider.fromString(value);
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException("Cache control invalid",ex);
+        }
+    }
+    
     /**
      * Corresponds to the must-revalidate cache control directive.
      * @return true if the must-revalidate cache control directive will be included in the
@@ -291,5 +308,15 @@ public class CacheControl {
         if (cacheExtension == null)
             cacheExtension = new HashMap<String, String>();
         return cacheExtension;
+    }
+
+    /**
+     * Convert the cache control to a string suitable for use as the value of the
+     * corresponding HTTP header.
+     * @return a stringified cache control
+     */
+    @Override
+    public String toString() {
+        return cacheControlProvider.toString(this);
     }
 }
