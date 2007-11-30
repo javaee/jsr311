@@ -27,46 +27,73 @@ import javax.ws.rs.ext.RuntimeDelegate;
 /**
  * Abstraction for a resource representation variant. 
  */
-public interface Variant {
+public class Variant {
+    
+    private String charset;
+    private String language;
+    private MediaType mediaType;
+    private String encoding;
+    
+    /**
+     * Create a new instance of Variant
+     * @param mediaType the media type of the variant - may be null
+     * @param language the language of the variant - may be null
+     * @param charset the character set of the variant - may be null
+     * @param encoding the content encoding of the variant - may be null
+     */
+    public Variant(MediaType mediaType, String language, String charset, String encoding) {
+        this.charset = charset;
+        this.encoding = encoding;
+        this.language = language;
+        this.mediaType = mediaType;
+    }
     
     /**
      * Get the character set of the variant
      * @return the character set or null if none set
      */
-    public String getCharset();
+    public String getCharset() {
+        return charset;
+    }
 
     /**
      * Get the language of the variant
      * @return the language or null if none set
      */
-    public String getLanguage();
+    public String getLanguage() {
+        return language;
+    }
 
     /**
      * Get the media type of the variant
      * @return the media type or null if none set
      */
-    public MediaType getMediaType();
+    public MediaType getMediaType() {
+        return mediaType;
+    }
 
     /**
      * Get the encoding of the variant
      * @return the encoding or null if none set
      */
-    public String getEncoding();
+    public String getEncoding() {
+        return encoding;
+    }
     
     /**
      * A builder for a list of representation variants. 
      */
-    public static abstract class ListBuilder {
+    public static abstract class VariantListBuilder {
         
-        private ListBuilder() {
+        private VariantListBuilder() {
         }
 
         /**
          * Create a new builder instance.
          * @return a new Builder
          */
-        public static ListBuilder newInstance() {
-            ListBuilder b = RuntimeDelegate.getInstance().createVariantListBuilder();
+        public static VariantListBuilder newInstance() {
+            VariantListBuilder b = RuntimeDelegate.getInstance().createVariantListBuilder();
             return b;
         }
                 
@@ -84,39 +111,40 @@ public interface Variant {
          * If more than one value is supplied for one or more of the variant properties
          * then a variant will be generated for each possible combination. E.g.
          * in the following <code>list</code> would have four members:
-         * <p><pre>List<Variant> list = ListBuilder.newInstance().languages("en","fr")
+         * <p><pre>List<Variant> list = VariantListBuilder.newInstance().languages("en","fr")
          *   .charsets("ISO-8859-1", "UTF-8").add().build()</pre>
+         * 
          * 
          * @return the updated builder
          */
-        public abstract ListBuilder add();
+        public abstract VariantListBuilder add();
         
         /**
          * Set the character set[s] for this variant.
          * @param charsets the available character sets
          * @return the updated builder
          */
-        public abstract ListBuilder charsets(String... charsets);
+        public abstract VariantListBuilder charsets(String... charsets);
         
         /**
          * Set the language[s] for this variant.
          * @param languages the available languages
          * @return the updated builder
          */
-        public abstract ListBuilder languages(String... languages);
+        public abstract VariantListBuilder languages(String... languages);
         
         /**
          * Set the encoding[s] for this variant.
          * @param encodings the available encodings
          * @return the updated builder
          */
-        public abstract ListBuilder encodings(String... encodings);
+        public abstract VariantListBuilder encodings(String... encodings);
         
         /**
          * Set the media type[s] for this variant.
          * @param mediaTypes the available mediaTypes
          * @return the updated builder
          */
-        public abstract ListBuilder mediaTypes(MediaType... mediaTypes);
+        public abstract VariantListBuilder mediaTypes(MediaType... mediaTypes);
     }
 }
