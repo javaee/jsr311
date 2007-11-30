@@ -299,8 +299,7 @@ public abstract class Response {
         public abstract ResponseBuilder variant(Variant variant);
         
         /**
-         * Create an entity that lists the available variants. Typically used
-         * in conjunction with a 406 Not Acceptable status code.
+         * Add a Vary header that lists the available variants.
          * 
          * @param variants a list of available representation variants
          * @return the updated ResponseBuilder
