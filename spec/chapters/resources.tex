@@ -119,11 +119,11 @@ In the above example the \code{Widget} resource class can be used for any reques
 \subsection{Sub Resources}
 \label{sub_resources}
 
-Methods of a resource class that are annotated with \Path are either sub-resource methods or sub-resource locators. The differentiator is the presence or absence of request method designator:
+Methods of a resource class that are annotated with \Path\ are either sub-resource methods or sub-resource locators. The differentiator is the presence or absence of request method designator:
 
 \begin{description}
 \item[Present] Such methods, known as {\em sub-resource methods}, are treated like a normal resource method (see section \ref{resource_method}) except the method is only invoked for request URIs that match a URI template created by concatenating the URI template of the resource class with the URI template of the method\footnote{If the resource class URI template does not end with a \lq/\rq\ character then one is added during the concatenation.}.
-\item[Absent] Such methods, known as {\rm sub-resource locators}, are used to further resolve the object that will handle the request. Any returned object is treated as a resource class and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details.
+\item[Absent] Such methods, known as {\em sub-resource locators}, are used to further resolve the object that will handle the request. Any returned object is treated as a resource class and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details.
 \end{description}
 
 The following example illustrates the difference:
