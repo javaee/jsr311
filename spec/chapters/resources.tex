@@ -148,7 +148,7 @@ Note that a set of sub-resource methods annotated with the same URI template val
 \section{Declaring Media Type Capabilities}
 \label{declaring_method_capabilities}
 
-Application classes can declare the supported request and response media types using the \ProduceMime\ and \ConsumeMime\ annotations. These annotations MAY be applied to a resource method, a resource class, or to an entity (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource class method overrides any on the resource class; use on an entity provider for a method argument or return type override those on a resource class or resource method. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
+Application classes can declare the supported request and response media types using the \ProduceMime\ and \ConsumeMime\ annotations. These annotations MAY be applied to a resource method, a resource class, or to an entity (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class; use on an entity provider for a method argument or return type override those on a resource class or resource method. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
 
 The following example illustrates the \ProduceMime\ annotation:
 
