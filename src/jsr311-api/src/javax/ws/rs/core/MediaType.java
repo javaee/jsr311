@@ -19,7 +19,6 @@
 
 package javax.ws.rs.core;
 
-import java.text.ParseException;
 import java.util.Collections;
 import java.util.Map;
 import javax.ws.rs.ext.RuntimeDelegate;
