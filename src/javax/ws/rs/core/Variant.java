@@ -84,9 +84,6 @@ public class Variant {
      * A builder for a list of representation variants. 
      */
     public static abstract class VariantListBuilder {
-        
-        private VariantListBuilder() {
-        }
 
         /**
          * Create a new builder instance.

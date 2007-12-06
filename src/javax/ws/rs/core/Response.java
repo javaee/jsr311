@@ -54,7 +54,18 @@ public abstract class Response {
      * @return response metadata as a map
      */
     public abstract MultivaluedMap<String, Object> getMetadata();
-    
+
+    /**
+     * Create a new ResponseBuilder with the supplied status.
+     * @param status the response status
+     * @return a new ResponseBuilder
+     */
+    public static Builder status(int status) {
+        Builder b = Builder.newInstance();
+        b.status(status);
+        return b;
+    }
+
     /**
      * Create a new Builder with an OK status.
      * @return a new Builder
@@ -65,6 +76,18 @@ public abstract class Response {
         return b;
     }
 
+    /**
+     * Create a new ResponseBuilder that contains a representation.
+     * 
+     * @param entity the representation entity data
+     * @return a new ResponseBuilder
+     */
+    public static Builder ok(Object entity) {
+        Builder b = ok();
+        b.entity(entity);
+        return b;
+    }
+    
     /**
      * Create a new Builder that contains a representation.
      * @param entity the representation entity data
@@ -111,18 +134,6 @@ public abstract class Response {
     public static Builder serverError() {
         Builder b = Builder.newInstance();
         b.status(500);
-        return b;
-    }
-
-    /**
-     * Create a new Builder for a created resource.
-     * @param entity the representation of the new resource
-     * @param location the URI of the new resource
-     * @return a new Builder
-     */
-    public static Builder created(Object entity, URI location) {
-        Builder b = created(location);
-        b.entity(entity);
         return b;
     }
 
@@ -216,9 +227,6 @@ public abstract class Response {
      */
     @Contract
     public static abstract class Builder {
-        private Builder() {
-        }
-        
         /**
          * Create a new builder instance.
          * @return a new Builder
