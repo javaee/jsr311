@@ -19,8 +19,6 @@
 
 package javax.ws.rs.core;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.ext.RuntimeDelegate;
 
@@ -85,9 +83,6 @@ public class Variant {
      */
     public static abstract class VariantListBuilder {
         
-        private VariantListBuilder() {
-        }
-
         /**
          * Create a new builder instance.
          * @return a new Builder

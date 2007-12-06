@@ -232,9 +232,7 @@ public abstract class Response {
      * }</pre>
      */
     public static abstract class ResponseBuilder {
-        private ResponseBuilder() {
-        }
-        
+
         /**
          * Create a new builder instance.
          * 
