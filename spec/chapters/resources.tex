@@ -143,12 +143,12 @@ public class WidgetsResource {
 
 In the above a \code{GET} request for the \code{widgets/offers} resource is handled directly by the \code{getDiscounted} sub-resource method of the resource class \code{WidgetsResource} whereas a \code{GET} request for \code{widgets/{\em xxx}} is handled by whatever resource class instance is returned by the \code{findWidget} sub-resource locator (a \code{WidgetResource}).
 
-Note that a set of sub-resource methods annotated with the same URI template value are functionally equivalent to a similarly annotated sub-resource locator that returns an instance of a resource class with the same set of resource methods.
+\begin{nnnote}A set of sub-resource methods annotated with the same URI template value are functionally equivalent to a similarly annotated sub-resource locator that returns an instance of a resource class with the same set of resource methods.\end{nnnote}
 
 \section{Declaring Media Type Capabilities}
 \label{declaring_method_capabilities}
 
-Application classes can declare the supported request and response media types using the \ProduceMime\ and \ConsumeMime\ annotations. These annotations MAY be applied to a resource method, a resource class, or to an entity (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class; use on an entity provider for a method argument or return type override those on a resource class or resource method. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
+Application classes can declare the supported request and response media types using the \ProduceMime\ and \ConsumeMime\ annotations. These annotations MAY be applied to a resource method, a resource class, or to an entity provider (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class or on an entity provider for a method argument or return type. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
 
 The following example illustrates the \ProduceMime\ annotation:
 
@@ -179,7 +179,7 @@ In the above:
 \begin{itemize}
 \item The \code{getAll} resource method returns a \code{String} in the \code{application/xml} format, 
 \item The \code{getDescription} sub-resource method returns a \code{String} as \code{text/html}, and
-\item The \code{getWidget} sub-resource method returns a \code{Widget} entity instance that can be mapped to either \code{application/xml} or \code{application/json} using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \MsgRead).
+\item The \code{getWidget} sub-resource method returns a \code{Widget} entity instance that can be mapped to either \code{application/xml} or \code{application/json} using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \MsgWrite).
 \end{itemize}
 
 An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
@@ -279,3 +279,43 @@ The function $R(A)$ converts a URI path template annotation $A$ into a regular e
 \end{enumerate}
 
 Note that the above renders the name of template variables irrelevant for template matching purposes. However, implementations will need to retain template variable names in order to facilitate the extraction of template variable values via \PathParam\ or \UriInfo\code{.getTemplateParameters}.
+
+\section{Determining the MediaType of Responses}
+
+In many cases it is not possible to statically determine the media type of a response. The following algorithm is used to determine the response media type, $M_{\mbox{selected}}$, at run time:
+
+\begin{enumerate}
+\item Gather the set of producible media types $P$:
+\begin{itemize}
+\item If the method is annotated with \ProduceMime, set $P = \{ V(\mbox{method}) \}$ where $V(t)$ represents the values of \ProduceMime\ on the specified target $t$.
+\item Else if the class is annotated with \ProduceMime, set $P = \{ V(\mbox{class}) \}$.
+\item Else set $P = \{ V(\mbox{writers}) \}$ where \lq writers\rq\ is the set of \MsgWrite\ that support the class of the returned entity object.
+\end{itemize}
+
+\item If $P = \{\}$, set $P = \{\mbox{\lq*/*\rq}\}$
+
+\item Obtain the acceptable media types $A$. If $A = \{\}$, set $A = \{\mbox{\lq*/*\rq}\}$
+
+\item Sort $A$ and $P$ in decending order, each with a primary key of q-value and secondary key of specificity ($\mbox{\lq n/m\rq} > \mbox{\lq n/*\rq} > \mbox{\lq*/*\rq}$).
+
+\item Set $M=\{\}$. For each member of $A, a$:
+\begin{itemize}
+\item For each member of $P, p$:
+\begin{itemize}
+\item If $a$ is compatible with $p$, add $S(a,p)$ to $M$, where the function $S$ returns the most specific media type of the supplied list.
+\end{itemize}
+\end{itemize}
+
+\item If $M = \{\}$ then return a not acceptable response (HTTP 406 status), finish.
+
+\item For each member of $M, m$:
+\begin{itemize}
+\item If $m$ is a concrete type, set $M_{\mbox{selected}} = m$, finish.
+\end{itemize}
+
+\item If $M$ contains \lq*/*\rq\ or \lq application/*\rq, set $M_{\mbox{selected}} = \mbox{\lq application/octet-stream\rq}$, finish.
+
+\item Return a not acceptable response (HTTP 406 status), finish.
+\end{enumerate}
+
+Note that the above renders a response with a default media type of \lq application/octet-stream\rq\ when a concrete type cannot be determined. It is RECOMMENDED that \MsgWrite\ implementations specify at least one concrete type via \ProduceMime.
