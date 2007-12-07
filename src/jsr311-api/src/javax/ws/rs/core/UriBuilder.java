@@ -21,10 +21,7 @@ package javax.ws.rs.core;
 
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import javax.ws.rs.Path;
 import javax.ws.rs.ext.RuntimeDelegate;
 
 /**
