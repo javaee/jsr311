@@ -146,6 +146,7 @@ public abstract class UriBuilder {
      * from a URI returned by the {@link #build} method.
      * @return a copy of the UriBuilder
      */
+    @Override
     public abstract UriBuilder clone();
     
     /**
@@ -288,9 +289,11 @@ public abstract class UriBuilder {
     public abstract UriBuilder path(Method... methods) throws IllegalArgumentException;
     
     /**
-     * Set the matrix parameters of the final segment of the current URI path.
-     * This method will overwrite any existing matrix parameters on the final
-     * segment of the current URI path.
+     * Set the matrix parameters of the current final segment of the current URI path.
+     * This method will overwrite any existing matrix parameters on the current final
+     * segment of the current URI path. Note that the matrix parameters
+     * are tied to a particular path segment; subsequent addition of path segments
+     * will not affect their position in the URI path.
      * @param matrix the matrix parameters, may contain URI template parameters
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if matrix cannot be parsed or is null, or
@@ -301,7 +304,9 @@ public abstract class UriBuilder {
 
     /**
      * Append a matrix parameter to the existing set of matrix parameters of 
-     * the final segment of the current URI path.
+     * the current final segment of the URI path. Note that the matrix parameters
+     * are tied to a particular path segment; subsequent addition of path segments
+     * will not affect their position in the URI path.
      * @param name the matrix parameter name, may contain URI template parameters
      * @param value the matrix parameter value, may contain URI template parameters
      * @return the updated UriBuilder
