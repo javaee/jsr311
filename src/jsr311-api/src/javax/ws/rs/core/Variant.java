@@ -35,7 +35,6 @@ public class Variant {
      * Create a new instance of Variant
      * @param mediaType the media type of the variant - may be null
      * @param language the language of the variant - may be null
-     * @param charset the character set of the variant - may be null
      * @param encoding the content encoding of the variant - may be null
      */
     public Variant(MediaType mediaType, String language, String encoding) {
@@ -97,7 +96,7 @@ public class Variant {
          * then a variant will be generated for each possible combination. E.g.
          * in the following <code>list</code> would have four members:
          * <p><pre>List<Variant> list = VariantListBuilder.newInstance().languages("en","fr")
-         *   .charsets("ISO-8859-1", "UTF-8").add().build()</pre>
+         *   .encodings("zip", "identity").add().build()</pre>
          * 
          * 
          * @return the updated builder
