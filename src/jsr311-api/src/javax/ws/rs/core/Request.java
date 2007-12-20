@@ -28,7 +28,8 @@ import java.util.List;
 public interface Request {
     
     /**
-     * Select the representation variant that best matches the request. 
+     * Select the representation variant that best matches the request. More
+     * explicit variants are chosen ahead of less explicit ones.
      * 
      * 
      * @param variants a list of Variant that describe all of the

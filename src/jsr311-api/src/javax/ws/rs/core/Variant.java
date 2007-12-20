@@ -27,7 +27,6 @@ import javax.ws.rs.ext.RuntimeDelegate;
  */
 public class Variant {
     
-    private String charset;
     private String language;
     private MediaType mediaType;
     private String encoding;
@@ -39,21 +38,12 @@ public class Variant {
      * @param charset the character set of the variant - may be null
      * @param encoding the content encoding of the variant - may be null
      */
-    public Variant(MediaType mediaType, String language, String charset, String encoding) {
-        this.charset = charset;
+    public Variant(MediaType mediaType, String language, String encoding) {
         this.encoding = encoding;
         this.language = language;
         this.mediaType = mediaType;
     }
     
-    /**
-     * Get the character set of the variant
-     * @return the character set or null if none set
-     */
-    public String getCharset() {
-        return charset;
-    }
-
     /**
      * Get the language of the variant
      * @return the language or null if none set
@@ -115,13 +105,6 @@ public class Variant {
         public abstract VariantListBuilder add();
         
         /**
-         * Set the character set[s] for this variant.
-         * @param charsets the available character sets
-         * @return the updated builder
-         */
-        public abstract VariantListBuilder charsets(String... charsets);
-        
-        /**
          * Set the language[s] for this variant.
          * @param languages the available languages
          * @return the updated builder
@@ -137,7 +120,9 @@ public class Variant {
         
         /**
          * Set the media type[s] for this variant.
-         * @param mediaTypes the available mediaTypes
+         * @param mediaTypes the available mediaTypes. If specific charsets
+         * are supported they should be included as parameters of the respective
+         * media type.
          * @return the updated builder
          */
         public abstract VariantListBuilder mediaTypes(MediaType... mediaTypes);
