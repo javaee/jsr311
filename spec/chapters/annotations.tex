@@ -1,0 +1,41 @@
+\chapter{Summary of Annotations}
+\center
+\begin{longtable}{|l|p{1.2in}|p{3.5in}|}
+\hline
+\bfseries Annotation & \bfseries Target & \bfseries Description \tabularnewline
+\hline\hline\endhead
+\code{ConsumeMime} & Type or method & \raggedright Specifies a list of media types that can be consumed. \tabularnewline
+\hline
+\code{ProduceMime} & Type or method & \raggedright Specifies a list of media types that can be consumed. \tabularnewline
+\hline
+\code{GET} & Method & \raggedright Specifies that the annotated method handles HTTP GET requests.  \tabularnewline
+\hline
+\code{POST} & Method & \raggedright Specifies that the annotated method handles HTTP POST requests.  \tabularnewline
+\hline
+\code{PUT} & Method & \raggedright Specifies that the annotated method handles HTTP PUT requests.  \tabularnewline
+\hline
+\code{DELETE} & Method & \raggedright Specifies that the annotated method handles HTTP DELETE requests.  \tabularnewline
+\hline
+\code{HEAD} & Method & \raggedright Specifies that the annotated method handles HTTP HEAD requests. Note that HEAD may be automatically handled, see section \ref{head_and_options}. \tabularnewline
+\hline
+\code{Path} & Type or method & \raggedright Specifies a relative path for a resource. When used on a class this annotation identifies that class as a root resource. When used on a method this annotation identifies a sub-resource method or locator. \tabularnewline
+\hline
+\code{PathParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from the request URI path. The value of the annotation identifies the name of a URI template parameter.\tabularnewline
+\hline
+\code{QueryParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a URI query parameter. The value of the annotation identifies the name of a query parameter. \tabularnewline
+\hline
+\code{MatrixParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a URI matrix parameter. The value of the annotation identifies the name of a matrix parameter. \tabularnewline
+\hline
+\code{HeaderParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a HTTP header. The value of the annotation identifies the name of a HTTP header. \tabularnewline
+\hline
+\code{Encoded} & \raggedright Type, constructor, method or parameter & \raggedright Disables automatic URI decoding for path, query and matrix parameters. \tabularnewline
+\hline
+\code{DefaultValue} & Parameter & \raggedright Specifies a default value for a method parameter annotated with \QueryParam, \MatrixParam\ or \HeaderParam. The specified value will be used if the corresponding query or matrix parameter is not present in the request URI, or if the corresponding HTTP header is not included in the request.\tabularnewline
+\hline
+\code{HttpContext} & Field or parameter & \raggedright Identifies an injection target for \Request, \UriInfo\ or \HttpHeaders. \tabularnewline
+\hline
+\code{HttpMethod} & Annotation & \raggedright Specifies the HTTP method for a request method designator annotation. \tabularnewline
+\hline
+\code{Provider} & Type & \raggedright Specifies that the annotated class implements a \jaxrs\ extension interface. \tabularnewline
+\hline
+\end{longtable}
