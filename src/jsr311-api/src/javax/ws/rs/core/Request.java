@@ -36,7 +36,7 @@ public interface Request {
      * @param variants a list of Variant that describe all of the
      * available representation variants.
      * @return the variant that best matches the request.
-     * @see Variant.ListBuilder
+     * @see Variant.VariantListBuilder
      * @throws IllegalArgumentException if variants is empty
      */
     Variant selectVariant(List<Variant> variants) throws IllegalArgumentException;
