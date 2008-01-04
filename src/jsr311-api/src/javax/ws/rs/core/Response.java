@@ -234,6 +234,12 @@ public abstract class Response {
     public static abstract class ResponseBuilder {
 
         /**
+         * Protected constructor, use one of the static methods of
+         * <code>Response</code> to obtain an instance.
+         */
+        protected ResponseBuilder() {}
+        
+        /**
          * Create a new builder instance.
          * 
          * @return a new ResponseBuilder

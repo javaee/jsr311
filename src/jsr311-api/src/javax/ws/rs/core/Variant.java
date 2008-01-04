@@ -73,6 +73,12 @@ public class Variant {
     public static abstract class VariantListBuilder {
         
         /**
+         * Protected constructor, use the static <code>newInstance</code>
+         * method to obtain an instance.
+         */
+        protected VariantListBuilder() {}
+        
+        /**
          * Create a new builder instance.
          * @return a new Builder
          */

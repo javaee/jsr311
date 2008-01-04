@@ -50,6 +50,12 @@ import javax.ws.rs.ext.RuntimeDelegate;
 public abstract class UriBuilder {
     
     /**
+     * Protected constructor, use one of the static <code>from<i>XXX</i></code>
+     * methods to obtain an instance.
+     */
+    protected UriBuilder() {}
+    
+    /**
      * Creates a new instance of UriBuilder with automatic encoding 
      * (see {@link #encode} method) turned on.
      * @return a new instance of UriBuilder
