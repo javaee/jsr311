@@ -208,7 +208,7 @@ A request is matched to the corresponding resource method or sub-resource method
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
 
-\item Sort $E$ using the number of literal characters\footnote{Here, literal characters means those not resulting from template variable substitution.} in each member as the primary key and the number of capturing groups as a secondary key.
+\item Sort $E$ using the number of literal characters\footnote{Here, literal characters means those not resulting from template variable substitution.} in each member as the primary key (descending order) and the number of capturing groups as a secondary key (descending order).
 
 \item Set $R_{\mbox{match}}$ to be the first member of $E$, set $U$ to be the final capturing group of $R(T_{\mbox{match}})$ when matched against $U$, and instantiate an object $O$ of the associated class.
 
@@ -235,7 +235,7 @@ A request is matched to the corresponding resource method or sub-resource method
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
 
-\item Sort $E$ using the number of literal characters in each member as the primary key and the number of capturing groups as a secondary key.
+\item Sort $E$ using the number of literal characters in each member as the primary key (descending order) and the number of capturing groups as a secondary key (descending order).
 
 \item Set $R_{\mbox{match}}$ to be the first member of $E$
 
@@ -296,7 +296,7 @@ In many cases it is not possible to statically determine the media type of a res
 
 \item Obtain the acceptable media types $A$. If $A = \{\}$, set $A = \{\mbox{\lq*/*\rq}\}$
 
-\item Sort $A$ and $P$ in decending order, each with a primary key of q-value and secondary key of specificity ($\mbox{\lq n/m\rq} > \mbox{\lq n/*\rq} > \mbox{\lq*/*\rq}$).
+\item Sort $A$ and $P$ in descending order, each with a primary key of q-value and secondary key of specificity ($\mbox{\lq n/m\rq} > \mbox{\lq n/*\rq} > \mbox{\lq*/*\rq}$).
 
 \item Set $M=\{\}$. For each member of $A, a$:
 \begin{itemize}
