@@ -384,12 +384,12 @@ public abstract class Response {
         public abstract ResponseBuilder header(String name, Object value);
         
         /**
-         * Set a new cookie on the ResponseBuilder.
+         * Add cookies to the ResponseBuilder. If more than one cookie with
+         * the same is supplied, later ones overwrite earlier ones.
          * 
-         * 
-         * @param cookie the new cookie that will accompany the response.
+         * @param cookies the new cookie that will accompany the response.
          * @return the updated ResponseBuilder
          */
-        public abstract ResponseBuilder cookie(NewCookie cookie);
+        public abstract ResponseBuilder cookie(NewCookie... cookies);
     }
 }
