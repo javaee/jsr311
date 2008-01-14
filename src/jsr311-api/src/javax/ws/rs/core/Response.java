@@ -276,7 +276,7 @@ public abstract class Response {
         public abstract ResponseBuilder entity(Object entity);
         
         /**
-         * Set the type on the ResponseBuilder.
+         * Set the response media type on the ResponseBuilder.
          * 
          * 
          * @param type the media type of the response entity
@@ -285,11 +285,11 @@ public abstract class Response {
         public abstract ResponseBuilder type(MediaType type);
         
         /**
-         * Set the type on the ResponseBuilder.
+         * Set the response media type on the ResponseBuilder.
          * 
-         * 
-         * @param type  the media type of the response entity
+         * @param type the media type of the response entity
          * @return the updated ResponseBuilder
+         * @throws IllegalArgumentException if type cannot be parsed
          */
         public abstract ResponseBuilder type(String type);
         
@@ -338,7 +338,7 @@ public abstract class Response {
         public abstract ResponseBuilder contentLocation(URI location);
         
         /**
-         * Set the entity tag on the ResponseBuilder.
+         * Set an entity tag on the ResponseBuilder.
          * 
          * 
          * @param tag the entity tag
@@ -347,10 +347,11 @@ public abstract class Response {
         public abstract ResponseBuilder tag(EntityTag tag);
         
         /**
-         * Set the entity tag on the ResponseBuilder.
+         * Set a strong entity tag on the ResponseBuilder.
          * 
          * 
-         * @param tag the entity tag
+         * @param tag the string content of a strong entity tag. The JAX-RS
+         * runtime will quote the supplied value when creating the header.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder tag(String tag);
