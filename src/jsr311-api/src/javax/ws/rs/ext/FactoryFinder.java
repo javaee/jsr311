@@ -16,7 +16,6 @@
  * Created on November 16, 2007, 3:14 PM
  *
  */
-
 package javax.ws.rs.ext;
 
 import java.io.BufferedReader;
@@ -27,17 +26,16 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 class FactoryFinder {
-    
+
     /**
      * Creates an instance of the specified class using the specified 
      * <code>ClassLoader</code> object.
      *
-     * @exception WebServiceException if the given class could not be found
+     * @exception ClassNotFoundException if the given class could not be found
      *            or could not be instantiated
      */
     private static Object newInstance(String className,
-                                      ClassLoader classLoader) throws ClassNotFoundException
-    {
+            ClassLoader classLoader) throws ClassNotFoundException {
         try {
             Class spiClass;
             if (classLoader == null) {
@@ -50,8 +48,8 @@ class FactoryFinder {
             throw x;
         } catch (Exception x) {
             throw new ClassNotFoundException(
-                "Provider " + className + " could not be instantiated: " + x,
-                x);
+                    "Provider " + className + " could not be instantiated: " + x,
+                    x);
         }
     }
 
@@ -75,8 +73,7 @@ class FactoryFinder {
      *                              there is no fallback class name
      * @exception WebServiceException if there is an error
      */
-    static Object find(String factoryId, String fallbackClassName) throws ClassNotFoundException
-    {
+    static Object find(String factoryId, String fallbackClassName) throws ClassNotFoundException {
         ClassLoader classLoader;
         try {
             classLoader = Thread.currentThread().getContextClassLoader();
@@ -87,50 +84,50 @@ class FactoryFinder {
         String serviceId = "META-INF/services/" + factoryId;
         // try to find services in CLASSPATH
         try {
-            InputStream is=null;
+            InputStream is = null;
             if (classLoader == null) {
-                is=ClassLoader.getSystemResourceAsStream(serviceId);
+                is = ClassLoader.getSystemResourceAsStream(serviceId);
             } else {
-                is=classLoader.getResourceAsStream(serviceId);
+                is = classLoader.getResourceAsStream(serviceId);
             }
-        
-            if( is!=null ) {
+
+            if (is != null) {
                 BufferedReader rd =
-                    new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        
+                        new BufferedReader(new InputStreamReader(is, "UTF-8"));
+
                 String factoryClassName = rd.readLine();
                 rd.close();
 
                 if (factoryClassName != null &&
-                    ! "".equals(factoryClassName)) {
+                        !"".equals(factoryClassName)) {
                     return newInstance(factoryClassName, classLoader);
                 }
             }
-        } catch( Exception ex ) {
+        } catch (Exception ex) {
         }
-        
 
-        // try to read from $java.home/lib/jaxws.properties
+
+        // try to read from $java.home/lib/jaxrs.properties
         try {
-            String javah=System.getProperty( "java.home" );
+            String javah = System.getProperty("java.home");
             String configFile = javah + File.separator +
-                "lib" + File.separator + "jaxws.properties";
-            File f=new File( configFile );
-            if( f.exists()) {
-                Properties props=new Properties();
-                props.load( new FileInputStream(f));
+                    "lib" + File.separator + "jaxrs.properties";
+            File f = new File(configFile);
+            if (f.exists()) {
+                Properties props = new Properties();
+                props.load(new FileInputStream(f));
                 String factoryClassName = props.getProperty(factoryId);
                 return newInstance(factoryClassName, classLoader);
             }
-        } catch(Exception ex ) {
+        } catch (Exception ex) {
         }
 
 
         // Use the system property
         try {
             String systemProp =
-                System.getProperty( factoryId );
-            if( systemProp!=null) {
+                    System.getProperty(factoryId);
+            if (systemProp != null) {
                 return newInstance(systemProp, classLoader);
             }
         } catch (SecurityException se) {
@@ -138,10 +135,9 @@ class FactoryFinder {
 
         if (fallbackClassName == null) {
             throw new ClassNotFoundException(
-                "Provider for " + factoryId + " cannot be found", null);
+                    "Provider for " + factoryId + " cannot be found", null);
         }
 
         return newInstance(fallbackClassName, classLoader);
     }
-    
 }
