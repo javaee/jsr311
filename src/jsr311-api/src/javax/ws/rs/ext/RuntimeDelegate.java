@@ -22,8 +22,6 @@ package javax.ws.rs.ext;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.core.UriBuilder;
