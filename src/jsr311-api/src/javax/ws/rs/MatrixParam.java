@@ -26,12 +26,18 @@ import java.lang.annotation.Target;
 
 /**
  * Binds a URI matrix parameter to a Java method parameter.
- * The value is URL decoded unless this is disabled using the Encoded
- * annotation. A default value can be specified using the DefaultValue annotation.
- * The class of the annotated parameter must have a constructor
- * that accepts a single String or List<String> argument, or a static method 
- * named <code>valueOf</code> that accepts a single String argument
- * (see, for example, {@link Integer#valueOf(String)}).
+ * The value is URL decoded unless this is disabled using the {@link Encoded}
+ * annotation. A default value can be specified using the {@link DefaultValue}
+ * annotation.
+ * 
+ * The type of the annotated parameter must either:
+ * <ul>
+ * <li>Be a primitive type</li>
+ * <li>Have a constructor that accepts a single String argument</li>
+ * <li>Have a static method named <code>valueOf</code> that accepts a single 
+ * String argument (see, for example, {@link Integer#valueOf(String)})
+ * </ul>
+ *
  *
  * @see DefaultValue
  * @see Encoded
