@@ -33,6 +33,7 @@ import javax.ws.rs.core.MultivaluedMap;
  * with <code>@ProduceMime</code> to restrict the media types for which it will
  * be considered suitable.
  *
+ * @param T the type that can be written
  * @see Provider
  * @see javax.ws.rs.ProduceMime
  */
@@ -57,11 +58,13 @@ public interface MessageBodyWriter<T> {
     long getSize(T t);
 
     /**
-     * Write a type to an HTTP response.
+     * Write a type to an HTTP response. The response header map is mutable
+     * but any changes must be made before writing to the output stream since
+     * the headers will be flushed prior to writing the response body.
      * 
      * @param t the type to write.
      * @param mediaType the media type of the HTTP entity.
-     * @param httpHeaders the HTTP response headers.
+     * @param httpHeaders a mutable map of the HTTP response headers.
      * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
