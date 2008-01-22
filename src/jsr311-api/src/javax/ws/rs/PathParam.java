@@ -29,13 +29,18 @@ import java.lang.annotation.Target;
  * 
  * The type of the annotated parameter must either:
  * <ul>
+ * <li>Be {@link javax.ws.rs.core.PathSegment}, the value will be a PathSegment
+ * corresponding to the path segment that contains the named template parameter.
+ * See {@link javax.ws.rs.core.UriInfo} for a means of retrieving all request 
+ * path segments.</li>
  * <li>Be a primitive type.</li>
- * <li>Have a constructor that accepts a single String argument,</li>
+ * <li>Have a constructor that accepts a single String argument.</li>
  * <li>Have a static method named <code>valueOf</code> that accepts a single 
  * String argument (see, for example, {@link Integer#valueOf(String)}).
  * </ul>
  *
  * @see Encoded
+ * @see javax.ws.rs.core.PathSegment
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
