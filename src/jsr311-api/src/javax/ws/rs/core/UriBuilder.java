@@ -98,9 +98,10 @@ public abstract class UriBuilder {
     }
     
     /**
-     * Create a new instance initialized from an unencoded URI path,
-     * equivalent to <code>fromPath(path, true)</code>.
-     * @param path a URI path that will be used to initialize the UriBuilder, may contain URI template parameters.
+     * Create a new instance representing a relative URI initialized from an
+     * unencoded URI path, equivalent to <code>fromPath(path, true)</code>.
+     * @param path a URI path that will be used to initialize the UriBuilder, 
+     * may contain URI template parameters.
      * @return a new UriBuilder
      * @throws IllegalArgumentException if path is null
      */
@@ -109,12 +110,14 @@ public abstract class UriBuilder {
     }
 
     /**
-     * Create a new instance initialized from a URI path.
-     * @param path a URI path that will be used to initialize the UriBuilder, may contain URI template parameters.
+     * Create a new instance representing a relative URI initialized from a URI 
+     * path.
+     * @param path a URI path that will be used to initialize the UriBuilder, 
+     * may contain URI template parameters.
      * @param encode controls whether the supplied value is automatically encoded
      * (true) or not (false). If false, the value must be valid with all illegal
-     * characters already escaped. The supplied value will remain in force for subsequent
-     * operations and may be altered by calling the encode method.
+     * characters already escaped. The supplied value will remain in force for 
+     * subsequent operations and may be altered by calling the encode method.
      * @return a new UriBuilder
      * @throws IllegalArgumentException if path is null, or 
      * if encode is false and path contains illegal characters
@@ -127,15 +130,16 @@ public abstract class UriBuilder {
     }
 
     /**
-     * Create a new instance initialized from a root resource class with automatic encoding 
-     * (see {@link #encode} method) turned on.
+     * Create a new instance representing a relative URI initialized from a 
+     * root resource class with automatic encoding (see {@link #encode} method) 
+     * turned on.
      * 
      * @param resource a root resource whose @Path value will be used 
      * to initialize the UriBuilder. The value of the encode property of the Path 
      * annotation will be used when processing the value of the @Path but it
      * will not be used to modify the state of automaic encoding for the builder.
      * @return a new UriBuilder
-     * @throws IllegalArgumentException if resource is not annotated with UrPathor
+     * @throws IllegalArgumentException if resource is not annotated with UrPath or
      * if resource.encode is false and resource.value, or
      * if resource is null
      * contains illegal characters

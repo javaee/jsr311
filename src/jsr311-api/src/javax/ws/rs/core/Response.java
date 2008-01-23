@@ -30,6 +30,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * class can extend this class directly or can use one the static 
  * methods to create an instance using a ResponseBuilder.
  * 
+ * Several methods have parameters of type URI, {@link UriBuilder} provides
+ * convenient methods to create such values as does <code>URI.create()</code>.
  * 
  * @see Response.ResponseBuilder
  */
@@ -142,9 +144,12 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder for a created resource.
+     * Create a new ResponseBuilder for a created resource, set the location
+     * header using the supplied value.
      * 
-     * @param location the URI of the new resource
+     * @param location the URI of the new resource. If a relative URI is 
+     * supplied it will be converted into an absolute URI by resolving it
+     * relative to the request URI (see {@link UriInfo#getRequestUri}).
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder created(URI location) {
@@ -197,9 +202,26 @@ public abstract class Response {
     }
 
     /**
+     * Create a new ResponseBuilder for a redirection.
+     * 
+     * @param location the redirection URI. If a relative URI is 
+     * supplied it will be converted into an absolute URI by resolving it
+     * relative to the base URI of the application (see 
+     * {@link UriInfo#getBaseUri}).
+     * @return a new ResponseBuilder
+     */
+    public static ResponseBuilder seeOther(URI location) {
+        ResponseBuilder b = status(303).location(location);
+        return b;
+    }
+
+    /**
      * Create a new ResponseBuilder for a temporary redirection.
      * 
-     * @param location the redirection URI
+     * @param location the redirection URI. If a relative URI is 
+     * supplied it will be converted into an absolute URI by resolving it
+     * relative to the base URI of the application (see 
+     * {@link UriInfo#getBaseUri}).
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder temporaryRedirect(URI location) {
@@ -227,9 +249,13 @@ public abstract class Response {
      * <pre>@POST
      * Response addWidget(...) {
      *   Widget w = ...
-     *   URI widgetId = ...
-     *   return Response.created(w, widgetId).build();
+     *   URI widgetId = UriBuilder.fromResource(Widget.class)...
+     *   return Response.created(widgetId).build();
      * }</pre>
+     * 
+     * Several methods have parameters of type URI, {@link UriBuilder} provides
+     * convenient methods to create such values as does <code>URI.create()</code>.
+     * 
      */
     public static abstract class ResponseBuilder {
 
@@ -322,8 +348,10 @@ public abstract class Response {
         /**
          * Set the location on the ResponseBuilder.
          * 
-         * 
-         * @param location the location
+         * @param location the location. If a relative URI is 
+         * supplied it will be converted into an absolute URI by resolving it
+         * relative to the base URI of the application (see 
+         * {@link UriInfo#getBaseUri}).
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder location(URI location);
@@ -331,8 +359,8 @@ public abstract class Response {
         /**
          * Set the content location on the ResponseBuilder.
          * 
-         * 
-         * @param location the content location
+         * @param location the content location. Relative or absolute URIs
+         * may be used for the value of content location.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder contentLocation(URI location);
