@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * An injectable interface that provides access to HTTP header information
- * @see HttpContext
+ * @see Context
  */
 public interface HttpHeaders {
     

@@ -43,7 +43,7 @@ import java.lang.annotation.Target;
  * must be annotated with either <code>@PathParam</code>, 
  * <code>@HeaderParam</code>, 
  * <code>@MatrixParam</code>, <code>@QueryParam</code> or
- * <code>@HttpContext</code></li>
+ * <code>@Context</code></li>
  * </ul>
  *
  * @see GET
@@ -51,6 +51,7 @@ import java.lang.annotation.Target;
  * @see PUT
  * @see DELETE
  * @see HEAD
+ * @see javax.ws.rs.core.Context
  * @see PathParam
  * @see QueryParam
  * @see MatrixParam

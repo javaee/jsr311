@@ -11,7 +11,7 @@
  */
 
 /*
- * HttpContext.java
+ * Context.java
  *
  * Created on November 16, 2006, 3:37 PM
  *
@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The @HttpContext annotation is used to inject request information into a class
+ * The @Context annotation is used to inject request information into a class
  * field or method parameter.
  * @see UriInfo
  * @see Request
@@ -35,5 +35,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface HttpContext {
+public @interface Context {
 }

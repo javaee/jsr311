@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * An injectable interface that provides access to application and request 
  * URI information
- * @see HttpContext
+ * @see Context
  */
 public interface UriInfo {
     
