@@ -48,8 +48,9 @@ public abstract class RuntimeDelegate {
     }
     
     /**
-     * Obtain a RuntimeDelegate instance. The first invocation will create
-     * an instance which will then be cached for future use.
+     * Obtain a RuntimeDelegate instance. If an instance had not already been
+     * created and set via {@link #setInstance}, the first invocation will
+     * create an instance which will then be cached for future use.
      *
      * <p>
      * The algorithm used to locate the RuntimeDelegate subclass to use consists
@@ -107,9 +108,19 @@ public abstract class RuntimeDelegate {
             } catch (Exception ex) {
                 throw new WebApplicationException(ex, 500);
             }
-            rdr.set(rd);
+            rdr.compareAndSet(null,rd);
         }
-        return rd;
+        return rdr.get();
+    }
+    
+    /**
+     * Set the runtime delegate that will be used by JAX-RS classes. If this method
+     * is not called prior to {@link #getInstance} then an implementation will
+     * be sought as described in {@link #getInstance}.
+     * @param rd the runtime delegate instance
+     */
+    public static void setInstance(RuntimeDelegate rd) {
+        rdr.set(rd);
     }
     
     /**
