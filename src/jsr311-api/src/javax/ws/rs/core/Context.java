@@ -31,6 +31,7 @@ import java.lang.annotation.Target;
  * @see UriInfo
  * @see Request
  * @see HttpHeaders
+ * @see SecurityContext
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
