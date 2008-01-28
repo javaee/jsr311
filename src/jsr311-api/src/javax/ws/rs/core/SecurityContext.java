@@ -16,7 +16,8 @@ import java.security.Principal;
 
 /**
  * An injectable interface that provides access to security related
- * information.
+ * information. All methods return either null or false if called outside the
+ * scope of a request (e.g. from a provider constructor).
  * 
  * @see Context
  */

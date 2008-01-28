@@ -24,7 +24,9 @@ import java.util.List;
 
 /**
  * An injectable interface that provides access to application and request 
- * URI information
+ * URI information. All methods except {@link #getBaseUri} and 
+ * {@link #getBaseUriBuilder} return null if called outside the scope of
+ * a request (e.g. from a provider constructor)
  * @see Context
  */
 public interface UriInfo {
@@ -33,7 +35,9 @@ public interface UriInfo {
      * Get the path of the current request relative to the base URI as
      * a string. All sequences of escaped octets are decoded, equivalent to
      * <code>getPath(true)</code>.
-     * @return the relative URI path.
+     * 
+     * @return the relative URI path or null if called outside the scope of
+     * a request.
      */
     public String getPath();
     
@@ -43,7 +47,8 @@ public interface UriInfo {
      *
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return the relative URI path.
+     * @return the relative URI path or null if called outside the scope of
+     * a request.
      */
     public String getPath(boolean decode);
 
@@ -53,7 +58,8 @@ public interface UriInfo {
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the path. All sequences of escaped octets are decoded,
      * equivalent to <code>getPathSegments(true)</code>.
-     * @return the list of {@link PathSegment}.
+     * @return the list of {@link PathSegment} or null if called outside the scope of
+     * a request.
      * @see PathSegment
      */
     public List<PathSegment> getPathSegments();
@@ -65,7 +71,8 @@ public interface UriInfo {
      * present in the path.
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return the list of {@link PathSegment}.
+     * @return the list of {@link PathSegment} or null if called outside the scope of
+     * a request.
      * @see PathSegment
      */
     public List<PathSegment> getPathSegments(boolean decode);
@@ -73,13 +80,15 @@ public interface UriInfo {
     /**
      * Get the absolute request URI. This includes query parameters and
      * any supplied fragment.
-     * @return the absolute request URI
+     * @return the absolute request URI or null if called outside the scope of
+     * a request.
      */
     public URI getRequestUri();
     
     /**
      * Get the absolute request URI in the form of a UriBuilder.
-     * @return a UriBuilder initialized with the absolute request URI.
+     * @return a UriBuilder initialized with the absolute request URI or null
+     * if called outside the scope of a request.
      */
     public UriBuilder getRequestUriBuilder();
     
@@ -88,7 +97,8 @@ public interface UriInfo {
      * the path (host, port etc) but excludes query parameters and fragment.
      * This is a shortcut for
      * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
-     * @return the absolute path of the request
+     * @return the absolute path of the request or null if called outside the scope of
+     * a request
      */
     public URI getAbsolutePath();
     
@@ -96,7 +106,8 @@ public interface UriInfo {
      * Get the absolute path of the request in the form of a UriBuilder.
      * This includes everything preceding
      * the path (host, port etc) but excludes query parameters and fragment.
-     * @return a UriBuilder initialized with the absolute path of the request.
+     * @return a UriBuilder initialized with the absolute path of the request
+     * or null if called outside the scope of a request.
      */
     public UriBuilder getAbsolutePathBuilder();
 
@@ -117,7 +128,8 @@ public interface UriInfo {
      * Get the values of any embedded URI template parameters.
      * All sequences of escaped octets are decoded,
      * equivalent to <code>getTemplateParameters(true)</code>.
-     * @return a map of parameter names and values.
+     * @return a map of parameter names and values or null if called outside the scope of
+     * a request.
      * @see javax.ws.rs.Path
      */
     public MultivaluedMap<String, String> getTemplateParameters();
@@ -127,7 +139,8 @@ public interface UriInfo {
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return a map of parameter names and values.
+     * @return a map of parameter names and values or null if called outside the scope of
+     * a request.
      * @see javax.ws.rs.Path
      */
     public MultivaluedMap<String, String> getTemplateParameters(boolean decode);
@@ -136,7 +149,8 @@ public interface UriInfo {
      * Get the URI query parameters of the current request.
      * All sequences of escaped octets are decoded,
      * equivalent to <code>getQueryParameters(true)</code>.
-     * @return a map of query parameter names and values.
+     * @return a map of query parameter names and values or null if called outside the scope of
+     * a request.
      */
     public MultivaluedMap<String, String> getQueryParameters();
     
@@ -144,7 +158,8 @@ public interface UriInfo {
      * Get the URI query parameters of the current request.
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return a map of query parameter names and values.
+     * @return a map of query parameter names and values or null if called outside the scope of
+     * a request.
      */
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
 }

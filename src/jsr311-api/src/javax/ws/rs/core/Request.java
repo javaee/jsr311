@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * An injectable helper for request processing
+ * An injectable helper for request processing, all methods return null if 
+ * called outside the scope of a request (e.g. from a provider constructor).
  */
 public interface Request {
     

@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An injectable interface that provides access to HTTP header information
+ * An injectable interface that provides access to HTTP header information.
+ * All methods return null if called outside the scope of a request 
+ * (e.g. from a provider constructor).
  * @see Context
  */
 public interface HttpHeaders {
