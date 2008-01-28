@@ -5,12 +5,12 @@
 
 \section{URIs and URI Templates}
 
-An instance of \UriInfo\ can be injected into a class field or method parameter using the \HttpContext\ annotation. \UriInfo\ provides both static and dynamic, per-request information, about the components of a request URI. E.g. the following would return the names of any query parameters in a request:
+An instance of \UriInfo\ can be injected into a class field or method parameter using the \Context\ annotation. \UriInfo\ provides both static and dynamic, per-request information, about the components of a request URI. E.g. the following would return the names of any query parameters in a request:
 
 \begin{listing}{1}
 @HttpMethod(GET)
 @ProduceMime{"text/plain"}
-public String listQueryParamNames(@HttpContext UriInfo info) {
+public String listQueryParamNames(@Context UriInfo info) {
   StringBuilder buf = new StringBuilder();
   for (String param: info.getQueryParameters().keySet()) {
     buf.append(param);
@@ -22,12 +22,12 @@ public String listQueryParamNames(@HttpContext UriInfo info) {
 
 \section{Headers}
 
-An instance of \HttpHeaders\ can be injected into a class field or method parameter using the \HttpContext\ annotation. \HttpHeaders\ provides access to request header information either in map form or via strongly typed convenience methods. E.g. the following would return the names of all the headers in a request:
+An instance of \HttpHeaders\ can be injected into a class field or method parameter using the \Context\ annotation. \HttpHeaders\ provides access to request header information either in map form or via strongly typed convenience methods. E.g. the following would return the names of all the headers in a request:
 
 \begin{listing}{1}
 @HttpMethod(GET)
 @ProduceMime{"text/plain"}
-public String listHeaderNames(@HttpContext HttpHeaders headers) {
+public String listHeaderNames(@Context HttpHeaders headers) {
   StringBuilder buf = new StringBuilder();
   for (String header: headers.getRequestHeaders().keySet()) {
     buf.append(header);
@@ -41,11 +41,11 @@ Note that response headers may be provided using the \Response\ interface, see \
 
 \section{Content Negotiation and Preconditions}
 
-\jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \HttpContext\ annotation. The methods of \Request\ allow a resource method to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \Response\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
+\jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \Request\ allow a resource method to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \Response\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
 
 \begin{listing}{1}
 @HttpMethod(PUT)
-public Response updateFoo(@HttpContext Request request, Foo foo) {
+public Response updateFoo(@Context Request request, Foo foo) {
 	EntityTag tag = getCurrentTag();
 	Response response = request.evaluate(tag, null);
 	if (response != null)
@@ -57,4 +57,4 @@ public Response updateFoo(@HttpContext Request request, Foo foo) {
 
 \section{Injection Scope}
 
-When the \HttpContext\ annotation is applied to a resource class field, an implementation is only required to inject the applicable context into those resource class instances created by the implementation runtime. Objects returned by sub-resource locators are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
+When the \Context\ annotation is applied to a resource class field, an implementation is only required to inject the applicable context into those resource class instances created by the implementation runtime. Objects returned by sub-resource locators are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
