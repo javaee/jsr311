@@ -7,9 +7,9 @@ Using \jaxrs\, a Web resource is implemented as a resource class and requests ar
 
 A resource class is a Java class that uses \jaxrs\ annotations to implement a corresponding Web resource. Resource classes are POJOs that have at least one method annotated with \Path\ or a request method designator.
 
-\subsection{Lifecycle}
+\subsection{Lifecycle and Environment}
 
-A new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
+A new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
 
 \subsection{Constructors}
 \label{resource_class_constructor}
@@ -30,9 +30,9 @@ A request method designator is a runtime annotation that is annotated with the \
 
 When a resource method is invoked, annotated parameter values are mapped from the request according to the semantics of the annotation. The following describes the permitted types for an annotated parameter.
 \begin{description}
-\item[\MatrixParam, \QueryParam\ or \PathParam] The class of the annotated parameter MUST have a constructor that accepts a single \code{String} argument, or a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation.
+\item[\MatrixParam, \QueryParam\ or \PathParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation.
 \item[\Context] The class of the annotated parameter MUST be \UriInfo, \Request\ or \HttpHeaders. See chapter \ref{context} for additional information on these types.
-\item[\HeaderParam] The class of the annotated parameter MUST have a constructor that accepts a single \code{String} argument, or a static method named \code{valueOf} that accepts a single \code{String} argument.
+\item[\HeaderParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument..
 \end{description}
 
 The value of an non-annotated  parameter is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
@@ -43,9 +43,9 @@ The value of an non-annotated  parameter is mapped from the request entity body.
 Resource methods MAY return \code{void}, \Response\ or another Java type, these return types are mapped to a response entity body as follows:
 
 \begin{description}
-\item[\code{void}] Results in an empty entity body.
-\item[\Response] Results in an entity body mapped from the \code{Entity} property of the \Response.
-\item[Other] Results in an entity body mapped from the return type.
+\item[\code{void}] Results in an empty entity body with a 204 status code.
+\item[\Response] Results in an entity body mapped from the \code{Entity} property of the \Response\ with the status code specified by the status property of the \Response.
+\item[Other] Results in an entity body mapped from the return type with a 202 status code.
 \end{description}
 
 Conversion between a Java types and an entity body is the responsibility of an entity provider, see section \ref{entity_providers}.

@@ -1,7 +1,7 @@
 \chapter{Context}
 \label{context}
 
-\jaxrs\ provides facilities for obtaining and processing information about the deployment context of a resource class and the context of individual requests. This chapter describes these facilities.
+\jaxrs\ provides facilities for obtaining and processing information about the application deployment context and the context of individual requests. Such information is available to both resource classes (see chapter \ref{resources}) and providers (see chapter \ref{providers}). This chapter describes these facilities.
 
 \section{URIs and URI Templates}
 
@@ -41,7 +41,7 @@ Note that response headers may be provided using the \Response\ interface, see \
 
 \section{Content Negotiation and Preconditions}
 
-\jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \Request\ allow a resource method to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \Response\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
+\jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \Request\ allow a caller to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \Response\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
 
 \begin{listing}{1}
 @HttpMethod(PUT)
@@ -57,4 +57,4 @@ public Response updateFoo(@Context Request request, Foo foo) {
 
 \section{Injection Scope}
 
-When the \Context\ annotation is applied to a resource class field, an implementation is only required to inject the applicable context into those resource class instances created by the implementation runtime. Objects returned by sub-resource locators are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
+When the \Context\ annotation is applied to a class field, an implementation is only required to inject the applicable context into those class instances created by the implementation runtime. Objects returned by sub-resource locators (see section \ref{sub_resources}) are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
