@@ -16,8 +16,7 @@ import java.security.Principal;
 
 /**
  * An injectable interface that provides access to security related
- * information. All methods return either null or false if called outside the
- * scope of a request (e.g. from a provider constructor).
+ * information.
  * 
  * @see Context
  */
@@ -51,6 +50,7 @@ public interface SecurityContext {
      * @return a <code>java.security.Principal</code> containing the name
      * of the user making this request; null if the user has not been 
      * authenticated
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public Principal getUserPrincipal();
     
@@ -63,6 +63,7 @@ public interface SecurityContext {
      * @return a <code>boolean</code> indicating whether the user making 
      * the request belongs to a given role; <code>false</code> if the user
      * has not been authenticated
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public boolean isUserInRole(String role);
     
@@ -72,6 +73,7 @@ public interface SecurityContext {
      *
      * @return <code>true</code> if the request was made using a secure 
      * channel, <code>false</code> otherwise
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public boolean isSecure();
     
@@ -85,6 +87,7 @@ public interface SecurityContext {
      * CLIENT_CERT_AUTH, DIGEST_AUTH (suitable for == comparison) or the 
      * container-specific string indicating the authentication scheme, 
      * or null if the request was not authenticated.
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public String getAuthenticationScheme();
     

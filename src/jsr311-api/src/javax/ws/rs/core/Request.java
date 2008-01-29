@@ -23,8 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * An injectable helper for request processing, all methods return null if 
- * called outside the scope of a request (e.g. from a provider constructor).
+ * An injectable helper for request processing, all methods throw
+ * java.lang.IllegalStateException if called outside the scope of a request
+ * (e.g. from a provider constructor).
  */
 public interface Request {
     
@@ -39,6 +40,7 @@ public interface Request {
      * @return the variant that best matches the request.
      * @see Variant.VariantListBuilder
      * @throws IllegalArgumentException if variants is empty
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     Variant selectVariant(List<Variant> variants) throws IllegalArgumentException;
     
@@ -48,6 +50,7 @@ public interface Request {
      * @param eTag an ETag for the current state of the resource
      * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     Response evaluatePreconditions(EntityTag eTag);
 
@@ -57,6 +60,7 @@ public interface Request {
      * @param lastModified a date that specifies the modification date of the resource
      * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     Response evaluatePreconditions(Date lastModified);
     
@@ -67,6 +71,7 @@ public interface Request {
      * @param eTag an ETag for the current state of the resource
      * @return null if the preconditions are met or a Response that should be returned if the
      * preconditions are not met.
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     Response evaluatePreconditions(Date lastModified, EntityTag eTag);
 }
