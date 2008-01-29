@@ -45,7 +45,7 @@ Resource methods MAY return \code{void}, \Response\ or another Java type, these 
 \begin{description}
 \item[\code{void}] Results in an empty entity body with a 204 status code.
 \item[\Response] Results in an entity body mapped from the \code{Entity} property of the \Response\ with the status code specified by the status property of the \Response.
-\item[Other] Results in an entity body mapped from the return type with a 202 status code.
+\item[Other] Results in an entity body mapped from the return type with a 200 status code.
 \end{description}
 
 Conversion between a Java types and an entity body is the responsibility of an entity provider, see section \ref{entity_providers}.
