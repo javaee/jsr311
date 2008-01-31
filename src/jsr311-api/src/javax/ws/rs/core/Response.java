@@ -65,7 +65,7 @@ public abstract class Response {
      * supplied Response metadata map.
      * @param response a Response from which the status code, entity and metadata
      * will be copied
-     * @return
+     * @return a new ReponseBuilder
      */
     public static ResponseBuilder fromResponse(Response response) {
         ResponseBuilder b = ResponseBuilder.newInstance();
