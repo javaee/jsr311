@@ -24,35 +24,14 @@
         </sequential>
     </macrodef>
     
-    <taskdef name="resourcegen" 
-             classname="com.sun.tools.localizer.resourcegen.ResourceGenTask">
-        <classpath>
-            <fileset dir="lib" includes="*.jar" />
-        </classpath>
-    </taskdef>    
-    
     <target name="-pre-compile">
         <tstamp>
             <format property="now" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
         </tstamp>
         <property name="build.id" value="${now}" />
         <createManifest file="${basedir}/build/manifest.mf"/>
-        
-        <resourcegen destDir="src">
-            <resource dir="src" includes="**/*.properties"/>
-        </resourcegen>
     </target>
     
-    <target name="-post-compile">
-        <!-- Include the localizer jar in the classes -->
-        <!-- This dependency will be removed before 1.0 release -->
-	<unzip src="lib/localizer.jar" dest="build/classes">
-            <patternset>
-                <exclude name="META-INF/**"/>
-            </patternset>
-        </unzip>
-    </target>
-
     <target name="dist" depends="jar, javadoc">
         <!-- Copy the README -->
         <copy file="${basedir}/README.txt" 
