@@ -58,7 +58,8 @@ public interface UriInfo {
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the path. All sequences of escaped octets are decoded,
      * equivalent to <code>getPathSegments(true)</code>.
-     * @return the list of {@link PathSegment}
+     * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
+     * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see PathSegment
      */
@@ -71,7 +72,8 @@ public interface UriInfo {
      * present in the path.
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return the list of {@link PathSegment}
+     * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
+     * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see PathSegment
      */
@@ -128,7 +130,7 @@ public interface UriInfo {
      * Get the values of any embedded URI template parameters.
      * All sequences of escaped octets are decoded,
      * equivalent to <code>getTemplateParameters(true)</code>.
-     * @return a map of parameter names and values
+     * @return an unmodifiable map of parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see javax.ws.rs.Path
      */
@@ -139,7 +141,7 @@ public interface UriInfo {
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return a map of parameter names and values
+     * @return an unmodifiable map of parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see javax.ws.rs.Path
      */
@@ -149,7 +151,7 @@ public interface UriInfo {
      * Get the URI query parameters of the current request.
      * All sequences of escaped octets are decoded,
      * equivalent to <code>getQueryParameters(true)</code>.
-     * @return a map of query parameter names and values
+     * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public MultivaluedMap<String, String> getQueryParameters();
@@ -158,7 +160,7 @@ public interface UriInfo {
      * Get the URI query parameters of the current request.
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return a map of query parameter names and values
+     * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
