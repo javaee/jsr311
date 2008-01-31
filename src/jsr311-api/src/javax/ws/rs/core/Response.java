@@ -59,6 +59,28 @@ public abstract class Response {
     public abstract MultivaluedMap<String, Object> getMetadata();
     
     /**
+     * Create a new ResponseBuilder by performing a shallow copy of an
+     * existing Response. The returned builder has its own metadata map but
+     * entries are simply references to the keys and values contained in the
+     * supplied Response metadata map.
+     * @param response a Response from which the status code, entity and metadata
+     * will be copied
+     * @return
+     */
+    public static ResponseBuilder fromResponse(Response response) {
+        ResponseBuilder b = ResponseBuilder.newInstance();
+        b.status(response.getStatus());
+        b.entity(response.getEntity());
+        for (String headerName: response.getMetadata().keySet()) {
+            List<Object> headerValues = response.getMetadata().get(headerName);
+            for (Object headerValue: headerValues) {
+                b.header(headerName, headerValue);
+            }
+        }
+        return b;
+    }
+    
+    /**
      * Create a new ResponseBuilder with the supplied status.
      * @param status the response status
      * @return a new ResponseBuilder
@@ -190,9 +212,12 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder with a not-modified status.
+     * Create a new ResponseBuilder with a not-modified status
+     * and a strong entity tag. This is a shortcut
+     * for <code>notModified(new EntityTag(<i>value</i>))</code>.
      * 
-     * @param tag a tag for the unmodified entity
+     * @param tag the string content of a strong entity tag. The JAX-RS
+     * runtime will quote the supplied value when creating the header.
      * @return a new ResponseBuilder
      */
     public static ResponseBuilder notModified(String tag) {
@@ -202,7 +227,8 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder for a redirection.
+     * Create a new ResponseBuilder for a redirection. Used in the
+     * redirect-after-POST (aka POST/redirect/GET) pattern.
      * 
      * @param location the redirection URI. If a relative URI is 
      * supplied it will be converted into an absolute URI by resolving it
@@ -283,6 +309,12 @@ public abstract class Response {
          */
         public abstract Response build();
         
+        /**
+         * Create a copy of the ResponseBuilder preserving its state.
+         * @return a copy of the ResponseBuilder
+         */
+        @Override
+        public abstract ResponseBuilder clone();
 
         /**
          * Set the status on the ResponseBuilder.
@@ -368,15 +400,14 @@ public abstract class Response {
         /**
          * Set an entity tag on the ResponseBuilder.
          * 
-         * 
          * @param tag the entity tag
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder tag(EntityTag tag);
         
         /**
-         * Set a strong entity tag on the ResponseBuilder.
-         * 
+         * Set a strong entity tag on the ResponseBuilder. This is a shortcut
+         * for <code>tag(new EntityTag(<i>value</i>))</code>.
          * 
          * @param tag the string content of a strong entity tag. The JAX-RS
          * runtime will quote the supplied value when creating the header.
