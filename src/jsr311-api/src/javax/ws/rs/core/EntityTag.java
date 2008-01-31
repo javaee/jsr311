@@ -19,7 +19,6 @@
 
 package javax.ws.rs.core;
 
-import java.text.ParseException;
 import javax.ws.rs.ext.RuntimeDelegate;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
@@ -36,8 +35,8 @@ public class EntityTag {
             RuntimeDelegate.getInstance().createHeaderDelegate(EntityTag.class);
 
     /**
-     * Creates a new instance of a strong EntityTag
-     * @param value the value of the tag
+     * Creates a new instance of a strong EntityTag. 
+     * @param value the value of the tag, quotes not included. 
      */
     public EntityTag(String value) {
         this.value = value;
@@ -46,7 +45,7 @@ public class EntityTag {
     
     /**
      * Creates a new instance of an EntityTag
-     * @param value the value of the tag
+     * @param value the value of the tag, quotes not included.
      * @param weak true if this represents a weak tag, false otherwise
      */
     public EntityTag(String value, boolean weak) {
