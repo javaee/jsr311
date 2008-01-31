@@ -34,7 +34,10 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * <a href="http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1">application/x-www-form-urlencoded</a>
  * media type for query parameters and
  * <a href="http://ietf.org/rfc/rfc3986.txt">RFC 3986</a> for all other
- * components.</p>
+ * components. Note that only illegal characters are subject to encoding so, e.g.,
+ * a path segment supplied to one of the <code>path</code> methods may
+ * contain matrix parameters or multiple path segments since the separators are
+ * legal characters and will not be encoded.</p>
  * 
  * <p>URI templates are allowed in most components of a URI but their value is
  * restricted to a particular component. E.g. 
@@ -168,6 +171,13 @@ public abstract class UriBuilder {
      * @return the updated UriBuilder
      */
     public abstract UriBuilder encode(boolean enable);
+    
+    /**
+     * Get the current state of automatic encoding. 
+     * @return true if automatic encoding is enable, false otherwise
+     * @see #encode
+     */
+    public abstract boolean isEncode();
 
     /**
      * Copies the non-null components of the supplied URI to the UriBuilder replacing
@@ -180,9 +190,10 @@ public abstract class UriBuilder {
     
     /**
      * Set the URI scheme.
-     * @param scheme the URI scheme, may contain URI template parameters
+     * @param scheme the URI scheme, may contain URI template parameters.
+     * . value will unset the URI scheme.
      * @return the updated UriBuilder
-     * @throws IllegalArgumentException if scheme is invalid or is null
+     * @throws IllegalArgumentException if scheme is invalid
      */
     public abstract UriBuilder scheme(String scheme) throws IllegalArgumentException;
     
@@ -198,19 +209,20 @@ public abstract class UriBuilder {
     
     /**
      * Set the URI user-info.
-     * @param ui the URI user-info, may contain URI template parameters
+     * @param ui the URI user-info, may contain URI template parameters.
+     * A null value will unset userInfo component of the URI.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if automatic encoding is disabled and
-     * ui contains illegal characters, or
-     * if ui is null
+     * ui contains illegal characters.
      */
     public abstract UriBuilder userInfo(String ui) throws IllegalArgumentException;
     
     /**
      * Set the URI host.
      * @return the updated UriBuilder
-     * @param host the URI host, may contain URI template parameters
-     * @throws IllegalArgumentException if host is invalid or is null
+     * @param host the URI host, may contain URI template parameters.
+     * A null value will unset the host component of the URI.
+     * @throws IllegalArgumentException if host is invalid.
      */
     public abstract UriBuilder host(String host) throws IllegalArgumentException;
     
@@ -224,14 +236,18 @@ public abstract class UriBuilder {
     
     /**
      * Set the URI path. This method will overwrite 
-     * any existing path segments and associated matrix parameters.
-     * @param path the URI path, may contain URI template parameters
+     * any existing path segments and associated matrix parameters. When constructing
+     * the final path, each segment will be separated by '/' if necessary. 
+     * Existing '/' characters are preserved thus a single segment value can 
+     * represent multiple URI path segments.
+     * @param segments the path segments, may contain URI template parameters.
+     * A null value will unset the path component of the URI.
      * @return the updated UriBuilder
-     * @throws IllegalArgumentException if automatic encoding is disabled and
-     * path contains illegal characters, or
-     * if path is null
+     * @throws IllegalArgumentException if any element of segments is null, or
+     * if automatic encoding is disabled and
+     * any element of segments contains illegal characters
      */
-    public abstract UriBuilder replacePath(String path) throws IllegalArgumentException;
+    public abstract UriBuilder replacePath(String... segments) throws IllegalArgumentException;
 
     /**
      * Append path segments to the existing list of segments. When constructing
@@ -304,9 +320,11 @@ public abstract class UriBuilder {
      * segment of the current URI path. Note that the matrix parameters
      * are tied to a particular path segment; subsequent addition of path segments
      * will not affect their position in the URI path.
-     * @param matrix the matrix parameters, may contain URI template parameters
+     * @param matrix the matrix parameters, may contain URI template parameters.
+     * A null value will remove all matrix parameters of the current final segment
+     * of the current URI path.
      * @return the updated UriBuilder
-     * @throws IllegalArgumentException if matrix cannot be parsed or is null, or
+     * @throws IllegalArgumentException if matrix cannot be parsed, or
      * if automatic encoding is disabled and
      * any matrix parameter name or value contains illegal characters
      */
@@ -329,7 +347,8 @@ public abstract class UriBuilder {
     /**
      * Set the URI query string. This method will overwrite any existing query
      * parameters.
-     * @param query the URI query string, may contain URI template parameters
+     * @param query the URI query string, may contain URI template parameters.
+     * A null value will remove all query parameters.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if query cannot be parsed or is null, or
      * if automatic encoding is disabled and
@@ -350,7 +369,8 @@ public abstract class UriBuilder {
     
     /**
      * Set the URI fragment using an unencoded value.
-     * @param fragment the URI fragment, may contain URI template parameters
+     * @param fragment the URI fragment, may contain URI template parameters.
+     * A null value will remove any existing fragment.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if fragment is null, or
      * if automatic encoding is disabled and
