@@ -32,14 +32,14 @@ public interface HttpHeaders {
     /**
      * Get the values of HTTP request headers. The returned Map is case-insensitive
      * wrt keys and is read-only.
-     * @return a map of header names and values.
+     * @return a read-only map of header names and values.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public MultivaluedMap<String, String> getRequestHeaders();
 
     /**
      * Get a list of media types that are acceptable for the response.
-     * @return list of requested response media types
+     * @return a read-only list of requested response media types
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public List<MediaType> getAcceptableMediaTypes();
@@ -60,7 +60,7 @@ public interface HttpHeaders {
 
     /**
      * Get any cookies that accompanied the request.
-     * @return a map of cookie name (String) to Cookie.
+     * @return a read-only map of cookie name (String) to Cookie.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public Map<String, Cookie> getCookies();
