@@ -55,6 +55,10 @@ public Response updateFoo(@Context Request request, Foo foo) {
 }
 \end{listing}
 
+\section{Security Context}
+
+The \SecurityContext\ interface provides access to information about the security context of the current request. An instance of \SecurityContext\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \SecurityContext\ provide access to the current user principle, information about roles assumed by the requester, whether the request arrived over a secure channel and the authentication scheme used.
+
 \section{Injection Scope}
 
 When the \Context\ annotation is applied to a class field, an implementation is only required to inject the applicable context into those class instances created by the implementation runtime. Objects returned by sub-resource locators (see section \ref{sub_resources}) are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.

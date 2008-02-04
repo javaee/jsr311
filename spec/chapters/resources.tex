@@ -31,7 +31,7 @@ A request method designator is a runtime annotation that is annotated with the \
 When a resource method is invoked, annotated parameter values are mapped from the request according to the semantics of the annotation. The following describes the permitted types for an annotated parameter.
 \begin{description}
 \item[\MatrixParam, \QueryParam\ or \PathParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation.
-\item[\Context] The class of the annotated parameter MUST be \UriInfo, \Request\ or \HttpHeaders. See chapter \ref{context} for additional information on these types.
+\item[\Context] The class of the annotated parameter MUST be one of the types defined in chapter \ref{context} or \ref{environment}.
 \item[\HeaderParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument..
 \end{description}
 
