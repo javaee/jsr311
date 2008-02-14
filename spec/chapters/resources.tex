@@ -185,6 +185,34 @@ In the above:
 
 An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
 
+\section{Annotation Inheritance}
+
+\jaxrs\ annotations MAY be used on the methods of a super-class or an implemented interface. Such annotations are inherited by a corresponding sub-class or implementation class method provided that method does not have any of its own \jaxrs\ annotations. If a subclass or implementation method has any \jaxrs\ annotations then {\em all} of the annotations on the super class or interface method are ignored. E.g.:
+
+\begin{listing}{1}
+public interface ReadOnlyAtomFeed {
+  @GET @ProduceMime("application/atom+xml")
+  Feed getFeed();
+}
+
+@Path("feed")
+public class ActivityLog implements ReadOnlyAtomFeed {
+  Feed getFeed() {...}
+}
+\end{listing}
+
+In the above, \code{ActivityLog.getFeed} inherits the \code{@GET} and \ProduceMime\ annotations from the interface. Conversely:
+
+\begin{listing}{1}
+@Path("feed")
+public class ActivityLog implements ReadOnlyAtomFeed {
+  @ProduceMime("application/atom+xml")
+  Feed getFeed() {...}
+}
+\end{listing}
+
+In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is not inherited by \code{Activity-Log\-.get\-Feed} and it would require its own request method designator since it redefines the \ProduceMime\ annotation.
+
 \section{Matching Requests to Resource Methods}
 \label{mapping_requests_to_java_methods}
 
