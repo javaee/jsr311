@@ -26,11 +26,13 @@
 \hline
 \code{MatrixParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a URI matrix parameter. The value of the annotation identifies the name of a matrix parameter. \tabularnewline
 \hline
+\code{CookieParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a HTTP cookie. The value of the annotation identifies the name of a the cookie. \tabularnewline
+\hline
 \code{HeaderParam} & Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a HTTP header. The value of the annotation identifies the name of a HTTP header. \tabularnewline
 \hline
 \code{Encoded} & \raggedright Type, constructor, method or parameter & \raggedright Disables automatic URI decoding for path, query and matrix parameters. \tabularnewline
 \hline
-\code{DefaultValue} & Parameter & \raggedright Specifies a default value for a method parameter annotated with \QueryParam, \MatrixParam\ or \HeaderParam. The specified value will be used if the corresponding query or matrix parameter is not present in the request URI, or if the corresponding HTTP header is not included in the request.\tabularnewline
+\code{DefaultValue} & Parameter & \raggedright Specifies a default value for a method parameter annotated with \QueryParam, \MatrixParam, \CookieParam\ or \HeaderParam. The specified value will be used if the corresponding query or matrix parameter is not present in the request URI, or if the corresponding HTTP header is not included in the request.\tabularnewline
 \hline
 \code{Context} & Field or parameter & \raggedright Identifies an injection target for \Request, \SecurityContext, \UriInfo\ or \HttpHeaders. \tabularnewline
 \hline

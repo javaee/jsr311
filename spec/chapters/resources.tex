@@ -14,7 +14,7 @@ A new resource class instance is created for each request to that resource. Firs
 \subsection{Constructors}
 \label{resource_class_constructor}
 
-Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with one of the following annotations on every parameter: \Context, \HeaderParam, \MatrixParam, \QueryParam\ or \PathParam. Note that a zero argument constructor is permissible under this rule. Section \ref{resource_method_params} defines the parameter types permitted for each annotation. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with one of the following annotations on every parameter: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam. Note that a zero argument constructor is permissible under this rule. Section \ref{resource_method_params} defines the parameter types permitted for each annotation. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 Non-root resource classes are instantiated by an application and do not require the above-described constructor.
 
@@ -32,7 +32,8 @@ When a resource method is invoked, annotated parameter values are mapped from th
 \begin{description}
 \item[\MatrixParam, \QueryParam\ or \PathParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation.
 \item[\Context] The class of the annotated parameter MUST be one of the types defined in chapter \ref{context} or \ref{environment}.
-\item[\HeaderParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument..
+\item[\CookieParam] Either \code{Cookie}, a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument.
+\item[\HeaderParam] Either a primitive type, a class wth a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument.
 \end{description}
 
 The value of an non-annotated  parameter is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
