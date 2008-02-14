@@ -258,9 +258,13 @@ A request is matched to the corresponding resource method or sub-resource method
 \item The media type of the request entity body (if any) is a supported input data format (see section \ref{declaring_method_capabilities}). If no methods support the media type of the request entity body an implementation MUST generate an unsupported media type response (HTTP 415 status).
 \item At least one of the acceptable response entity body media types is a supported output data format (see section \ref{declaring_method_capabilities}). If no methods support one of the acceptable response entity body media types an implementation MUST generate a not acceptable response (HTTP 406 status).
 \end{itemize} 
-\item Sort $M$ using the media type of input data as the primary key and the media type of output data as the secondary key.
+\item Sort $M$ a follows:
+\begin{itemize}
+\item The primary key is the media type of input data. Methods whose \ConsumeMime\ value most closely match the media type of the request are sorted first.
+\item The secondary key is the \ProduceMime\ value. Methods whose value of \ProduceMime\ most closely match the value of the request accept header are sorted first.
+\end{itemize}
 
-Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
+Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7. See section 14.1 of \cite{http11} for more details.
 
 \item \label{dispatch_method} If $M$ is not empty then the request is dispatched to the first Java method in the set; otherwise no matching resource method can be found and the algorithm terminates.
 \end{enumerate}
