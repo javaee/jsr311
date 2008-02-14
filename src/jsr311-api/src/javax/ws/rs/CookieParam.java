@@ -31,6 +31,7 @@ import java.lang.annotation.Target;
  * 
  * The type of the annotated parameter must either:
  * <ul>
+ * <li>Be {@link javax.ws.rs.core.Cookie}</li>
  * <li>Be a primitive type</li>
  * <li>Have a constructor that accepts a single String argument</li>
  * <li>Have a static method named <code>valueOf</code> that accepts a single 
@@ -38,6 +39,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @see DefaultValue
+ * @see javax.ws.rs.core.Cookie
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
