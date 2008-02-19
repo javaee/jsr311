@@ -10,7 +10,7 @@ A single instance of each provider class is instantiated for each \jaxrs\ applic
 \section{Constructors}
 \label{provider_class_constructor}
 
-Provider classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with \Context on every parameter. Note that a zero argument constructor is permissible under this rule. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+Provider classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with \Context\ on every parameter. Note that a zero argument constructor is permissible under this rule. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 Section \ref{resource_method_params} defines the parameter types permitted for \Context. Since providers may be created outside the scope of a particular request, only deployment-specific properties may be available from injected interfaces at construction time. Request-specific properties are available when a provider method is called.
 
