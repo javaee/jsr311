@@ -12,8 +12,9 @@
 
 package javax.ws.rs.core;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Defines the components of a JAX-RS application and supplies additional
@@ -28,22 +29,22 @@ public abstract class ApplicationConfig {
      * @return a list of root resource classes.
      * @see javax.ws.rs.Path
      */
-    public abstract List<Class<?>> getResourceClasses();
+    public abstract Set<Class<?>> getResourceClasses();
     
     /**
      * Get a list of provider classes. Classes not implementing an extension
      * interface (one or more of {@link javax.ws.rs.ext.MessageBodyReader}, 
      * {@link javax.ws.rs.ext.MessageBodyWriter} or 
      * {@link javax.ws.rs.ext.ContextResolver}) will be ignored. The default 
-     * implementation returns null.
-     * @return a list of provider classes or null if none provided
+     * implementation returns an empty set.
+     * @return a set of provider classes
      * @see javax.ws.rs.ext.Provider
      * @see javax.ws.rs.ext.MessageBodyReader
      * @see javax.ws.rs.ext.MessageBodyWriter
      * @see javax.ws.rs.ext.ContextResolver
      */
-    public List<Class<?>> getProviderClasses() {
-        return null;
+    public Set<Class<?>> getProviderClasses() {
+        return Collections.EMPTY_SET;
     }
     
     /**
@@ -53,11 +54,10 @@ public abstract class ApplicationConfig {
      * <p>is equivalent to:</p>
      * <pre>GET /resource
      *Accept: application/atom+xml</pre>
-     * <p>The default implementation returns null.</p>
-     * @return a map of file extension to media type or null if no
-     * mappings are required
+     * <p>The default implementation returns an empty map.</p>
+     * @return a map of file extension to media type
      */
     public Map<String, MediaType> getExtensionMappings() {
-        return null;
+        return Collections.EMPTY_MAP;
     }
 }
