@@ -85,7 +85,9 @@ public interface MessageBodyWriter<T> {
      * <code>Field.getDeclaredAnnotations</code>.
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders a mutable map of the HTTP response headers.
-     * @param entityStream the {@link OutputStream} for the HTTP entity.
+     * @param entityStream the {@link OutputStream} for the HTTP entity. The 
+     * implementation is not required to close the input stream but may do so
+     * if desired.
      * @throws java.io.IOException if an IO error arises 
      */
     void writeTo(T t, Type genericType, Annotation annotations[], 

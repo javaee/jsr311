@@ -73,7 +73,9 @@ public interface MessageBodyReader<T> {
      * <code>Class.getParameterAnnotations</code>.
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders the HTTP headers associated with HTTP entity.
-     * @param entityStream the {@link InputStream} of the HTTP entity.
+     * @param entityStream the {@link InputStream} of the HTTP entity. The 
+     * implementation is not required to close the input stream but may do so
+     * if desired.
      * @throws java.io.IOException if an IO error arises
      */
     T readFrom(Class<T> type, Type genericType, MediaType mediaType, 
