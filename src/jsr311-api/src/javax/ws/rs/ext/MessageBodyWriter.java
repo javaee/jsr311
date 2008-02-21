@@ -21,6 +21,8 @@ package javax.ws.rs.ext;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -42,10 +44,19 @@ public interface MessageBodyWriter<T> {
     /**
      * Ascertain if the MessageBodyWriter supports a particular type.
      *
-     * @param type the type that is to be supported.
+     * @param type the class of object that is to be written.
+     * @param genericType the type of object to be written. E.g. if the 
+     * message body is to be produced from a field, this will be
+     * the declared type of the field as returned by 
+     * <code>Field.getGenericType</code>.
+     * @param annotations an array of the annotations on the declaration of the
+     * artifact that will be written. E.g. if the 
+     * message body is to be produced from a field, this will be
+     * the annotations on that field returned by 
+     * <code>Field.getDeclaredAnnotations</code>.
      * @return true if the type is supported, otherwise false.
      */
-    boolean isWriteable(Class<?> type);
+    boolean isWriteable(Class<?> type, Type genericType, Annotation annotations[]);
     
     /**
      * Called before <code>writeTo</code> to ascertain the length in bytes of 
@@ -63,12 +74,22 @@ public interface MessageBodyWriter<T> {
      * the headers will be flushed prior to writing the response body.
      * 
      * @param t the type to write.
+     * @param genericType the type of object to be written. E.g. if the 
+     * message body is to be produced from a field, this will be
+     * the declared type of the field as returned by 
+     * <code>Field.getGenericType</code>.
+     * @param annotations an array of the annotations on the declaration of the
+     * artifact that will be written. E.g. if the 
+     * message body is to be produced from a field, this will be
+     * the annotations on that field returned by 
+     * <code>Field.getDeclaredAnnotations</code>.
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders a mutable map of the HTTP response headers.
      * @param entityStream the {@link OutputStream} for the HTTP entity.
      * @throws java.io.IOException if an IO error arises 
      */
-    void writeTo(T t, MediaType mediaType, 
+    void writeTo(T t, Type genericType, Annotation annotations[], 
+            MediaType mediaType, 
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream) throws IOException;    
 }
