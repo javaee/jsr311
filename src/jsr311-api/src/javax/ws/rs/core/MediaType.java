@@ -20,7 +20,9 @@
 package javax.ws.rs.core;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.ws.rs.ext.RuntimeDelegate;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
@@ -66,7 +68,17 @@ public class MediaType {
     public MediaType(String type, String subtype, Map<String, String> parameters) {
         this.type = type;
         this.subtype = subtype;
-        this.parameters = parameters==null ? emptyMap : Collections.unmodifiableMap(parameters);
+        if (parameters==null) {
+            this.parameters = emptyMap;
+        } else {
+            Map<String, String> map = new TreeMap<String, String>(new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    return o1.compareToIgnoreCase(o2);
+                }        
+            });
+            map.putAll(parameters);
+            this.parameters = Collections.unmodifiableMap(map);
+        }
     }
     
     /**
@@ -118,7 +130,7 @@ public class MediaType {
     }
     
     /**
-     * Getter for parameter map.
+     * Getter for parameter map. Keys are case-insensitive.
      * @return an immutable map of parameters.
      */
     public Map<String, String> getParameters() {
