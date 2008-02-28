@@ -138,10 +138,10 @@ The following example illustrates the difference:
 public class WidgetsResource {
   @GET
   @Path("offers")
-  WidgetList getDiscounted() {...}
+  public WidgetList getDiscounted() {...}
   
   @Path("{id}")
-  WidgetResource findWidget(@UriParam("id") String id) {
+  public WidgetResource findWidget(@UriParam("id") String id) {
     return lookupWidget(id);
   }
 }\end{listing}
@@ -163,16 +163,16 @@ The following example illustrates the \ProduceMime\ annotation:
 public class WidgetsResource {
   
   @GET
-  String getAll() {...}
+  public String getAll() {...}
   
   @GET
   @Path("{id}")
-  Widget getWidget(@UriParam("id") String id) {...}
+  public Widget getWidget(@UriParam("id") String id) {...}
 
   @GET
   @Path("{id}/description")
   @ProduceMime("text/html")
-  String getDescription(@UriParam("id") String id) {...}
+  public String getDescription(@UriParam("id") String id) {...}
 }
 
 @Provider
@@ -201,7 +201,7 @@ public interface ReadOnlyAtomFeed {
 
 @Path("feed")
 public class ActivityLog implements ReadOnlyAtomFeed {
-  Feed getFeed() {...}
+  public Feed getFeed() {...}
 }
 \end{listing}
 
@@ -211,7 +211,7 @@ In the above, \code{ActivityLog.getFeed} inherits the \code{@GET} and \ProduceMi
 @Path("feed")
 public class ActivityLog implements ReadOnlyAtomFeed {
   @ProduceMime("application/atom+xml")
-  Feed getFeed() {...}
+  public Feed getFeed() {...}
 }
 \end{listing}
 
