@@ -21,7 +21,6 @@ package javax.ws.rs.ext;
 
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.core.UriBuilder;
@@ -106,7 +105,7 @@ public abstract class RuntimeDelegate {
                 }
                 rd = (RuntimeDelegate) delegate;
             } catch (Exception ex) {
-                throw new WebApplicationException(ex, 500);
+                throw new RuntimeException(ex);
             }
             rdr.compareAndSet(null,rd);
         }
