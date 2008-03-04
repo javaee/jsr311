@@ -68,8 +68,7 @@ public abstract class Response {
      * @return a new ReponseBuilder
      */
     public static ResponseBuilder fromResponse(Response response) {
-        ResponseBuilder b = ResponseBuilder.newInstance();
-        b.status(response.getStatus());
+        ResponseBuilder b = status(response.getStatus());
         b.entity(response.getEntity());
         for (String headerName: response.getMetadata().keySet()) {
             List<Object> headerValues = response.getMetadata().get(headerName);
