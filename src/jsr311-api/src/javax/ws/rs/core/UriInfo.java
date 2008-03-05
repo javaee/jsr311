@@ -21,12 +21,16 @@ package javax.ws.rs.core;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An injectable interface that provides access to application and request 
- * URI information. All methods except {@link #getBaseUri} and 
+ * URI information. Relative URIs are relative to the base URI of the
+ * application, see {@link #getBaseUri}.
+ * 
+ * <p>All methods except {@link #getBaseUri} and 
  * {@link #getBaseUriBuilder} throw <code>java.lang.IllegalStateException</code>
- * if called outside the scope of a request (e.g. from a provider constructor)
+ * if called outside the scope of a request (e.g. from a provider constructor).</p>
  * @see Context
  */
 public interface UriInfo {
@@ -164,4 +168,57 @@ public interface UriInfo {
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
+    
+    /**
+     * Get a list of URIs for ancestor resources. Each entry is a relative URI
+     * that is a partial path that matched a resource class, a sub-resource 
+     * method or a sub-resource locator. The entries are ordered according to 
+     * request URI matching order, with the root resource URI first. E.g.:
+     * 
+     * <pre>&#064;Path("foo")
+     *public class FooResource {
+     *  &#064;GET
+     *  public String getFoo() {...}
+     * 
+     *  &#064;Path("bar")
+     *  &#064;GET
+     *  public String getFooBar() {...}
+     *}</pre>
+     * 
+     * <p>A request <code>GET /foo</code> would return an empty list since
+     * <code>FooResource</code> is a root resource.</p>
+     * 
+     * <p>A request <code>GET /foo/bar</code> would return a list with one
+     * entry: "foo".</p>
+     * 
+     * @return a list of URIs for ancestor resources.
+     */
+    public List<URI> getAncestorResourceURIs();
+    
+    /**
+     * Get a list of ancestor resource class instances. Each entry is a resource
+     * class instance that matched a resource class, a sub-resource method or
+     * a sub-resource locator. Entries are ordered according to request URI 
+     * matching order, with the root resource first. E.g.:
+     * 
+     * <pre>&#064;Path("foo")
+     *public class FooResource {
+     *  &#064;GET
+     *  public String getFoo() {...}
+     * 
+     *  &#064;Path("bar")
+     *  &#064;GET
+     *  public String getFooBar() {...}
+     *}</pre>
+     * 
+     * <p>A request <code>GET /foo</code> would return an empty list since
+     * <code>FooResource</code> is a root resource.</p>
+     * 
+     * <p>A request <code>GET /foo/bar</code> would return a list with one 
+     * entry: an instance of
+     * <code>FooResource</code>.</p>
+     * 
+     * @return a list of ancestor resource class instances.
+     */
+    public List<Object> getAncestorResources();
 }
