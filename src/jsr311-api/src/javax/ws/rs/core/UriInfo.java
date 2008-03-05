@@ -21,7 +21,6 @@ package javax.ws.rs.core;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 /**
  * An injectable interface that provides access to application and request 
