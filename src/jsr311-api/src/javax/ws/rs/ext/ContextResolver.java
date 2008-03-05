@@ -14,10 +14,14 @@ package javax.ws.rs.ext;
 
 /**
  * Contract for a provider that supplies context information to resource
- * classes and other providers. An injected instance of this interface will
+ * classes and other providers. An implementation of this interface must be
+ * annotated with {@link Provider}.
+ * 
+ * <p>An injected instance of this interface will
  * try each provider of the same generic type until one returns a non-null
- * context.
+ * context.</p>
  *
+ * @see javax.ws.rs.core.Context
  * @see Provider
  */
 public interface ContextResolver<T> {
