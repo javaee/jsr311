@@ -3,7 +3,12 @@
 
 \jaxrs\ provides facilities for obtaining and processing information about the application deployment context and the context of individual requests. Such information is available to both resource classes (see chapter \ref{resources}) and providers (see chapter \ref{providers}). This chapter describes these facilities.
 
-\section{URIs and URI Templates}
+\section{Context Types}
+\label{contexttypes}
+
+This section describes the types of context available to resource classes and providers.
+
+\subsection{URIs and URI Templates}
 
 An instance of \UriInfo\ can be injected into a class field or method parameter using the \Context\ annotation. \UriInfo\ provides both static and dynamic, per-request information, about the components of a request URI. E.g. the following would return the names of any query parameters in a request:
 
@@ -20,7 +25,7 @@ public String listQueryParamNames(@Context UriInfo info) {
 }
 \end{listing} 
 
-\section{Headers}
+\subsection{Headers}
 
 An instance of \HttpHeaders\ can be injected into a class field or method parameter using the \Context\ annotation. \HttpHeaders\ provides access to request header information either in map form or via strongly typed convenience methods. E.g. the following would return the names of all the headers in a request:
 
@@ -39,7 +44,7 @@ public String listHeaderNames(@Context HttpHeaders headers) {
 
 Note that response headers may be provided using the \Response\ interface, see \ref{resource_method_return} for more details.
 
-\section{Content Negotiation and Preconditions}
+\subsection{Content Negotiation and Preconditions}
 
 \jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \Request\ allow a caller to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \ResponseBuilder\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
 
@@ -58,9 +63,22 @@ public Response updateFoo(@Context Request request, Foo foo) {
 
 The application could also set the content location, expiry date and cache control information into the returned \code{ResponseBuilder} before building the response.
 
-\section{Security Context}
+\subsection{Security Context}
 
 The \SecurityContext\ interface provides access to information about the security context of the current request. An instance of \SecurityContext\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \SecurityContext\ provide access to the current user principle, information about roles assumed by the requester, whether the request arrived over a secure channel and the authentication scheme used.
+
+\subsection{Message Body Workers}
+
+The \code{MessageBodyWorkers} interface allows for lookup of \MsgRead\ and \MsgWrite\ instances based on a set of search criteria including support media and Java type. An instance of \code{MessageBodyWorkers} can be injected into a class field or method parameter using the \Context\ annotation.
+
+This interface is expected to be primarily of interest to entity provider authors wishing to use other entity providers to process a composite entity.
+
+\subsection{Context Resolver}
+\label{contextresolver}
+
+Section \ref{contextprovider} describes how an application can supply a \code{ContextResolver} for a particular context type. An instance of \code{ContextResolver} can be injected into a class field or method parameter using the \Context\ annotation. 
+
+The generic type of the annotation target is used select providers of the desired context type. The injected instance is not an instance of an application supplied context provider, rather it is a proxy that iterates through all the providers of the desired context type until one returns a non-\code{null} context for the type supplied in \code{getContext}. If no providers return a non-\code{null} context then the \code{getContext} method returns \code{null}.
 
 \section{Injection Scope}
 
