@@ -21,6 +21,7 @@ package javax.ws.rs.ext;
 
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.ws.rs.core.ApplicationConfig;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.core.UriBuilder;
@@ -141,6 +142,17 @@ public abstract class RuntimeDelegate {
      */
     public abstract VariantListBuilder createVariantListBuilder();
     
+    /**
+     * Create a configured instance of the supplied type.
+     * @param applicationConfig the application configuration
+     * @param endpointType the type of endpoint instance to be created. 
+     * Implementations MUST support javax.xml.ws.Provider and MAY support other
+     * types.
+     * @return a configured instance of the requested type.
+     */
+    public abstract <T> T createEndpoint(ApplicationConfig applicationConfig,
+            Class<T> endpointType);
+        
     /**
      * Obtain an instance of a HeaderDelegate for the supplied class. An 
      * implementation is required to support the following values for type:
