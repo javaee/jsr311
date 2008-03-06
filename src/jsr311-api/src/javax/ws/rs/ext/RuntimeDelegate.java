@@ -149,9 +149,11 @@ public abstract class RuntimeDelegate {
      * Implementations MUST support javax.xml.ws.Provider and MAY support other
      * types.
      * @return a configured instance of the requested type.
+     * @throws java.lang.IllegalArgumentException if the requested endpoint
+     * type is not supported.
      */
     public abstract <T> T createEndpoint(ApplicationConfig applicationConfig,
-            Class<T> endpointType);
+            Class<T> endpointType) throws IllegalArgumentException;
         
     /**
      * Obtain an instance of a HeaderDelegate for the supplied class. An 
