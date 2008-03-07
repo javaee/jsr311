@@ -12,12 +12,20 @@ Applications are published in different ways depending on whether the applicatio
 
 \subsection{Java SE}
 
-In a Java SE environment a configured instance of an endpoint class can be obtained using the \code{create\-Endpoint} method of \rd. The application supplies an instance of \code{Application\-Config} and the type of endpoint required. Implementations MUST support \code{javax\-.xml\-.ws\-.Provider} and MAY support other types.
+In a Java SE environment a configured instance of an endpoint class can be obtained using the \code{create\-Endpoint} method of \rd. The application supplies an instance of \code{Application\-Config} and the type of endpoint required. An implementation MAY support zero or more endpoint types of any desired type.
 
-How the resulting endpoint class instance is used to publish the application is outside the scope of this specification. JAX-WS describes how a \code{Provider} based endpoint can be published in an SE environment.
+How the resulting endpoint class instance is used to publish the application is outside the scope of this specification.
+
+\subsubsection{JAX-WS}
+
+An implementation that supports publication via JAX-WS must support \code{create\-Endpoint} with an endpoint type of \code{javax\-.xml\-.ws\-.Provider}. JAX-WS describes how a \code{Provider} based endpoint can be published in an SE environment.
 
 \subsection{Servlet}
 
 When using a \jaxrs\ aware servlet container, the \code{servlet-class} element of the \code{web.xml} descriptor SHOULD name the application-supplied subclass of \code{Application\-Config}.
 
 When using a non-\jaxrs\ aware servlet container, the \code{servlet-class} element of the \code{web.xml} descriptor SHOULD name the \jaxrs\ implementation-supplied Servlet class. The application-supplied subclass of \code{Application\-Config} is identified using an \code{init-param} with a \code{param-name} of \code{javax\-.ws\-.rs\-.Application\-Config}.
+
+\subsection{Other Container}
+
+An implementation MAY provides facilities to host a \jaxrs\ application in other types of container, such facilities are outside the scope of this specification.
