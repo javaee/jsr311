@@ -143,11 +143,11 @@ public abstract class RuntimeDelegate {
     public abstract VariantListBuilder createVariantListBuilder();
     
     /**
-     * Create a configured instance of the supplied type.
+     * Create a configured instance of the supplied endpoint type. How the
+     * returned endpoint instance is published is dependent on the type of
+     * endpoint.
      * @param applicationConfig the application configuration
      * @param endpointType the type of endpoint instance to be created. 
-     * Implementations MUST support javax.xml.ws.Provider and MAY support other
-     * types.
      * @return a configured instance of the requested type.
      * @throws java.lang.IllegalArgumentException if the requested endpoint
      * type is not supported.
