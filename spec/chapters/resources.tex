@@ -236,7 +236,7 @@ A request is matched to the corresponding resource method or sub-resource method
 \item Filter $E$ by matching each member against $U$ as follows:
 \begin{itemize}
 \item Remove members that do not match $U$.
-\item Remove members for which the final matching group is not empty or \lq/\rq\ and the class associated with $R(T_{\mbox{class}})$ had no sub-resource methods or locators.
+\item Remove members for which the final matching group is neither empty nor \lq/\rq\ and the class associated with $R(T_{\mbox{class}})$ had no sub-resource methods or locators.
 \end{itemize}
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
@@ -255,15 +255,15 @@ A request is matched to the corresponding resource method or sub-resource method
 \item Set $C=\mbox{class of} O, E=\{\}$
 
 \item For class $C$ add regular expressions to $E$ for each sub-resource method and locator as follows:
-\begin{itemize}
-\item For each sub-resource method, add $R(T_{\mbox{method}})$ where $T_{\mbox{method}}$ is the URI path template of the sub-resource method.
+\begin{enumerate}
+\item \label{t_method_items} For each sub-resource method, add $R(T_{\mbox{method}})$ where $T_{\mbox{method}}$ is the URI path template of the sub-resource method.
 \item For each sub-resource locator, add $R(T_{\mbox{locator}})$ where $T_{\mbox{locator}}$ is the  URI path template of the sub-resource locator.
-\end{itemize}
+\end{enumerate}
 
 \item Filter $E$ by matching each member against $U$ as follows:
 \begin{itemize}
 \item Remove members that do not match $U$.
-\item Remove members derived from $T_{\mbox{method}}$ for which the final matching group is not empty or \lq/\rq.
+\item Remove members derived from $T_{\mbox{method}}$ (those added in step \ref{t_method_items}) for which the final matching group is neither empty nor \lq/\rq.
 \end{itemize}
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
@@ -285,7 +285,7 @@ A request is matched to the corresponding resource method or sub-resource method
 \begin{enumerate}
 \item Find the set of resource methods $M$ of $O$ that meet the following criteria:
 \begin{itemize}
-\item If $U$ is not empty or equal to \lq/\rq, the method must be annotated with  a URI template that, when transformed into a regular expression using the process described in section \ref{template_to_regex}, matches $U$ with a final matching group that is either empty or equal to \lq/\rq.
+\item If $U$ is neither empty nor equal to \lq/\rq, the method must be annotated with  a URI template that, when transformed into a regular expression using the process described in section \ref{template_to_regex}, matches $U$ with a final matching group that is either empty or equal to \lq/\rq.
 \item The request method is supported. If no methods support the request method an implementation MUST generate a method not allowed response (HTTP 405 status). Note the additional support for \code{HEAD} and \code{OPTIONS} described in section \ref{head_and_options}.
 \item The media type of the request entity body (if any) is a supported input data format (see section \ref{declaring_method_capabilities}). If no methods support the media type of the request entity body an implementation MUST generate an unsupported media type response (HTTP 415 status).
 \item At least one of the acceptable response entity body media types is a supported output data format (see section \ref{declaring_method_capabilities}). If no methods support one of the acceptable response entity body media types an implementation MUST generate a not acceptable response (HTTP 406 status).
