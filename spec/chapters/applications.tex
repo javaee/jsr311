@@ -3,6 +3,7 @@
 A \jaxrs\ application consists of one or more resources (see chapter \ref{resources}) and zero or more providers (see chapter \ref{providers}). This chapter describes aspects of \jaxrs\ that apply to an application as a whole, subsequent chapters describe particular aspects of a \jaxrs\ application and requirements on \jaxrs\ implementations.
 
 \section{Configuration}
+\label{config}
 
 The resources and providers that make up a \jaxrs\ application are configured via an application-supplied subclass of \code{Application\-Config}. An implementation MAY provide alternate mechanisms for locating resource classes and providers (e.g. runtime class scanning) but use of \code{Application\-Config} is the only portable means of configuration.
 
@@ -18,9 +19,11 @@ How the resulting endpoint class instance is used to publish the application is 
 
 \subsubsection{JAX-WS}
 
-An implementation that supports publication via JAX-WS must support \code{create\-Endpoint} with an endpoint type of \code{javax\-.xml\-.ws\-.Provider}. JAX-WS describes how a \code{Provider} based endpoint can be published in an SE environment.
+An implementation that supports publication via JAX-WS MUST support \code{create\-Endpoint} with an endpoint type of \code{javax\-.xml\-.ws\-.Provider}. JAX-WS describes how a \code{Provider} based endpoint can be published in an SE environment.
 
 \subsection{Servlet}
+
+A \jaxrs\ application is packaged as a Servlet in a \code{.war} file. The \code{Application\-Config} subclass (see \ref{config}, resource classes, and providers are packaged in \code{WEB-INF/classes}, required libraries are packaged in \code{WEB-INF/lib}. Included libraries MAY also contain resource classes and providers as desired. See the Servlet specification for full details on packaging of web applications.
 
 When using a \jaxrs\ aware servlet container, the \code{servlet-class} element of the \code{web.xml} descriptor SHOULD name the application-supplied subclass of \code{Application\-Config}.
 
