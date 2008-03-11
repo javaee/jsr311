@@ -9,12 +9,16 @@ A resource class is a Java class that uses \jaxrs\ annotations to implement a co
 
 \subsection{Lifecycle and Environment}
 
-A new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
+By default a new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
+
+An implementation MAY offer other resource class lifecycles, mechanisms for specifying these are outside the scope of this specification. E.g. an implementation based on an inversion-of-control framework may support all of the lifecycle options provided by that framework.
 
 \subsection{Constructors}
 \label{resource_class_constructor}
 
-Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with one of the following annotations on every parameter: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam. Note that a zero argument constructor is permissible under this rule. Section \ref{resource_method_params} defines the parameter types permitted for each annotation. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
+
+A constructor MAY include parameters annotated with one of the following: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam - section \ref{resource_method_params} defines the parameter types permitted for each annotation. However, depending on the resource class lifecycle and concurrency, per-request information may not make sense in a constructor. If more than one constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 Non-root resource classes are instantiated by an application and do not require the above-described constructor.
 

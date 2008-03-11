@@ -5,14 +5,16 @@ The \jaxrs\ runtime is extended using application-supplied provider classes. A p
 
 \section{Lifecycle and Environment}
 
-A single instance of each provider class is instantiated for each \jaxrs\ application. First the constructor (see section \ref{provider_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate provider methods may be called multiple times (simultaneously), and finally the object is made available for garbage collection.
+By default a single instance of each provider class is instantiated for each \jaxrs\ application. First the constructor (see section \ref{provider_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate provider methods may be called multiple times (simultaneously), and finally the object is made available for garbage collection.
+
+An implementation MAY offer other provider lifecycles, mechanisms for specifying these are outside the scope of this specification. E.g. an implementation based on an inversion-of-control framework may support all of the lifecycle options provided by that framework.
 
 \section{Constructors}
 \label{provider_class_constructor}
 
-Provider classes are instantiated by the \jaxrs\ runtime and MUST have a constructor with \Context\ on every parameter. Note that a zero argument constructor is permissible under this rule. If more than one constructor that matches the above pattern is available then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+Provider classes are instantiated by the \jaxrs\ runtime and MUST have a constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
 
-Section \ref{resource_method_params} defines the parameter types permitted for \Context. Since providers may be created outside the scope of a particular request, only deployment-specific properties may be available from injected interfaces at construction time. Request-specific properties are available when a provider method is called.
+A constructor MAY include parameters annotated with \Context - chapter \ref{context} defines the parameter types permitted for this annotation. Since providers may be created outside the scope of a particular request, only deployment-specific properties may be available from injected interfaces at construction time - request-specific properties are available when a provider method is called. If more than one constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 \section{Entity Providers}
 \label{entity_providers}
