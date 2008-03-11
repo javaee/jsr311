@@ -268,7 +268,7 @@ A request is matched to the corresponding resource method or sub-resource method
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a not found response (HTTP 404 status).
 
-\item Sort $E$ using the number of literal characters in each member as the primary key (descending order) and the number of capturing groups as a secondary key (descending order).
+\item Sort $E$ using the number of literal characters in each member as the primary key (descending order), the number of capturing groups as a secondary key (descending order), and the source of each member as tertiary key sorting those derived from $T_{\mbox{method}}$ ahead of those derived from $T_{\mbox{locator}}$.
 
 \item Set $R_{\mbox{match}}$ to be the first member of $E$
 
