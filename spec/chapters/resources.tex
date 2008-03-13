@@ -195,7 +195,7 @@ An implementation MUST NOT invoke a method whose effective value of \ProduceMime
 
 \section{Annotation Inheritance}
 
-\jaxrs\ annotations MAY be used on the methods of a super-class or an implemented interface. Such annotations are inherited by a corresponding sub-class or implementation class method provided that method does not have any of its own \jaxrs\ annotations. If a subclass or implementation method has any \jaxrs\ annotations then {\em all} of the annotations on the super class or interface method are ignored. E.g.:
+\jaxrs\ annotations MAY be used on the methods of a super-class or an implemented interface. Such annotations are inherited by a corresponding sub-class or implementation class method provided that method does not have any of its own \jaxrs\ annotations. Annotations on a super-class take precedence over those on an implemented interface. If a subclass or implementation method has any \jaxrs\ annotations then {\em all} of the annotations on the super class or interface method are ignored. E.g.:
 
 \begin{listing}{1}
 public interface ReadOnlyAtomFeed {
