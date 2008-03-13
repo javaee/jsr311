@@ -31,8 +31,9 @@ The following describes the logical\footnote{Implementations are free to optimiz
 \begin{enumerate}
 \item Identify the Java type of the parameter whose value will be mapped from the entity body. Section \ref{mapping_requests_to_java_methods} describes how the Java method is chosen.
 \item Select the set of \MsgRead\ classes that support the media type of the request, see section \ref{declaring_provider_capabilities}.
-\item Iterate through the selected \MsgRead\ classes and, utilizing the \code{isReadable} method of each, choose a \MsgRead\ provider that supports the desired Java type.
-\item Use the \code{readFrom} method of the chosen \MsgRead\ to map the entity body to the desired Java type.
+\item\label{findreader} Iterate through the selected \MsgRead\ classes and, utilizing the \code{isReadable} method of each, choose a \MsgRead\ provider that supports the desired Java type.
+\item If step \ref{findreader} locates a suitable \MsgRead\ then use its \code{readFrom} method to map the entity body to the desired Java type.
+\item If step \ref{findreader} fails to locate a suitable \MsgRead\ then generate an unsupported media type response (HTTP 415 status).
 \end{enumerate}
 
 \subsection{Message Body Writer}
@@ -47,8 +48,9 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 \item Obtain the effective value of \ProduceMime\ (see section \ref{declaring_method_capabilities}) and intersect that with the requested response formats to obtain set of permissible media types for the response entity body. Note that section \ref{mapping_requests_to_java_methods} ensures that this set will not be empty.
 \item Select the set of \MsgWrite\ providers that support (see section \ref{declaring_provider_capabilities}) one or more of the permissible media types for the response entity body.
 \item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
-\item Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
-\item Use the \code{writeTo} method of the chosen \MsgWrite\ provider to map the object to the entity body.
+\item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
+\item If step \ref{findwriter} locates a suitable \MsgWrite\ then use its \code{writeTo} method to map the object to the entity body.
+\item If step \ref{findwriter} fails to locate a suitable \MsgWrite\ then generate a not acceptable response (HTTP 406 status).
 \end{enumerate}
 
 \subsection{Declaring Media Type Capabilities}
