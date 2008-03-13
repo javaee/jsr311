@@ -30,14 +30,8 @@ import java.lang.annotation.Target;
  * will serve requests for. Root
  * resource classes require an @Path annotation.
  * Classes may also be annotated with 
- * <code>@ConsumeMime</code> and <code>@ProduceMime</code> to filter the
+ * {@link ConsumeMime} and {@link ProduceMime} to filter the
  * requests they will receive.
- * 
- * The container must honour annotations from the javax.annotation package. In
- * particular, resource class instance lifecycle can be managed using the
- * javax.annotation.PostConstruct and java.annotation.PreDestroy annotations
- * and a class can obtain access to container context information using 
- * javax.annotation.Resource as specified in JSR 250.
  * 
  * @see ConsumeMime
  * @see ProduceMime
