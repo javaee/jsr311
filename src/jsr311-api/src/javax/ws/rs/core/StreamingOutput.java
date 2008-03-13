@@ -19,6 +19,7 @@
 
 package javax.ws.rs.core;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -34,6 +35,7 @@ public interface StreamingOutput {
     /**
      * Called to write the message body. 
      * @param output the OutputStream to write to.
+     * @throws java.io.IOException if an IO error is encountered
      */
-    void write(OutputStream output); 
+    void write(OutputStream output) throws IOException; 
 }
