@@ -169,10 +169,12 @@ public interface UriInfo {
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
     
     /**
-     * Get a list of URIs for ancestor resources. Each entry is a relative URI
+     * Get a read-only list of URIs for ancestor resources. Each entry is a relative URI
      * that is a partial path that matched a resource class, a sub-resource 
-     * method or a sub-resource locator. The entries are ordered according to 
-     * request URI matching order, with the root resource URI first. E.g.:
+     * method or a sub-resource locator. Entries do not include query
+     * parameters but do include matrix parameters if present in the request URI.
+     * Entries are ordered in reverse request URI matching order, with the 
+     * root resource URI last. E.g.:
      * 
      * <pre>&#064;Path("foo")
      *public class FooResource {
@@ -190,15 +192,15 @@ public interface UriInfo {
      * <p>A request <code>GET /foo/bar</code> would return a list with one
      * entry: "foo".</p>
      * 
-     * @return a list of URIs for ancestor resources.
+     * @return a read-only list of URI paths for ancestor resources.
      */
-    public List<URI> getAncestorResourceURIs();
+    public List<String> getAncestorResourceURIs();
     
     /**
-     * Get a list of ancestor resource class instances. Each entry is a resource
+     * Get a read-only list of ancestor resource class instances. Each entry is a resource
      * class instance that matched a resource class, a sub-resource method or
-     * a sub-resource locator. Entries are ordered according to request URI 
-     * matching order, with the root resource first. E.g.:
+     * a sub-resource locator. Entries are ordered according in reverse request URI 
+     * matching order, with the root resource last. E.g.:
      * 
      * <pre>&#064;Path("foo")
      *public class FooResource {
@@ -217,7 +219,7 @@ public interface UriInfo {
      * entry: an instance of
      * <code>FooResource</code>.</p>
      * 
-     * @return a list of ancestor resource class instances.
+     * @return a read-only list of ancestor resource class instances.
      */
     public List<Object> getAncestorResources();
 }
