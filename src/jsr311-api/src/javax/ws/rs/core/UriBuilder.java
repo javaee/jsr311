@@ -164,7 +164,8 @@ public abstract class UriBuilder {
     
     /**
      * Controls whether the UriBuilder will automatically encode URI components
-     * added by subsequent operations or not.
+     * added by subsequent operations or not. Defaults to true unless
+     * overridden during creation or set via this method.
      * @param enable automatic encoding (true) or disable it (false). 
      * If false, subsequent components added must be valid with all illegal
      * characters already escaped.
@@ -173,7 +174,8 @@ public abstract class UriBuilder {
     public abstract UriBuilder encode(boolean enable);
     
     /**
-     * Get the current state of automatic encoding. 
+     * Get the current state of automatic encoding. Defaults to true unless
+     * overridden during creation or set via {@link #encode}.
      * @return true if automatic encoding is enable, false otherwise
      * @see #encode
      */
@@ -392,7 +394,9 @@ public abstract class UriBuilder {
 
     /**
      * Build a URI, any URI template parameters will be replaced by the value in
-     * the supplied map. The <code>build</code> method does not change the state of the
+     * the supplied map. Values are converted to <code>String</code> using
+     * their <code>toString</code> method. The <code>build</code> method does
+     * not change the state of the
      * <code>UriBuilder</code> and it may be called multiple times on the same
      * builder instance.
      * @param values a map of URI template parameter names and values
@@ -400,15 +404,18 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if automatic encoding is disabled and
      * a supplied value contains illegal characters, or
      * if there are any URI template parameters without
-     * a supplied value
+     * a supplied value, or if a template parameter value is null.
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract URI build(Map<String, String> values) throws IllegalArgumentException, UriBuilderException;
+    public abstract URI build(Map<String, Object> values) 
+            throws IllegalArgumentException, UriBuilderException;
     
     /**
      * Build a URI, using the supplied values in order to replace any URI
-     * template parameters. The <code>build</code> method does not change the state of the
+     * template parameters. Values are converted to <code>String</code> using
+     * their <code>toString</code> method. The <code>build</code> method does 
+     * not change the state of the
      * <code>UriBuilder</code> and it may be called multiple times on the same
      * builder instance.
      * <p>All instances of the same template parameter
@@ -421,9 +428,10 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if automatic encoding is disabled and
      * a supplied value contains illegal characters, or
      * if there are any URI template parameters without
-     * a supplied value
+     * a supplied value, or if a value is null.
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract URI build(String... values) throws IllegalArgumentException, UriBuilderException;
+    public abstract URI build(Object... values) 
+            throws IllegalArgumentException, UriBuilderException;
 }
