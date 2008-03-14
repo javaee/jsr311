@@ -124,21 +124,25 @@ public abstract class RuntimeDelegate {
     }
     
     /**
-     * Create a new instance of a UriBuilder.
+     * Create a new instance of a {@link javax.ws.rs.core.UriBuilder} with 
+     * automatic encoding enabled.
      * @return new UriBuilder instance
+     * @see javax.ws.rs.core.UriBuilder
      */
     public abstract UriBuilder createUriBuilder();
     
     /**
-     * Create a new instance of a ResponseBuilder.
+     * Create a new instance of a {@link javax.ws.rs.core.Response.ResponseBuilder}.
      * @return new ResponseBuilder instance
+     * @see javax.ws.rs.core.Response.ResponseBuilder
      */
     public abstract ResponseBuilder createResponseBuilder();
     
     /**
-     * Create a new instance of a VariantListBuilder.
+     * Create a new instance of a {@link javax.ws.rs.core.Variant.VariantListBuilder}.
      * 
      * @return new VariantListBuilder instance
+     * @see javax.ws.rs.core.Variant.VariantListBuilder
      */
     public abstract VariantListBuilder createVariantListBuilder();
     
@@ -151,9 +155,11 @@ public abstract class RuntimeDelegate {
      * @return a configured instance of the requested type.
      * @throws java.lang.IllegalArgumentException if the requested endpoint
      * type is not supported.
+     * @throws java.lang.UnsupportedOperationException if the implementation
+     * supports no endpoint types.
      */
     public abstract <T> T createEndpoint(ApplicationConfig applicationConfig,
-            Class<T> endpointType) throws IllegalArgumentException;
+            Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException;
         
     /**
      * Obtain an instance of a HeaderDelegate for the supplied class. An 
