@@ -16,11 +16,11 @@ An implementation MAY offer other resource class lifecycles, mechanisms for spec
 \subsection{Constructors}
 \label{resource_class_constructor}
 
-Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
+Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a public constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
 
-A constructor MAY include parameters annotated with one of the following: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam - section \ref{resource_method_params} defines the parameter types permitted for each annotation. However, depending on the resource class lifecycle and concurrency, per-request information may not make sense in a constructor. If more than one constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+A public constructor MAY include parameters annotated with one of the following: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam - section \ref{resource_method_params} defines the parameter types permitted for each annotation. However, depending on the resource class lifecycle and concurrency, per-request information may not make sense in a constructor. If more than one public constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
-Non-root resource classes are instantiated by an application and do not require the above-described constructor.
+Non-root resource classes are instantiated by an application and do not require the above-described public constructor.
 
 \section{Resource Methods}
 \label{resource_method}

@@ -12,9 +12,9 @@ An implementation MAY offer other provider lifecycles, mechanisms for specifying
 \section{Constructors}
 \label{provider_class_constructor}
 
-Provider classes are instantiated by the \jaxrs\ runtime and MUST have a constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
+Provider classes are instantiated by the \jaxrs\ runtime and MUST have a public constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
 
-A constructor MAY include parameters annotated with \Context - chapter \ref{context} defines the parameter types permitted for this annotation. Since providers may be created outside the scope of a particular request, only deployment-specific properties may be available from injected interfaces at construction time - request-specific properties are available when a provider method is called. If more than one constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+A public constructor MAY include parameters annotated with \Context - chapter \ref{context} defines the parameter types permitted for this annotation. Since providers may be created outside the scope of a particular request, only deployment-specific properties may be available from injected interfaces at construction time - request-specific properties are available when a provider method is called. If more than one public constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 \section{Entity Providers}
 \label{entity_providers}
