@@ -224,7 +224,31 @@ In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is n
 \section{Matching Requests to Resource Methods}
 \label{mapping_requests_to_java_methods}
 
-A request is matched to the corresponding resource method or sub-resource method by comparing the request URI, the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
+This section describes how a request is matched to a resource class and method.
+
+\subsection{Request Preprocessing}
+
+Request URIs are preprocessed to support URI-based content negotiation as follows:
+
+\begin{enumerate}
+\item Set
+\begin{itemize}
+\item $M = \{\mbox{\code{config.getExtensionMappings().keySet()}}\}$
+\item $L = \{\mbox{\code{config.getLanguageMappings().keySet()}}\}$
+\item Where \code{config} is an instance of the application-supplied subclass of \code{ApplicationConfig}.
+\end{itemize}
+\item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment:
+\begin{enumerate}
+\item Remove the leading \lq.\rq\ character from $e$
+\item If $e$ is a member of $M$ or $L$ then remove the corresponding extension from the request URI.
+\item If $e$ is a member of $M$ then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
+\item Else if $e$ is a member of $L$ then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Request Matching}
+
+A request is matched to the corresponding resource method or sub-resource method by comparing the preprocessed request URI, the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
 
 \begin{enumerate}
 \item Identify the root resource class:
