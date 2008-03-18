@@ -228,7 +228,7 @@ This section describes how a request is matched to a resource class and method.
 
 \subsection{Request Preprocessing}
 
-Request URIs are preprocessed to support URI-based content negotiation as follows:
+For the purposes of matching, Request URIs are preprocessed to support URI-based content negotiation as follows:
 
 \begin{enumerate}
 \item Set
@@ -240,11 +240,13 @@ Request URIs are preprocessed to support URI-based content negotiation as follow
 \item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment:
 \begin{enumerate}
 \item Remove the leading \lq.\rq\ character from $e$
-\item If $e$ is a member of $M$ or $L$ then remove the corresponding extension from the request URI.
-\item If $e$ is a member of $M$ then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
-\item Else if $e$ is a member of $L$ then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
+\item\label{removematchingext} If $e$ is a member of $M$ or $L$ then remove the corresponding extension from the effective request URI.
+\item If $e$ is a member of $M$ then set the effective value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
+\item Else if $e$ is a member of $L$ then set the effective value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
 \end{enumerate}
 \end{enumerate}
+
+The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in step \ref{removematchingext} MUST still be present in URIs returned from the methods of \UriInfo. Similarly the methods of \HttpHeaders\ MUST return the actual values of the \code{Accept} and \code{Accept-Language} headers rather than the effective values set during preprocessing.
 
 \subsection{Request Matching}
 
