@@ -20,9 +20,12 @@
 package javax.ws.rs.core;
 
 /**
- * Represents a URI path segment and any associated matrix parameters.
+ * Represents a URI path segment and any associated matrix parameters. When an
+ * instance of this type is injected with {@link javax.ws.rs.PathParam}, the
+ * value of the annotation identifies which path segment is selected.
  *
  * @see UriInfo#getPathSegments
+ * @see javax.ws.rs.PathParam
  */
 public interface PathSegment {
 
