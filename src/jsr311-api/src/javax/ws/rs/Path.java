@@ -43,7 +43,7 @@ public @interface Path {
      * the template will be served by the annotated class or class method.
      * Embedded template variables are allowed and are of the form {name} where
      * name is the template variable name. Paths are relative to the base URI
-     * of the container.
+     * of the container and must not include matrix parameters.
      * 
      * <p>E.g.: @Path("widgets/{id}")</p>
      */
