@@ -204,7 +204,8 @@ public class MediaType {
         else if (type.equalsIgnoreCase(other.type) && (subtype.equals(MEDIA_TYPE_WILDCARD) || other.subtype.equals(MEDIA_TYPE_WILDCARD)))
             return true;
         else
-            return this.equals(other);
+            return this.type.equalsIgnoreCase(other.type)
+                && this.subtype.equalsIgnoreCase(other.subtype);
     }
     
     /**
