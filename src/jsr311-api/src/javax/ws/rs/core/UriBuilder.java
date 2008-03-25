@@ -142,7 +142,7 @@ public abstract class UriBuilder {
      * annotation will be used when processing the value of the {@link javax.ws.rs.Path} but it
      * will not be used to modify the state of automaic encoding for the builder.
      * @return a new UriBuilder
-     * @throws IllegalArgumentException if resource is not annotated with UrPath or
+     * @throws IllegalArgumentException if resource is not annotated with {@link javax.ws.rs.Path} or
      * if resource.encode is false and resource.value, or
      * if resource is null
      * contains illegal characters
