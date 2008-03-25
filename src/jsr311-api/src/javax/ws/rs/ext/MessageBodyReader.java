@@ -32,7 +32,7 @@ import javax.ws.rs.core.MultivaluedMap;
  * implementation class with <code>@Provider</code>.
  *
  * A <code>MessageBodyReader</code> implementation may be annotated
- * with <code>@ConsumeMime</code> to restrict the media types for which it will
+ * with {@link javax.ws.rs.ConsumeMime} to restrict the media types for which it will
  * be considered suitable.
  *
  * @see Provider

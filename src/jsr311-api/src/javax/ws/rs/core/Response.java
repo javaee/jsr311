@@ -282,7 +282,7 @@ public abstract class Response {
      * static methods of the Response class, instance methods provide the
      * ability to set metadata. E.g. to create a response that indicates the 
      * creation of a new resource:
-     * <pre>@POST
+     * <pre>&#64;POST
      * Response addWidget(...) {
      *   Widget w = ...
      *   URI widgetId = UriBuilder.fromResource(Widget.class)...

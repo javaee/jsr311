@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The @Context annotation is used to inject information into a class
+ * This annotation is used to inject information into a class
  * field or method parameter.
  * @see UriInfo
  * @see Request

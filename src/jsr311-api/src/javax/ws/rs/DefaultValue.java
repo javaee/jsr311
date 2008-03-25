@@ -27,8 +27,9 @@ import java.lang.annotation.Target;
 /**
  * Defines the default value of a method parameter that
  * is bound from a URI query or matrix parameter or a HTTP header 
- * using the @QueryParam, @MatrixParam, @CookieParam
- * or @HeaderParam annotations respectively. The 
+ * using the {@link javax.ws.rs.QueryParam}, {@link javax.ws.rs.MatrixParam},
+ * {@link javax.ws.rs.CookieParam}
+ * or {@link javax.ws.rs.HeaderParam} annotations respectively. The 
  * default value is used if the query
  * or matrix parameter is not present in the request URI or if the
  * cookie or HTTP header is not 

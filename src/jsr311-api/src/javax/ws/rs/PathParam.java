@@ -52,9 +52,9 @@ public @interface PathParam {
      * to initialize the value of the annotated method parameter, class field or
      * property.
      * 
-     * <p>E.g. a class annotated with: <code>@Path("widgets/{id}")</code>
+     * <p>E.g. a class annotated with: <code>&#64;Path("widgets/{id}")</code>
      * can have methods annotated with a HTTP method annotation whose arguments are annotated
-     * with <code>@PathParam("id")</code>.
+     * with <code>&#64;PathParam("id")</code>.
      */
     String value();
 }
