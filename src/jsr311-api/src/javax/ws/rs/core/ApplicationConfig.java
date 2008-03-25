@@ -60,7 +60,7 @@ public abstract class ApplicationConfig {
      * <p>The default implementation returns an empty map.</p>
      * @return a map of file extension to media type
      */
-    public Map<String, MediaType> getExtensionMappings() {
+    public Map<String, MediaType> getMediaTypeMappings() {
         return emptyMediaMap;
     }
 
