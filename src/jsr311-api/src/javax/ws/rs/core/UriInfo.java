@@ -136,8 +136,9 @@ public interface UriInfo {
      * @return an unmodifiable map of parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see javax.ws.rs.Path
+     * @see javax.ws.rs.PathParam
      */
-    public MultivaluedMap<String, String> getTemplateParameters();
+    public MultivaluedMap<String, String> getPathParameters();
     
     /**
      * Get the values of any embedded URI template parameters.
@@ -147,8 +148,9 @@ public interface UriInfo {
      * @return an unmodifiable map of parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see javax.ws.rs.Path
+     * @see javax.ws.rs.PathParam
      */
-    public MultivaluedMap<String, String> getTemplateParameters(boolean decode);
+    public MultivaluedMap<String, String> getPathParameters(boolean decode);
     
     /**
      * Get the URI query parameters of the current request.
