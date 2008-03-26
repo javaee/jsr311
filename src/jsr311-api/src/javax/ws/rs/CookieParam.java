@@ -29,17 +29,21 @@ import java.lang.annotation.Target;
  * A default value can be specified using the {@link DefaultValue}
  * annotation.
  * 
- * The type of the annotated parameter must either:
- * <ul>
- * <li>Be {@link javax.ws.rs.core.Cookie}</li>
+ * The type <code>T</code> of the annotated parameter must either:
+ * <ol>
  * <li>Be a primitive type</li>
+ * <li>Be {@link javax.ws.rs.core.Cookie}</li>
  * <li>Have a constructor that accepts a single String argument</li>
  * <li>Have a static method named <code>valueOf</code> that accepts a single 
  * String argument (see, for example, {@link Integer#valueOf(String)})
- * </ul>
+ * <li>Be <code>List&lt;T&gt;</code>, <code>Set&lt;T&gt;</code> or 
+ * <code>SortedSet&lt;T&gt;</code>, where <code>T</code> satisfies 2, 3 or 4 above.
+ * The resulting collection is read-only.</li>
+ * </ol>
  *
  * @see DefaultValue
  * @see javax.ws.rs.core.Cookie
+ * @see javax.ws.rs.core.HttpHeaders#getCookies
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

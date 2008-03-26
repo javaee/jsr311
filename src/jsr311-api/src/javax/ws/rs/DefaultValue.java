@@ -33,10 +33,18 @@ import java.lang.annotation.Target;
  * default value is used if the query
  * or matrix parameter is not present in the request URI or if the
  * cookie or HTTP header is not 
- * present in the request. If this annotation is not used
+ * present in the request. If the type of the annotated parameter is 
+ * <code>List</code>, <code>Set</code> or <code>SortedSet</code> then the
+ * resulting collection will have a single entry mapped from the supplied 
+ * default value.
+ * 
+ * <p>If this annotation is not used
  * and the query or matrix parameter is not present in the request URI or the 
  * cookie or HTTP header is not supplied, the value will
- * be null for class types and the Java-defined default for primitive types.
+ * be an empty collection for <code>List</code>, <code>Set</code> or 
+ * <code>SortedSet</code>, null for other class types, and the Java-defined 
+ * default for primitive types.</p>
+ * 
  * @see QueryParam
  * @see HeaderParam
  * @see MatrixParam

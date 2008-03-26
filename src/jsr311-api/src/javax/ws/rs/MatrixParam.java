@@ -26,18 +26,23 @@ import java.lang.annotation.Target;
 
 /**
  * Binds a URI matrix parameter to a Java method parameter.
- * The value is URL decoded unless this is disabled using the {@link Encoded}
+ * Values are URL decoded unless this is disabled using the {@link Encoded}
  * annotation. A default value can be specified using the {@link DefaultValue}
  * annotation.
  * 
- * The type of the annotated parameter must either:
- * <ul>
+ * The type <code>T</code> of the annotated parameter must either:
+ * <ol>
  * <li>Be a primitive type</li>
- * <li>Have a constructor that accepts a single String argument</li>
+ * <li>Have a constructor that accepts a single <code>String</code> argument</li>
  * <li>Have a static method named <code>valueOf</code> that accepts a single 
- * String argument (see, for example, {@link Integer#valueOf(String)})
- * </ul>
- *
+ * <code>String</code> argument (see, for example, {@link Integer#valueOf(String)})</li>
+ * <li>Be <code>List&lt;T&gt;</code>, <code>Set&lt;T&gt;</code> or 
+ * <code>SortedSet&lt;T&gt;</code>, where <code>T</code> satisfies 2 or 3 above.
+ * The resulting collection is read-only.</li>
+ * </ol>
+ * 
+ * If the type is not one of those listed in 4 above then the first value 
+ * (lexically) of the parameter is used.
  *
  * @see DefaultValue
  * @see Encoded
