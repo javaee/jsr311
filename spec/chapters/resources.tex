@@ -36,14 +36,18 @@ Only \code{public} methods may be exposed as resource methods. An implementation
 \subsection{Parameters}
 \label{resource_method_params}
 
-When a resource method is invoked, annotated parameter values are mapped from the request according to the semantics of the annotation. The following describes the permitted types for an annotated parameter.
+When a resource method is invoked, parameters annotated with one of the following annotations are mapped from the request according to the semantics of the annotation:
+
 \begin{description}
-\item[\MatrixParam\ or \QueryParam] Either a primitive type, a class with a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation. If more than one query or matrix parameter is present in the request URI then the first value (by lexical order) is selected.
-\item[\PathParam] Either \code{PathSegment}, a primitive type, a class with a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument. By default, parameter values are automatically decoded; automatic decoding can be disabled using the \Encoded\ annotation.
-\item[\Context] The class of the annotated parameter MUST be one of the types defined in chapter \ref{context} or \ref{environment}.
-\item[\CookieParam] Either \code{Cookie}, a primitive type, a class with a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument.
-\item[\HeaderParam] Either a primitive type, a class with a constructor that accepts a single \code{String} argument, or a class with a static method named \code{valueOf} that accepts a single \code{String} argument.
+\item[\MatrixParam] Extracts the value of a URI matrix parameter.
+\item[\QueryParam] Extracts the value of a URI query parameter.
+\item[\PathParam] Extracts the value of a URI template parameter.
+\item[\CookieParam] Extracts the value of a cookie.
+\item[\HeaderParam] Extracts the value of a header.
+\item[\Context] Injects an instance of a supported resource, see chapters \ref{context} and \ref{environment} for more details.
 \end{description}
+
+Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data.
 
 The value of an non-annotated  parameter is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
 
