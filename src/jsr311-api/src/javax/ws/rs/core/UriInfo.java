@@ -59,7 +59,8 @@ public interface UriInfo {
      * Get the path of the current request relative to the base URI as a 
      * list of {@link PathSegment}. This method is useful when the
      * path needs to be parsed, particularly when matrix parameters may be
-     * present in the path. All sequences of escaped octets are decoded,
+     * present in the path. All sequences of escaped octets in path segments
+     * and matrix parmeter names and values are decoded,
      * equivalent to <code>getPathSegments(true)</code>.
      * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
      * map of each path segment is also unmodifiable.
@@ -73,8 +74,8 @@ public interface UriInfo {
      * list of {@link PathSegment}. This method is useful when the
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the path.
-     * @param decode controls whether sequences of escaped octets are decoded
-     * (true) or not (false).
+     * @param decode controls whether sequences of escaped octets in path segments
+     * and matrix parameter names and values are decoded (true) or not (false).
      * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
      * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
@@ -154,7 +155,7 @@ public interface UriInfo {
     
     /**
      * Get the URI query parameters of the current request.
-     * All sequences of escaped octets are decoded,
+     * All sequences of escaped octets in parameter names and values are decoded,
      * equivalent to <code>getQueryParameters(true)</code>.
      * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
@@ -163,12 +164,41 @@ public interface UriInfo {
     
     /**
      * Get the URI query parameters of the current request.
-     * @param decode controls whether sequences of escaped octets are decoded
-     * (true) or not (false).
+     * @param decode controls whether sequences of escaped octets in parameter
+     * names and values are decoded (true) or not (false).
      * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
+    
+    /**
+     * Get a read-only list of URIs for ancestor resources. Each entry is a 
+     * relative URI that is a partial path that matched a resource class, a 
+     * sub-resource method or a sub-resource locator. All sequences of escaped 
+     * octets are decoded, equivalent to <code>getAncestorResourceURIs(true)</code>.
+     * Entries do not include query parameters but do include matrix parameters
+     * if present in the request URI. Entries are ordered in reverse request 
+     * URI matching order, with the root resource URI last. E.g.:
+     * 
+     * <pre>&#064;Path("foo")
+     *public class FooResource {
+     *  &#064;GET
+     *  public String getFoo() {...}
+     * 
+     *  &#064;Path("bar")
+     *  &#064;GET
+     *  public String getFooBar() {...}
+     *}</pre>
+     * 
+     * <p>A request <code>GET /foo</code> would return an empty list since
+     * <code>FooResource</code> is a root resource.</p>
+     * 
+     * <p>A request <code>GET /foo/bar</code> would return a list with one
+     * entry: "foo".</p>
+     * 
+     * @return a read-only list of URI paths for ancestor resources.
+     */
+    public List<String> getAncestorResourceURIs();
     
     /**
      * Get a read-only list of URIs for ancestor resources. Each entry is a relative URI
@@ -194,9 +224,11 @@ public interface UriInfo {
      * <p>A request <code>GET /foo/bar</code> would return a list with one
      * entry: "foo".</p>
      * 
+     * @param decode controls whether sequences of escaped octets are decoded
+     * (true) or not (false).
      * @return a read-only list of URI paths for ancestor resources.
      */
-    public List<String> getAncestorResourceURIs();
+    public List<String> getAncestorResourceURIs(boolean decode);
     
     /**
      * Get a read-only list of ancestor resource class instances. Each entry is a resource
