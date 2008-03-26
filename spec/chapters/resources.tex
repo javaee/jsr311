@@ -47,7 +47,7 @@ When a resource method is invoked, parameters annotated with one of the followin
 \item[\Context] Injects an instance of a supported resource, see chapters \ref{context} and \ref{environment} for more details.
 \end{description}
 
-Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data.
+Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated parameters.
 
 The value of an non-annotated  parameter is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
 
