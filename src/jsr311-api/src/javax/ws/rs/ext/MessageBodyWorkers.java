@@ -35,10 +35,10 @@ import javax.ws.rs.core.MediaType;
 public interface MessageBodyWorkers {
     
     /**
-     * Get a list of message body readers that match a set of criteria.
+     * Get a message body reader that matches a set of criteria.
      * @param mediaType the media type of the data that will be read, this will
      * be compared to the values of {@link javax.ws.rs.ConsumeMime} for
-     * each candidate reader and only matching readers will be included.
+     * each candidate reader and only matching readers will be queried.
      * @param type the class of object to be produced.
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be
@@ -49,17 +49,17 @@ public interface MessageBodyWorkers {
      * message body is to be converted into a method parameter, this will be
      * the annotations on that parameter returned by 
      * <code>Class.getParameterAnnotations</code>.
-     * @return a list (possibly empty) of the MessageBodyReaders that match the
-     * supplied criteria.
+     * @return a MessageBodyReader that matches the supplied criteria or null
+     * if none is found.
      */
-    public abstract <T> List<MessageBodyReader<T>> getMessageBodyReaders(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
+    public abstract <T> MessageBodyReader<T> getMessageBodyReader(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
     
     
     /**
-     * Get a list of message body writers that match a set of criteria.
+     * Get a message body writer that matches a set of criteria.
      * @param mediaType the media type of the data that will be written, this will
      * be compared to the values of {@link javax.ws.rs.ProduceMime} for
-     * each candidate writer and only matching writers will be included.
+     * each candidate writer and only matching writers will be queried.
      * @param type the class of object that is to be written.
      * @param genericType the type of object to be written. E.g. if the 
      * message body is to be produced from a field, this will be
@@ -70,8 +70,8 @@ public interface MessageBodyWorkers {
      * message body is to be produced from a field, this will be
      * the annotations on that field returned by 
      * <code>Field.getDeclaredAnnotations</code>.
-     * @return a list (possibly empty) of the MessageBodyReaders that match the
-     * supplied criteria.
+     * @return a MessageBodyReader that matches the supplied criteria or null
+     * if none is found.
      */
-    public abstract <T> List<MessageBodyWriter<T>> getMessageBodyWriters(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
+    public abstract <T> MessageBodyWriter<T> getMessageBodyWriter(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
 }
