@@ -110,7 +110,7 @@ public class NewCookie extends Cookie {
      * @return the newly created NewCookie
      * @throws IllegalArgumentException if the supplied string cannot be parsed
      */
-    public static NewCookie parse(String value) throws IllegalArgumentException {
+    public static NewCookie valueOf(String value) throws IllegalArgumentException {
         return delegate.fromString(value);
     }
     

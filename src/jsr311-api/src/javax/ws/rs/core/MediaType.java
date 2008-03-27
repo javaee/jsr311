@@ -104,7 +104,7 @@ public class MediaType {
      * @return the newly created MediaType
      * @throws IllegalArgumentException if the supplied string cannot be parsed
      */
-    public static MediaType parse(String type) throws IllegalArgumentException {
+    public static MediaType valueOf(String type) throws IllegalArgumentException {
         return delegate.fromString(type);
     }
 
