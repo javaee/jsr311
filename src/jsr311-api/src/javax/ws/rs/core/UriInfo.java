@@ -99,6 +99,22 @@ public interface UriInfo {
     public UriBuilder getRequestUriBuilder();
     
     /**
+     * Get the absolute platonic request URI in the form of a UriBuilder. The
+     * platonic request URI is the request URI minus any extensions that were
+     * removed during request pre-processing for the purposes of URI-based
+     * content negotiation. E.g. if the request URI was:
+     * <pre>http://example.com/resource.xml</pre>
+     * <p>and an applications implementation of 
+     * {@link ApplicationConfig#getMediaTypeMappings} returned a map 
+     * that included "xml" as a key then the platonic request URI would be:</p>
+     * <pre>http://example.com/resource</pre>
+     * 
+     * @return a UriBuilder initialized with the absolute platonic request URI
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
+     */
+    public UriBuilder getPlatonicRequestUriBuilder();
+    
+    /**
      * Get the absolute path of the request. This includes everything preceding
      * the path (host, port etc) but excludes query parameters and fragment.
      * This is a shortcut for
@@ -129,6 +145,19 @@ public interface UriInfo {
      * @return a UriBuilder initialized with the base URI of the application.
      */
     public UriBuilder getBaseUriBuilder();
+    
+    /**
+     * Get the request URI extension. The returned string includes any 
+     * extensions remove during request pre-processing for the purposes of 
+     * URI-based content negotiation. E.g. if the request URI was:
+     * <pre>http://example.com/resource.xml.en</pre>
+     * <p>this method would return "xml.en" even if an applications 
+     * implementation of 
+     * {@link ApplicationConfig#getMediaTypeMappings} returned a map 
+     * that included "xml" as a key
+     * @return the request URI extension 
+     */
+    public String getPathExtension();
     
     /**
      * Get the values of any embedded URI template parameters.

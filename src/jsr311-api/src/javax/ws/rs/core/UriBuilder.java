@@ -317,6 +317,15 @@ public abstract class UriBuilder {
     public abstract UriBuilder path(Method... methods) throws IllegalArgumentException;
     
     /**
+     * Set the extension of the current final path segment to the supplied value
+     * appending an initial "." if necessary.
+     * @param extension the extension
+     * @return the updated UriBuilder
+     * @see UriInfo#getPathExtension
+     */
+    public abstract UriBuilder extension(String extension);
+    
+    /**
      * Set the matrix parameters of the current final segment of the current URI path.
      * This method will overwrite any existing matrix parameters on the current final
      * segment of the current URI path. Note that the matrix parameters
