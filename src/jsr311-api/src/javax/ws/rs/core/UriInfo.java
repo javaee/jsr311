@@ -155,14 +155,14 @@ public interface UriInfo {
      * implementation of 
      * {@link ApplicationConfig#getMediaTypeMappings} returned a map 
      * that included "xml" as a key
-     * @return the request URI extension 
+     * @return the request URI extension or null if there isn't one
      */
     public String getPathExtension();
     
     /**
      * Get the values of any embedded URI template parameters.
      * All sequences of escaped octets are decoded,
-     * equivalent to <code>getTemplateParameters(true)</code>.
+     * equivalent to <code>getPathParameters(true)</code>.
      * @return an unmodifiable map of parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see javax.ws.rs.Path

@@ -193,7 +193,7 @@ public abstract class UriBuilder {
     /**
      * Set the URI scheme.
      * @param scheme the URI scheme, may contain URI template parameters.
-     * . value will unset the URI scheme.
+     * A null value will unset the URI scheme.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if scheme is invalid
      */
@@ -319,7 +319,8 @@ public abstract class UriBuilder {
     /**
      * Set the extension of the current final path segment to the supplied value
      * appending an initial "." if necessary.
-     * @param extension the extension
+     * @param extension the extension, a null value will unset an existing
+     * extension including a trailing "." if necessary
      * @return the updated UriBuilder
      * @see UriInfo#getPathExtension
      */
