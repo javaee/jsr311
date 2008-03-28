@@ -9,7 +9,7 @@ A resource class is a Java class that uses \jaxrs\ annotations to implement a co
 
 \subsection{Lifecycle and Environment}
 
-By default a new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
+By default a new resource class instance is created for each request to that resource. First the constructor (see section \ref{resource_class_constructor}) is called, then any requested dependencies are injected (see section \ref{resource_field}), then the appropriate method (see section \ref{resource_method}) is invoked and finally the object is made available for garbage collection.
 
 An implementation MAY offer other resource class lifecycles, mechanisms for specifying these are outside the scope of this specification. E.g. an implementation based on an inversion-of-control framework may support all of the lifecycle options provided by that framework.
 
@@ -18,9 +18,29 @@ An implementation MAY offer other resource class lifecycles, mechanisms for spec
 
 Root resource classes are instantiated by the \jaxrs\ runtime and MUST have a public constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
 
-A public constructor MAY include parameters annotated with one of the following: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam - section \ref{resource_method_params} defines the parameter types permitted for each annotation. However, depending on the resource class lifecycle and concurrency, per-request information may not make sense in a constructor. If more than one public constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
+A public constructor MAY include parameters annotated with one of the following: \Context, \HeaderParam, \CookieParam, \MatrixParam, \QueryParam\ or \PathParam. However, depending on the resource class lifecycle and concurrency, per-request information may not make sense in a constructor. If more than one public constructor can be used then an implementation MUST use the one with the most parameters. Choosing amongst constructors with the same number of parameters is implementation specific.
 
 Non-root resource classes are instantiated by an application and do not require the above-described public constructor.
+
+\section{Fields and Bean Properties}
+\label{resource_field}
+
+When a resource class is instantiated, the values of fields and bean properties annotated with one the following annotations are set according to the semantics of the annotation:
+
+\begin{description}
+\item[\MatrixParam] Extracts the value of a URI matrix parameter.
+\item[\QueryParam] Extracts the value of a URI query parameter.
+\item[\PathParam] Extracts the value of a URI template parameter.
+\item[\CookieParam] Extracts the value of a cookie.
+\item[\HeaderParam] Extracts the value of a header.
+\item[\Context] Injects an instance of a supported resource, see chapters \ref{context} and \ref{environment} for more details.
+\end{description}
+
+Because injection occurs at object creation time, use of these annotations (with the exception of \Context) on resource class fields and bean properties is only supported for the default per-request resource class lifecycle. An implementation SHOULD warn if resource classes with other lifecycles use these annotations on resource class fields or bean properties.
+
+Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated fields and properties.
+
+An implementation is only required to set the annotated field and bean property values of instances created by the implementation runtime. Objects returned by sub-resource locators (see section \ref{sub_resources}) are expected to be initialized by their creator and field and bean properties are not modified by the implementation runtime.
 
 \section{Resource Methods}
 \label{resource_method}
@@ -36,20 +56,11 @@ Only \code{public} methods may be exposed as resource methods. An implementation
 \subsection{Parameters}
 \label{resource_method_params}
 
-When a resource method is invoked, parameters annotated with one of the following annotations are mapped from the request according to the semantics of the annotation:
+When a resource method is invoked, parameters annotated with one of the  annotations listed in section \ref{resource_field} are mapped from the request according to the semantics of the annotation.
 
-\begin{description}
-\item[\MatrixParam] Extracts the value of a URI matrix parameter.
-\item[\QueryParam] Extracts the value of a URI query parameter.
-\item[\PathParam] Extracts the value of a URI template parameter.
-\item[\CookieParam] Extracts the value of a cookie.
-\item[\HeaderParam] Extracts the value of a header.
-\item[\Context] Injects an instance of a supported resource, see chapters \ref{context} and \ref{environment} for more details.
-\end{description}
+Similarly for fields and bean properties, the \code{Default\-Value} annotation may be used to supply a default value for parameters and the \code{Encoded} annotation may be used to disable automatic URI decoding -- see section \ref{resource_field} for more details.
 
-Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated parameters.
-
-The value of an non-annotated  parameter is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
+The value of an non-annotated  parameter, called an entity parameter, is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
 
 \subsection{Return Type}
 \label{resource_method_return}
@@ -137,7 +148,7 @@ Methods of a resource class that are annotated with \Path\ are either sub-resour
 
 \begin{description}
 \item[Present] Such methods, known as {\em sub-resource methods}, are treated like a normal resource method (see section \ref{resource_method}) except the method is only invoked for request URIs that match a URI template created by concatenating the URI template of the resource class with the URI template of the method\footnote{If the resource class URI template does not end with a \lq/\rq\ character then one is added during the concatenation.}.
-\item[Absent] Such methods, known as {\em sub-resource locators}, are used to further resolve the object that will handle the request. Any returned object is treated as a resource class and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details.
+\item[Absent] Such methods, known as {\em sub-resource locators}, are used to further resolve the object that will handle the request. Any returned object is treated as a resource class and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details. Sub-resource locators may have all the same parameters as a normal resource method (see section \ref{resource_method}) except that they MUST NOT have an entity parameter.
 \end{description}
 
 The following example illustrates the difference:

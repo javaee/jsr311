@@ -3,6 +3,10 @@
 
 \jaxrs\ provides facilities for obtaining and processing information about the application deployment context and the context of individual requests. Such information is available to both resource classes (see chapter \ref{resources}) and providers (see chapter \ref{providers}). This chapter describes these facilities.
 
+\section{Concurrency}
+
+Context is specific to a particular request but instances of certain \jaxrs\ components (providers and resource classes with a lifecycle other than per-request) may need to support multiple concurrent requests. When injecting an instance of one of the types listed in section \ref{contexttypes}, the instance supplied MUST be capable of selecting the correct context for a particular request. Use of a thread-local proxy is a common way to achieve this.
+
 \section{Context Types}
 \label{contexttypes}
 
@@ -52,7 +56,7 @@ Note that response headers may be provided using the \Response\ interface, see \
 @HttpMethod(PUT)
 public Response updateFoo(@Context Request request, Foo foo) {
 	EntityTag tag = getCurrentTag();
-	ResponseBuilder responseBuilder = request.evaluate(tag, null);
+	ResponseBuilder responseBuilder = request.evaluatePreconditions(tag);
 	if (responseBuilder != null)
 	  return responseBuilder.build();
 	else
@@ -79,7 +83,3 @@ This interface is expected to be primarily of interest to entity provider author
 Section \ref{contextprovider} describes how an application can supply a \code{ContextResolver} for a particular context type. An instance of \code{ContextResolver} can be injected into a class field or method parameter using the \Context\ annotation. 
 
 The generic type of the annotation target is used select providers of the desired context type. The injected instance is not an instance of an application supplied context provider, rather it is a proxy that iterates through all the providers of the desired context type until one returns a non-\code{null} context for the type supplied in \code{getContext}. If no providers return a non-\code{null} context then the \code{getContext} method returns \code{null}.
-
-\section{Injection Scope}
-
-When the \Context\ annotation is applied to a class field, an implementation is only required to inject the applicable context into those class instances created by the implementation runtime. Objects returned by sub-resource locators (see section \ref{sub_resources}) are expected to be initialized by their creator and are not subject to resource injection by the implementation runtime.
