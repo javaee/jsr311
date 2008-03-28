@@ -24,11 +24,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a method parameter to a URI template parameter value or a path segment
- * containing the template parameter.  The value is URL decoded unless this 
+ * Binds the value of a URI template parameter or a path segment
+ * containing the template parameter to a resource method parameter, resource 
+ * class field, or resource class
+ * bean property. The value is URL decoded unless this 
  * is disabled using the {@link Encoded} annotation.
  * 
- * The type of the annotated parameter must either:
+ * The type of the annotated parameter, field or property must either:
  * <ul>
  * <li>Be {@link javax.ws.rs.core.PathSegment}, the value will be a PathSegment
  * corresponding to the path segment that contains the named template parameter.
@@ -39,12 +41,18 @@ import java.lang.annotation.Target;
  * <li>Have a static method named <code>valueOf</code> that accepts a single 
  * String argument (see, for example, {@link Integer#valueOf(String)}).
  * </ul>
+ * 
+ * <p>Because injection occurs at object creation time, use of this annotation 
+ * on resource class fields and bean properties is only supported for the 
+ * default per-request resource class lifecycle. Resource classes using 
+ * other lifecycles should only use this annotation on resource method
+ * parameters.</p>
  *
  * @see Encoded
  * @see javax.ws.rs.core.PathSegment
  * @see javax.ws.rs.core.UriInfo
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PathParam {
     /**

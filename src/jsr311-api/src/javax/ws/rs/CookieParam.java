@@ -25,11 +25,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds the value of a HTTP cookie to a Java method parameter.
+ * Binds the value of a HTTP cookie to a resource method parameter, 
+ * resource class field, or resource class bean property.
  * A default value can be specified using the {@link DefaultValue}
  * annotation.
  * 
- * The type <code>T</code> of the annotated parameter must either:
+ * The type <code>T</code> of the annotated parameter, field or property must 
+ * either:
  * <ol>
  * <li>Be a primitive type</li>
  * <li>Be {@link javax.ws.rs.core.Cookie}</li>
@@ -41,11 +43,17 @@ import java.lang.annotation.Target;
  * The resulting collection is read-only.</li>
  * </ol>
  *
+ * <p>Because injection occurs at object creation time, use of this annotation 
+ * on resource class fields and bean properties is only supported for the 
+ * default per-request resource class lifecycle. Resource classes using 
+ * other lifecycles should only use this annotation on resource method
+ * parameters.</p>
+ *
  * @see DefaultValue
  * @see javax.ws.rs.core.Cookie
  * @see javax.ws.rs.core.HttpHeaders#getCookies
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CookieParam {
     /**

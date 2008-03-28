@@ -25,12 +25,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a URI matrix parameter to a Java method parameter.
+ * Binds the value(s) of a URI matrix parameter to a resource method parameter, 
+ * resource class field, or resource class bean property.
  * Values are URL decoded unless this is disabled using the {@link Encoded}
  * annotation. A default value can be specified using the {@link DefaultValue}
  * annotation.
  * 
- * The type <code>T</code> of the annotated parameter must either:
+ * The type <code>T</code> of the annotated parameter, field or property must
+ * either:
  * <ol>
  * <li>Be a primitive type</li>
  * <li>Have a constructor that accepts a single <code>String</code> argument</li>
@@ -41,13 +43,19 @@ import java.lang.annotation.Target;
  * The resulting collection is read-only.</li>
  * </ol>
  * 
- * If the type is not one of those listed in 4 above then the first value 
- * (lexically) of the parameter is used.
+ * <p>If the type is not one of those listed in 4 above then the first value 
+ * (lexically) of the parameter is used.</p>
+ *
+ * <p>Because injection occurs at object creation time, use of this annotation 
+ * on resource class fields and bean properties is only supported for the 
+ * default per-request resource class lifecycle. Resource classes using 
+ * other lifecycles should only use this annotation on resource method
+ * parameters.</p>
  *
  * @see DefaultValue
  * @see Encoded
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatrixParam {
     /**
@@ -56,4 +64,12 @@ public @interface MatrixParam {
      * bean property.
      */
     String value();
+    
+    /**
+     * Controls whether the the supplied matrix parameter name is URL encoded. 
+     * If true, any characters in the matrix parameter name that are not valid
+     * URI characters will be automatically encoded. If false then all 
+     * characters in the supplied name must be valid URI characters.
+     */
+    boolean encode() default true;    
 }

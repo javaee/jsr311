@@ -26,10 +26,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds a HTTP header to a Java method parameter. A default value can be 
- * specified using the {@link DefaultValue} annotation.
+ * Binds the value(s) of a HTTP header to a resource method parameter, 
+ * resource class field, or resource class bean property. A default value 
+ * can be specified using the {@link DefaultValue} annotation.
  * 
- * The type <code>T</code> of the annotated parameter must either:
+ * The type <code>T</code> of the annotated parameter, field or property 
+ * must either:
  * <ol>
  * <li>Be a primitive type</li>
  * <li>Have a constructor that accepts a single <code>String</code> argument</li>
@@ -40,13 +42,19 @@ import java.lang.annotation.Target;
  * The resulting collection is read-only.</li>
  * </ol>
  * 
- * If the type is not one of those listed in 4 above then the first value 
- * (lexically) of the header is used.
+ * <p>If the type is not one of those listed in 4 above then the first value 
+ * (lexically) of the header is used.</p>
+ *
+ * <p>Because injection occurs at object creation time, use of this annotation 
+ * on resource class fields and bean properties is only supported for the 
+ * default per-request resource class lifecycle. Resource classes using 
+ * other lifecycles should only use this annotation on resource method
+ * parameters.</p>
  *
  * @see DefaultValue
  * @see javax.ws.rs.core.HttpHeaders
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface HeaderParam {
