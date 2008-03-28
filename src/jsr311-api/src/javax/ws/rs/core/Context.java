@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation is used to inject information into a class
- * field or method parameter.
+ * field, bean property or method parameter.
  * @see UriInfo
  * @see Request
  * @see HttpHeaders
@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
  * @see javax.ws.rs.ext.ContextResolver
  * @see javax.ws.rs.ext.MessageBodyWorkers
  */
-@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Context {
