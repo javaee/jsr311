@@ -318,7 +318,9 @@ public abstract class UriBuilder {
     
     /**
      * Set the extension of the current final path segment to the supplied value
-     * appending an initial "." if necessary.
+     * appending an initial "." if necessary. The extension is everything 
+     * following the first "." in the current final path segment of the URI 
+     * excluding any matrix parameters that might be present after the extension
      * @param extension the extension, a null value will unset an existing
      * extension including a trailing "." if necessary
      * @return the updated UriBuilder

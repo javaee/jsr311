@@ -147,9 +147,11 @@ public interface UriInfo {
     public UriBuilder getBaseUriBuilder();
     
     /**
-     * Get the request URI extension. The returned string includes any 
-     * extensions remove during request pre-processing for the purposes of 
-     * URI-based content negotiation. E.g. if the request URI was:
+     * Get the request URI extension, this includes everything following the 
+     * first "." in the final path segment of the URI excluding any matrix 
+     * parameters that might be present after the extension). The returned 
+     * string includes any extensions removed during request pre-processing for 
+     * the purposes of URI-based content negotiation. E.g. if the request URI was:
      * <pre>http://example.com/resource.xml.en</pre>
      * <p>this method would return "xml.en" even if an applications 
      * implementation of 
