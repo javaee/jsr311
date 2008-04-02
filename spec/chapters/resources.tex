@@ -148,7 +148,7 @@ Methods of a resource class that are annotated with \Path\ are either sub-resour
 
 \begin{description}
 \item[Present] Such methods, known as {\em sub-resource methods}, are treated like a normal resource method (see section \ref{resource_method}) except the method is only invoked for request URIs that match a URI template created by concatenating the URI template of the resource class with the URI template of the method\footnote{If the resource class URI template does not end with a \lq/\rq\ character then one is added during the concatenation.}.
-\item[Absent] Such methods, known as {\em sub-resource locators}, are used to further resolve the object that will handle the request. Any returned object is treated as a resource class and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details. Sub-resource locators may have all the same parameters as a normal resource method (see section \ref{resource_method}) except that they MUST NOT have an entity parameter.
+\item[Absent] Such methods, known as {\em sub-resource locators}, are used to dynamically resolve the object that will handle the request. Any returned object is treated as a resource class instance and used to either handle the request or to further resolve the object that will handle the request, see \ref{mapping_requests_to_java_methods} for further details. An implementation MUST dynamically determine the class of object returned rather than relying on the static sub-resource locator return type since the returned instance may be a subclass of the declared type with potentially different annotations, see section \ref{annotationinheritance} for rules on annotation inheritance. Sub-resource locators may have all the same parameters as a normal resource method (see section \ref{resource_method}) except that they MUST NOT have an entity parameter. 
 \end{description}
 
 The following example illustrates the difference:
@@ -210,6 +210,7 @@ In the above:
 An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
 
 \section{Annotation Inheritance}
+\label{annotationinheritance}
 
 \jaxrs\ annotations MAY be used on the methods of a super-class or an implemented interface. Such annotations are inherited by a corresponding sub-class or implementation class method provided that method does not have any of its own \jaxrs\ annotations. Annotations on a super-class take precedence over those on an implemented interface. If a subclass or implementation method has any \jaxrs\ annotations then {\em all} of the annotations on the super class or interface method are ignored. E.g.:
 
