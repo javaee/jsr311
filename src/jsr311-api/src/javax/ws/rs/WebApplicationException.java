@@ -52,6 +52,14 @@ public class WebApplicationException extends RuntimeException {
     }
     
     /**
+     * Construct a new instance with a blank message and specified HTTP status code
+     * @param status the HTTP status code that will be returned to the client
+     */
+    public WebApplicationException(Response.Status status) {
+        this(Response.serverError().status(status).build());
+    }
+    
+    /**
      * Construct a new instance with a blank message and default HTTP status code of 500
      * @param cause the underlying cause of the exception
      */
@@ -76,6 +84,15 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, int status) {
+        this(cause, Response.serverError().status(status).build());
+    }
+    
+    /**
+     * Construct a new instance with a blank message and specified HTTP status code
+     * @param status the HTTP status code that will be returned to the client
+     * @param cause the underlying cause of the exception
+     */
+    public WebApplicationException(Throwable cause, Response.Status status) {
         this(cause, Response.serverError().status(status).build());
     }
     
