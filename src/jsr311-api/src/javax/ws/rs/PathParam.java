@@ -29,6 +29,8 @@ import java.lang.annotation.Target;
  * class field, or resource class
  * bean property. The value is URL decoded unless this 
  * is disabled using the {@link Encoded} annotation.
+ * A default value can be specified using the {@link DefaultValue}
+ * annotation.
  * 
  * The type of the annotated parameter, field or property must either:
  * <ul>
@@ -49,6 +51,7 @@ import java.lang.annotation.Target;
  * parameters.</p>
  *
  * @see Encoded
+ * @see DefaultValue
  * @see javax.ws.rs.core.PathSegment
  * @see javax.ws.rs.core.UriInfo
  */

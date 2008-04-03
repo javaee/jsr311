@@ -25,8 +25,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines the default value of request metadata that is bound using on of the 
+ * Defines the default value of request metadata that is bound using one of the 
  * following annotations:
+ * {@link javax.ws.rs.PathParam}, 
  * {@link javax.ws.rs.QueryParam}, 
  * {@link javax.ws.rs.MatrixParam},
  * {@link javax.ws.rs.CookieParam},
@@ -44,6 +45,7 @@ import java.lang.annotation.Target;
  * <code>List</code>, <code>Set</code> or <code>SortedSet</code>, null for 
  * other object types, and the Java-defined default for primitive types.</p>
  * 
+ * @see PathParam
  * @see QueryParam
  * @see HeaderParam
  * @see MatrixParam
