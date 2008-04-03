@@ -24,7 +24,7 @@ package javax.ws.rs.core;
  * instance of this type is injected with {@link javax.ws.rs.PathParam}, the
  * value of the annotation identifies which path segment is selected and the
  * presence of an {@link javax.ws.rs.Encoded} annotation will result in an
- * instance that supplies the path and matrix parameters (nmes and values) in
+ * instance that supplies the path and matrix parameters (names and values) in
  * URI encoded form.
  *
  * @see UriInfo#getPathSegments
