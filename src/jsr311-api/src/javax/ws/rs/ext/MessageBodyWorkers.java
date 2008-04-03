@@ -52,7 +52,7 @@ public interface MessageBodyWorkers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    public abstract <T> MessageBodyReader<T> getMessageBodyReader(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
+    public abstract <T> MessageBodyReader<T> getMessageBodyReader(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
     
     
     /**
@@ -73,5 +73,5 @@ public interface MessageBodyWorkers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    public abstract <T> MessageBodyWriter<T> getMessageBodyWriter(MediaType mediaType, Class<T> type, Type genericType, Annotation annotations[]);
+    public abstract <T> MessageBodyWriter<T> getMessageBodyWriter(Class<T> type, Type genericType, Annotation annotations[],MediaType mediaType);
 }

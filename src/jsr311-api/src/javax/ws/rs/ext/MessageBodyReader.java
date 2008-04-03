@@ -78,8 +78,8 @@ public interface MessageBodyReader<T> {
      * if desired.
      * @throws java.io.IOException if an IO error arises
      */
-    T readFrom(Class<T> type, Type genericType, MediaType mediaType, 
-            Annotation annotations[],
+    T readFrom(Class<T> type, Type genericType,  
+            Annotation annotations[], MediaType mediaType,
             MultivaluedMap<String, String> httpHeaders, 
             InputStream entityStream) throws IOException;
     
