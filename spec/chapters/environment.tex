@@ -1,7 +1,7 @@
 \chapter{Environment}
 \label{environment}
 
-The container-managed resources available to a \jaxrs\ resource class or provider depend on the environment in which it is deployed. Section \ref{contexttypes} describes the types of context available regardless of container. The following sections describe the additional container-managed resources available to a \jaxrs\ resource class deployed in a variety of environments.
+The container-managed resources available to a \jaxrs\ root resource class or provider depend on the environment in which it is deployed. Section \ref{contexttypes} describes the types of context available regardless of container. The following sections describe the additional container-managed resources available to a \jaxrs\ root resource class or provider deployed in a variety of environments.
 
 \section{Servlet Container}
 
@@ -13,9 +13,11 @@ An injected \code{Http\-Servlet\-Response} allows a resource method to commit th
 
 \section{Java EE Container (Non-normative)}
 
-\begin{ednote*}
-TBD. We anticipate offering the same resource injection capabilities as are provided for a Servlet instance running in a Java EE Web container. In particular we anticipate supporting dependency injection using the following annotations: @Resource, @Resources, @EJB, @EJBs, @WebServiceRef, @WebServiceRefs, @PersistenceContext, @PersistenceContexts, @PersistenceUnit and @PersistenceUnits. We also anticipate supporting the following JSR 250 lifecycle management and security annotations:  @PostConstruct, @PreDestroy, @RunAs, @RolesAllowed, @PermitAll, @DenyAll and @DeclareRoles.
-\end{ednote*}
+This section describes the additional features anticipated to be available to a \jaxrs\ application hosted in a Java EE 6 container. It is planned that \jaxrs\ will be finalized prior to Java EE 6 so the contents of this section are preliminary and subject to change. Nothing in this section should be considered a conformance requirement.
+
+\jaxrs\ root resource classes and providers are supplied with the same resource injection capabilities as are provided for a Servlet instance running in a Java EE Web container. In particular the following annotations may be used according to their individual semantics: \code{@Resource}, \code{@Resources}, \code{@EJB}, \code{@EJBs}, \code{@Web\-Service\-Ref}, \code{@Web\-Service\-Refs}, \code{@Persistence\-Context}, \code{@Persistence\-Contexts}, \code{@Persistence\-Unit} and \code{@Persistence\-Units}.
+
+\jaxrs\ root resource classes and providers may also make use of the following JSR 250 lifecycle management and security annotations:  \code{@Post\-Construct}, \code{@Pre\-Destroy}, \code{@RunAs}, \code{@Roles\-Allowed}, \code{@Permit\-All}, \code{@Deny\-All} and \code{@Declare\-Roles}.
 
 \section{Other}
 
