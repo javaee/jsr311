@@ -11,7 +11,7 @@ An injected \code{Http\-Servlet\-Request} allows a resource method to stream the
 
 An injected \code{Http\-Servlet\-Response} allows a resource method to commit the HTTP response prior to returning. An implementation MUST check the committed status and only process the return value if the response is not yet committed.
 
-\section{Java EE Container}
+\section{Java EE Container (Non-normative)}
 
 \begin{ednote*}
 TBD. We anticipate offering the same resource injection capabilities as are provided for a Servlet instance running in a Java EE Web container. In particular we anticipate supporting dependency injection using the following annotations: @Resource, @Resources, @EJB, @EJBs, @WebServiceRef, @WebServiceRefs, @PersistenceContext, @PersistenceContexts, @PersistenceUnit and @PersistenceUnits. We also anticipate supporting the following JSR 250 lifecycle management and security annotations:  @PostConstruct, @PreDestroy, @RunAs, @RolesAllowed, @PermitAll, @DenyAll and @DeclareRoles.

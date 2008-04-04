@@ -102,3 +102,10 @@ Context providers supply context to resource classes and other providers. A cont
 Context providers MAY return \code{null} from the \code{getContext} method if they do not wish to provide their context for a particular Java type. E.g. a JAXB context provider may wish to only provide the context for certain JAXB classes. Context providers MAY also manage multiple contexts of the same type keyed to different Java types.
 
 Section \ref{contextresolver} describes how to access a context provider from a resource class or provider.
+
+\section{Exception Mapping Providers}
+\label{exceptionmapper}
+
+Exception mapping providers map a checked or runtime exception to an instance of \Response. An exception mapping provider implements the \code{ExceptionMapper<T>} interface and is annotated with \Provider. When a resource method throws an exception for which there is an exception mapping provider, the matching provider is used to obtain a \Response\ instance. The resulting \Response\ is processed as if the method throwing the exception had instead returned the \Response, see section \ref{resource_method_return}.
+
+When choosing an exception mapping provider to map an exception, an implementation MUST use the provider whose generic type is the nearest superclass of the exception.

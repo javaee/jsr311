@@ -79,11 +79,16 @@ Methods that need to provide additional metadata with a response should return a
 
 \subsection{Exceptions}
 
-An implementation MUST catch \WebAppExc\ and map it to a response. If the \code{response} property of the exception is not \code{null} then it MUST be used to create the response. If the \code{response} property of the exception is \code{null} an implementation MUST generate a server error response.
+A resource method, sub-resource method or sub-resource locator may throw any checked or unchecked exception. An implementation MUST catch all exceptions and process them as follows:
 
-An implementation MUST allow other runtime exceptions to propagate to the underlying container. This allows existing container facilities (e.g. a Servlet filter) to be used to handle the error if desired.
+\begin{enumerate}
+\item \WebAppExc\ MUST be mapped to a response. If the \code{response} property of the exception is not \code{null} then it MUST be used to create the response. If the \code{response} property of the exception is \code{null} an implementation MUST generate a server error (status code 500) response.
+\item If an exception mapping provider (see section \ref{exceptionmapper}) is available for the exception or one of its superclasses, an implementation MUST use the closest matching provider to  create a \Response\ instance that is then processed according to section \ref{resource_method_return}.
+\item\label{runtimeexc} Unchecked exceptions MUST be re-thrown and allowed to propagate to the underlying container.
+\item\label{checkedexc} Checked exceptions MUST be wrapped in a container-specific exception that is then thrown and allowed to propagate to the underlying container. Servlet-based implementations MUST use \code{Servlet\-Exception} as the wrapper. JAX-WS \code{Provider}-based implementations MUST use \code{Web\-Service\-Exception}.
+\end{enumerate}
 
-\begin{ednote}What to do about checked exceptions ? If we allow them on resource methods then do we need some standard runtime exception that can be used to wrap the checked exception so it can be propagated to the container in a standard way ?\end{ednote}
+Items \ref{runtimeexc} and \ref{checkedexc} allow existing container facilities (e.g. a Servlet filter or error pages) to be used to handle the error if desired.
 
 \subsection{HEAD and OPTIONS}
 \label{head_and_options}
