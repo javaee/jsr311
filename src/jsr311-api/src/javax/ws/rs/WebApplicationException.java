@@ -17,8 +17,10 @@ import javax.ws.rs.core.Response;
 /**
  * Runtime exception for applications.
  * <p>
- * This acception may be thrown by a Web application if a specific HTTP error
- * response needs to be produced.
+ * This exception may be thrown by a resource method, provider or 
+ * {@link javax.ws.rs.core.StreamingOutput} implementation if a specific 
+ * HTTP error response needs to be produced. Only effective if thrown prior to
+ * the response being committed.
  *
  * @author Paul.Sandoz@Sun.Com
  */

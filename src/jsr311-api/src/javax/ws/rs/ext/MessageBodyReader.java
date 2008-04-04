@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -76,10 +77,13 @@ public interface MessageBodyReader<T> {
      * @param entityStream the {@link InputStream} of the HTTP entity. The 
      * implementation should not close the input stream.
      * @throws java.io.IOException if an IO error arises
+     * @throws javax.ws.rs.WebApplicationException if a specific 
+     * HTTP error response needs to be produced. Only effective if thrown prior
+     * to the response being committed.
      */
     T readFrom(Class<T> type, Type genericType,  
             Annotation annotations[], MediaType mediaType,
             MultivaluedMap<String, String> httpHeaders, 
-            InputStream entityStream) throws IOException;
+            InputStream entityStream) throws IOException, WebApplicationException;
     
 }

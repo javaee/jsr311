@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -89,9 +90,12 @@ public interface MessageBodyWriter<T> {
      * @param entityStream the {@link OutputStream} for the HTTP entity. The 
      * implementation should not close the input stream.
      * @throws java.io.IOException if an IO error arises 
+     * @throws javax.ws.rs.WebApplicationException if a specific 
+     * HTTP error response needs to be produced. Only effective if thrown prior
+     * to the response being committed.
      */
     void writeTo(T t, Class<?> type, Type genericType, Annotation annotations[], 
             MediaType mediaType, 
             MultivaluedMap<String, Object> httpHeaders,
-            OutputStream entityStream) throws IOException;    
+            OutputStream entityStream) throws IOException, WebApplicationException;    
 }
