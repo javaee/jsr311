@@ -78,6 +78,7 @@ Conversion between a Java types and an entity body is the responsibility of an e
 Methods that need to provide additional metadata with a response should return an instance of \Response, the \Response\code{Builder} class provides a convenient way to create a \Response\ instance using a builder pattern.
 
 \subsection{Exceptions}
+\label{method_exc}
 
 A resource method, sub-resource method or sub-resource locator may throw any checked or unchecked exception. An implementation MUST catch all exceptions and process them as follows:
 
