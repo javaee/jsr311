@@ -44,6 +44,7 @@ public abstract class ApplicationConfig {
      * @see javax.ws.rs.ext.MessageBodyReader
      * @see javax.ws.rs.ext.MessageBodyWriter
      * @see javax.ws.rs.ext.ContextResolver
+     * @see javax.ws.rs.ext.ExceptionMapper
      */
     public Set<Class<?>> getProviderClasses() {
         return emptySet;
