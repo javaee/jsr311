@@ -36,6 +36,14 @@ public class MediaType {
     private String subtype;
     private Map<String, String> parameters;
 
+    /**
+     * Empty immutable map used for all instances without parameters
+     */
+    private static final Map<String, String> emptyMap = Collections.emptyMap();
+    
+    private static final HeaderDelegate<MediaType> delegate = 
+            RuntimeDelegate.getInstance().createHeaderDelegate(MediaType.class);
+
     /** The value of a type or subtype wildcard: "*" */
     public static final String MEDIA_TYPE_WILDCARD = "*";
     
@@ -89,14 +97,6 @@ public class MediaType {
     public final static String TEXT_HTML = "text/html";
     /** "text/html" */
     public final static MediaType TEXT_HTML_TYPE = new MediaType("text","html");
-
-    /**
-     * Empty immutable map used for all instances without parameters
-     */
-    private static final Map<String, String> emptyMap = Collections.emptyMap();
-    
-    private static final HeaderDelegate<MediaType> delegate = 
-            RuntimeDelegate.getInstance().createHeaderDelegate(MediaType.class);
 
     /**
      * Creates a new instance of MediaType by parsing the supplied string.
