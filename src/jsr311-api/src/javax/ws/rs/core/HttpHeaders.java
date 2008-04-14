@@ -54,6 +54,13 @@ public interface HttpHeaders {
     public List<MediaType> getAcceptableMediaTypes();
     
     /**
+     * Get a list of languages that are acceptable for the response.
+     * @return a read-only list of acceptable languages
+     * @throws java.lang.IllegalStateException if called outside the scope of a request
+     */
+    public List<String> getAcceptableLanguages();
+    
+    /**
      * Get the media type of the request entity
      * @return the media type or null if there is no request entity.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
