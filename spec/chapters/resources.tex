@@ -89,7 +89,7 @@ A resource method, sub-resource method or sub-resource locator may throw any che
 \item\label{checkedexc} Checked exceptions that cannot be thrown directly MUST be wrapped in a container-specific exception that is then thrown and allowed to propagate to the underlying container. Servlet-based implementations MUST use \code{Servlet\-Exception} as the wrapper. JAX-WS \code{Provider}-based implementations MUST use \code{Web\-Service\-Exception}.
 \end{enumerate}
 
-Items \ref{runtimeexc} and \ref{checkedexc} allow existing container facilities (e.g. a Servlet filter or error pages) to be used to handle the error if desired.
+\begin{nnnote}Items \ref{runtimeexc} and \ref{checkedexc} allow existing container facilities (e.g. a Servlet filter or error pages) to be used to handle the error if desired.\end{nnnote}
 
 \subsection{HEAD and OPTIONS}
 \label{head_and_options}
