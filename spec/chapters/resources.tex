@@ -258,18 +258,60 @@ For the purposes of matching, Request URIs are preprocessed to support URI-based
 \begin{itemize}
 \item $M = \{\mbox{\code{config.getMediaTypeMappings().keySet()}}\}$
 \item $L = \{\mbox{\code{config.getLanguageMappings().keySet()}}\}$
-\item Where \code{config} is an instance of the application-supplied subclass of \code{ApplicationConfig}.
+\item Where \code{config} is an instance of the application-supplied subclass of \code{Application\-Config}.
 \end{itemize}
 \item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment:
 \begin{enumerate}
 \item Remove the leading \lq.\rq\ character from $e$
 \item\label{removematchingext} If $e$ is a member of $M$ or $L$ then remove the corresponding extension from the effective request URI.
-\item If $e$ is a member of $M$ then set the effective value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
-\item Else if $e$ is a member of $L$ then set the effective value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
+\item If $e$ is a member of $M$ then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
+\item Else if $e$ is a member of $L$ then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
 \end{enumerate}
 \end{enumerate}
 
-The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in step \ref{removematchingext} MUST still be present in URIs returned from the methods of \UriInfo. Similarly the methods of \HttpHeaders\ MUST return the actual values of the \code{Accept} and \code{Accept-Language} headers rather than the effective values set during preprocessing.
+The following table illustrates the preprocessing algorithm for a request with the following initial header values: 
+\begin{description}
+\item[\code{Accept}] \code{text/html}
+\item[\code{Accept-Language}] \code{fr}
+\end{description}
+
+Also assumed is an \code{Application\-Config} subclass with the following mappings:
+\begin{description}
+\item[Media Type] $\mbox{\lq\lq xml\rq\rq}\Rightarrow\mbox{\lq\lq application/xml\rq\rq}$; $\mbox{\lq\lq json\rq\rq}\Rightarrow\mbox{\lq\lq application/json\rq\rq}$
+\item[Language] $\mbox{\lq\lq en\rq\rq}\Rightarrow\mbox{\lq\lq en-US\rq\rq}$; $\mbox{\lq\lq de\rq\rq}\Rightarrow\mbox{\lq\lq de\rq\rq}$
+\end{description}
+
+\begin{longtable}{|l|l|l|l|}
+\hline
+\bfseries Request URI & \bfseries Effective URI & \bfseries Accept  & \bfseries Accept-Language 
+\tabularnewline
+\hline\hline\endhead
+foo & foo & text/html & fr \tabularnewline
+\hline
+foo.bar & foo.bar & text/html & fr \tabularnewline
+\hline
+foo.xml & foo & application/xml & fr \tabularnewline
+\hline
+foo.bar.xml & foo.bar & application/xml & fr \tabularnewline
+\hline
+foo.xml.bar & foo.bar & application/xml & fr \tabularnewline
+\hline
+foo.en.xml & foo & application/xml & en-US \tabularnewline
+\hline
+foo.xml.en & foo & application/xml & en-US \tabularnewline
+\hline
+foo.json.xml & foo & application/xml & fr \tabularnewline
+\hline
+foo.xml.json & foo & application/json & fr \tabularnewline
+\hline
+foo.xml.en.json.de & foo & application/json & de \tabularnewline
+\hline
+foo.xml.en.json.de.bar & foo.bar & application/json & de \tabularnewline
+\hline
+\caption{URI-based Content Negotiation Examples}
+\end{longtable}
+
+The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in step \ref{removematchingext} MUST still be present in URIs returned from the methods of \UriInfo\footnote{Explicitly platonic methods excluded.}. In contrast, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
 
 \subsection{Request Matching}
 
