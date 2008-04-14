@@ -38,9 +38,20 @@ When a resource class is instantiated, the values of fields and bean properties 
 
 Because injection occurs at object creation time, use of these annotations (with the exception of \Context) on resource class fields and bean properties is only supported for the default per-request resource class lifecycle. An implementation SHOULD warn if resource classes with other lifecycles use these annotations on resource class fields or bean properties.
 
-Valid parameter types for each of the above annotations are listed in the corresponding Javadoc. The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated fields and properties.
-
 An implementation is only required to set the annotated field and bean property values of instances created by the implementation runtime. Objects returned by sub-resource locators (see section \ref{sub_resources}) are expected to be initialized by their creator and field and bean properties are not modified by the implementation runtime.
+
+Valid parameter types for each of the above annotations are listed in the corresponding Javadoc, however in general (excluding \Context) the following types are supported:
+
+\begin{enumerate}
+\item Primitive types
+\item\label{stringctor} Types that have a constructor that accepts a single \code{String} argument
+\item\label{valueofmethod} Types that have a static method named \code{valueOf} with a single \code{String} argument
+\item \code{List<{\em T}>}, \code{Set<{\em T}>}, or \code{SortedSet<{\em T}>}, where \code{{\em T}} satisfies \ref{stringctor} or \ref{valueofmethod} above.
+\end{enumerate}
+
+The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated fields and properties.
+
+Exceptions thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above are treated as client errors: if the field or property is annotated with \MatrixParam, \QueryParam\ or \PathParam\ an implementation MUST return a not found response (404 status); if the field or property is annotated with \HeaderParam\ or \CookieParam\ an implementation MUST return a client error response (400 status).
 
 \section{Resource Methods}
 \label{resource_method}
@@ -56,11 +67,14 @@ Only \code{public} methods may be exposed as resource methods. An implementation
 \subsection{Parameters}
 \label{resource_method_params}
 
-When a resource method is invoked, parameters annotated with one of the  annotations listed in section \ref{resource_field} are mapped from the request according to the semantics of the annotation.
+When a resource method is invoked, parameters annotated with one of the  annotations listed in section \ref{resource_field} are mapped from the request according to the semantics of the annotation. Similarly for fields and bean properties:
+\begin{itemize}
+\item The \code{Default\-Value} annotation may be used to supply a default value for parameters
+\item The \code{Encoded} annotation may be used to disable automatic URI decoding of parameter values
+\item Exceptions thrown during construction of parameter values are treated as client errors
+\end{itemize}
 
-Similarly for fields and bean properties, the \code{Default\-Value} annotation may be used to supply a default value for parameters and the \code{Encoded} annotation may be used to disable automatic URI decoding -- see section \ref{resource_field} for more details.
-
-The value of an non-annotated  parameter, called an entity parameter, is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
+The value of a non-annotated  parameter, called the entity parameter, is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
 
 \subsection{Return Type}
 \label{resource_method_return}
