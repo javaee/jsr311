@@ -32,17 +32,17 @@ public class WebApplicationException extends RuntimeException {
      * Construct a new instance with a blank message and default HTTP status code of 500
      */
     public WebApplicationException() {
-        super();
-        response = Response.serverError().build();
+        this(null, Response.Status.INTERNAL_SERVER_ERROR);
     }
 
     /**
-     * Construct a new instance with a blank message and specified HTTP status code
-     * @param response the response that will be returned to the client
+     * Construct a new instance using the supplied response
+     * @param response the response that will be returned to the client, a value
+     * of null will be replaced with an internal server error response (status
+     * code 500)
      */
     public WebApplicationException(Response response) {
-        super();
-        this.response = response;        
+        this(null,response);        
     }
     
     /**
@@ -50,7 +50,7 @@ public class WebApplicationException extends RuntimeException {
      * @param status the HTTP status code that will be returned to the client
      */
     public WebApplicationException(int status) {
-        this(Response.serverError().status(status).build());
+        this(null, status);
     }
     
     /**
@@ -58,7 +58,7 @@ public class WebApplicationException extends RuntimeException {
      * @param status the HTTP status code that will be returned to the client
      */
     public WebApplicationException(Response.Status status) {
-        this(Response.serverError().status(status).build());
+        this(null, status);
     }
     
     /**
@@ -66,18 +66,22 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause) {
-        super(cause);
-        response = Response.serverError().build();
+        this(cause,Response.Status.INTERNAL_SERVER_ERROR);
     }
     
     /**
-     * Construct a new instance with a blank message and specified HTTP status code
-     * @param response the response that will be returned to the client
+     * Construct a new instance using the supplied response
+     * @param response the response that will be returned to the client, a value
+     * of null will be replaced with an internal server error response (status
+     * code 500)
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, Response response) {
         super(cause);
-        this.response = response;
+        if (response==null)
+            response = Response.serverError().build();
+        else
+            this.response = response;        
     }
     
     /**
@@ -86,7 +90,7 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, int status) {
-        this(cause, Response.serverError().status(status).build());
+        this(cause, Response.status(status).build());
     }
     
     /**
@@ -95,7 +99,7 @@ public class WebApplicationException extends RuntimeException {
      * @param cause the underlying cause of the exception
      */
     public WebApplicationException(Throwable cause, Response.Status status) {
-        this(cause, Response.serverError().status(status).build());
+        this(cause, Response.status(status).build());
     }
     
     /**
