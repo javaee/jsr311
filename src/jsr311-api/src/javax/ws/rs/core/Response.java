@@ -83,6 +83,7 @@ public abstract class Response {
      * Create a new ResponseBuilder with the supplied status.
      * @param status the response status
      * @return a new ResponseBuilder
+     * @throws IllegalArgumentException if status is null
      */
     public static ResponseBuilder status(Status status) {
         ResponseBuilder b = ResponseBuilder.newInstance();
@@ -339,8 +340,11 @@ public abstract class Response {
          * 
          * @param status the response status
          * @return the updated ResponseBuilder
+         * @throws IllegalArgumentException if status is null
          */
         public ResponseBuilder status(Status status) {
+            if (status == null)
+                throw new IllegalArgumentException();
             return status(status.getStatusCode());
         };
         

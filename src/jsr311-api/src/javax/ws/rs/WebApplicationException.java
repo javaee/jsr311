@@ -26,6 +26,8 @@ import javax.ws.rs.core.Response;
  */
 public class WebApplicationException extends RuntimeException {
 
+    private static final long serialVersionUID = 11660101L;
+    
     private Response response;
 
     /**
@@ -56,6 +58,7 @@ public class WebApplicationException extends RuntimeException {
     /**
      * Construct a new instance with a blank message and specified HTTP status code
      * @param status the HTTP status code that will be returned to the client
+     * @throws IllegalArgumentException if status is null
      */
     public WebApplicationException(Response.Status status) {
         this(null, status);
@@ -97,6 +100,7 @@ public class WebApplicationException extends RuntimeException {
      * Construct a new instance with a blank message and specified HTTP status code
      * @param status the HTTP status code that will be returned to the client
      * @param cause the underlying cause of the exception
+     * @throws IllegalArgumentException if status is null
      */
     public WebApplicationException(Throwable cause, Response.Status status) {
         this(cause, Response.status(status).build());
