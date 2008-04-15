@@ -51,7 +51,7 @@ Valid parameter types for each of the above annotations are listed in the corres
 
 The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated fields and properties.
 
-A \WebAppExc\ thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above is processed directly as described in section \ref{method_exc}. Other exceptions thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above are treated as client errors: if the field or property is annotated with \MatrixParam, \QueryParam\ or \PathParam\ an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with a not found response (404 status) and no entity; if the field or property is annotated with \HeaderParam\ or \CookieParam\ an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with  a client error response (400 status) and no entity. The \WebAppExc\ MUST be then be processed as described in section \ref{method_exc}.
+A \WebAppExc\ thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above is processed directly as described in section \ref{method_exc}. Other exceptions thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above are treated as client errors: if the field or property is annotated with \MatrixParam, \QueryParam\ or \PathParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with a not found response (404 status) and no entity; if the field or property is annotated with \HeaderParam\ or \CookieParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with  a client error response (400 status) and no entity. The \WebAppExc\ MUST be then be processed as described in section \ref{method_exc}.
 
 \section{Resource Methods}
 \label{resource_method}
@@ -272,15 +272,19 @@ For the purposes of matching, Request URIs are preprocessed to support URI-based
 \begin{itemize}
 \item $M = \{\mbox{\code{config.getMediaTypeMappings().keySet()}}\}$
 \item $L = \{\mbox{\code{config.getLanguageMappings().keySet()}}\}$
+\item $m = \mbox{\code{null}}$
+\item $l = \mbox{\code{null}}$
 \item Where \code{config} is an instance of the application-supplied subclass of \code{Application\-Config}.
 \end{itemize}
-\item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment:
+\item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment scanning from right to left:
 \begin{enumerate}
 \item Remove the leading \lq.\rq\ character from $e$
-\item\label{removematchingext} If $e$ is a member of $M$ or $L$ then remove the corresponding extension from the effective request URI.
-\item If $e$ is a member of $M$ then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($e$)}
-\item Else if $e$ is a member of $L$ then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($e$)}
+\item\label{removematchingext1} If $m$ is \code{null} and $e$ is a member of $M$ then remove the corresponding extension from the effective request URI and set $m=e$.
+\item\label{removematchingext2} Else if $l$ is \code{null} and $e$ is a member of $L$ then remove the corresponding extension from the effective request URI and set $l=e$.
+\item Else go to step \ref{replaceheaders}
 \end{enumerate}
+\item\label{replaceheaders} If $m$ is not \code{null} then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($m$)}
+\item If $l$ is not \code{null} then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($l$)}
 \end{enumerate}
 
 The following table illustrates the preprocessing algorithm for a request with the following initial header values: 
@@ -308,24 +312,24 @@ foo.xml & foo & application/xml & fr \tabularnewline
 \hline
 foo.bar.xml & foo.bar & application/xml & fr \tabularnewline
 \hline
-foo.xml.bar & foo.bar & application/xml & fr \tabularnewline
+foo.xml.bar & foo.xml.bar & text/html & fr \tabularnewline
 \hline
 foo.en.xml & foo & application/xml & en-US \tabularnewline
 \hline
 foo.xml.en & foo & application/xml & en-US \tabularnewline
 \hline
-foo.json.xml & foo & application/xml & fr \tabularnewline
+foo.json.xml & foo.json & application/xml & fr \tabularnewline
 \hline
-foo.xml.json & foo & application/json & fr \tabularnewline
+foo.xml.json & foo.xml & application/json & fr \tabularnewline
 \hline
-foo.xml.en.json.de & foo & application/json & de \tabularnewline
+foo.xml.en.json.de & foo.xml.en & application/json & de \tabularnewline
 \hline
-foo.xml.en.json.de.bar & foo.bar & application/json & de \tabularnewline
+foo.xml.en.json.de.bar & foo.xml.en.json.de.bar & text/html & fr \tabularnewline
 \hline
 \caption{URI-based Content Negotiation Examples}
 \end{longtable}
 
-The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in step \ref{removematchingext} MUST still be present in URIs returned from the methods of \UriInfo\footnote{Explicitly platonic methods excluded.}. In contrast, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
+The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in steps \ref{removematchingext1} and \ref{removematchingext2} above MUST still be present in URIs returned from the methods of \UriInfo\footnote{Explicitly platonic methods excluded.}. In contrast, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
 
 \subsection{Request Matching}
 

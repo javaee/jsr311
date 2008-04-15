@@ -33,7 +33,7 @@ The following describes the logical\footnote{Implementations are free to optimiz
 \item Select the set of \MsgRead\ classes that support the media type of the request, see section \ref{declaring_provider_capabilities}.
 \item\label{findreader} Iterate through the selected \MsgRead\ classes and, utilizing the \code{isReadable} method of each, choose a \MsgRead\ provider that supports the desired Java type.
 \item If step \ref{findreader} locates a suitable \MsgRead\ then use its \code{readFrom} method to map the entity body to the desired Java type.
-\item If step \ref{findreader} fails to locate a suitable \MsgRead\ then generate a \WebAppExc\ with an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
+\item Else generate a \WebAppExc\ that contains an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
 A \MsgRead\code{readFrom} method MAY throw \WebAppExc\. If thrown, the resource method is not invoked and the exception is treated as if it originated from a resource method, see section \ref{method_exc}.
@@ -52,7 +52,7 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 \item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
 \item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
 \item If step \ref{findwriter} locates a suitable \MsgWrite\ then use its \code{writeTo} method to map the object to the entity body.
-\item If step \ref{findwriter} fails to locate a suitable \MsgWrite\ then generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
+\item Else generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
 A \MsgWrite\code{write} method MAY throw \WebAppExc. If thrown before the response is committed, the exception is treated as if it originated from a resource method, see section \ref{method_exc}. To avoid an infinite loop, implementations SHOULD NOT attempt to map exceptions thrown during serialization of an response previously mapped from an exception and SHOULD instead simply return a server error (status code 500) response.
