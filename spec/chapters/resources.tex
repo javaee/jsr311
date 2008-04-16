@@ -71,7 +71,7 @@ When a resource method is invoked, parameters annotated with one of the  annotat
 \begin{itemize}
 \item The \code{Default\-Value} annotation may be used to supply a default value for parameters
 \item The \code{Encoded} annotation may be used to disable automatic URI decoding of parameter values
-\item Exceptions thrown during construction of parameter values are treated as client errors
+\item Exceptions thrown during construction of parameter values are treated the same as exceptions thrown during construction of field or bean property values, see section \ref{resource_field}.
 \end{itemize}
 
 The value of a non-annotated  parameter, called the entity parameter, is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
