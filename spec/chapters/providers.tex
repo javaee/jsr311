@@ -36,7 +36,7 @@ The following describes the logical\footnote{Implementations are free to optimiz
 \item Else generate a \WebAppExc\ that contains an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
-A \MsgRead\code{readFrom} method MAY throw \WebAppExc\. If thrown, the resource method is not invoked and the exception is treated as if it originated from a resource method, see section \ref{method_exc}.
+A \MsgRead\code{readFrom} method MAY throw \WebAppExc. If thrown, the resource method is not invoked and the exception is treated as if it originated from a resource method, see section \ref{method_exc}.
 
 \subsection{Message Body Writer}
 \label{message_body_writer}

@@ -108,7 +108,7 @@ A resource method, sub-resource method or sub-resource locator may throw any che
 \subsection{HEAD and OPTIONS}
 \label{head_and_options}
 
-\code{HEAD} and \code{OPTIONS} requests receive additional automated support. On receipt of a\code{HEAD} request an implementation MUST either:
+\code{HEAD} and \code{OPTIONS} requests receive additional automated support. On receipt of a \code{HEAD} request an implementation MUST either:
 
 \begin{enumerate}
 \item Call a method annotated with a request method designator for \code{HEAD} or, if none present,
@@ -159,7 +159,7 @@ public class Widget {
   ...
 }\end{listing}
 
-In the above example the \code{Widget} resource class can be used for any request whose path starts with the \code{widgets}; the value of the \code{path} parameter will be the request path following \code{widgets}. E.g. given the request path \code{widgets/small/a} the value of \code{path} would be \code{small/a}.
+In the above example the \code{Widget} resource class can be used for any request whose path starts with \code{widgets}; the value of the \code{path} parameter will be the request path following \code{widgets}. E.g. given the request path \code{widgets/small/a} the value of \code{path} would be \code{small/a}.
 
 \subsection{Sub Resources}
 \label{sub_resources}
