@@ -146,7 +146,7 @@ The \code{encode} property of \Path\ controls whether the value of the annotatio
 
 \begin{listing}{1}
 @Path("widget list/{id}")
-@Path(value="widget%20list/{id}" encode=false)
+@Path(value="widget%20list/{id}", encode=false)
 \end{listing}
 
 When automatic encoding is disabled, care must be taken to ensure that the value of the URI template is valid.
