@@ -116,8 +116,8 @@ public class MediaType {
      * @param parameters a map of media type parameters
      */
     public MediaType(String type, String subtype, Map<String, String> parameters) {
-        this.type = type;
-        this.subtype = subtype;
+        this.type = type==null ? MEDIA_TYPE_WILDCARD : type;
+        this.subtype = subtype==null ? MEDIA_TYPE_WILDCARD : subtype;
         if (parameters==null) {
             this.parameters = emptyMap;
         } else {
@@ -235,7 +235,7 @@ public class MediaType {
      */
     @Override
     public int hashCode() {
-        return (this.type.toLowerCase()+this.subtype.toLowerCase()).hashCode();
+        return (this.type.toLowerCase()+this.subtype.toLowerCase()).hashCode()+this.parameters.hashCode();
     }
     
     /**

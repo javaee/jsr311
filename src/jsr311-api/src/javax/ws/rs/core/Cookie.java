@@ -40,9 +40,9 @@ public class Cookie {
     
     private String name;
     private String value;
-    private int version = DEFAULT_VERSION;
-    private String path = null;
-    private String domain = null;
+    private int version;
+    private String path;
+    private String domain;
 
     /**
      * Create a new instance.
@@ -53,6 +53,8 @@ public class Cookie {
      * @param version the version of the specification to which the cookie complies
      */
     public Cookie(String name, String value, String path, String domain, int version) {
+        if (name == null)
+            throw new IllegalArgumentException("name==null");
         this.name = name;
         this.value = value;
         this.version = version;
@@ -68,10 +70,7 @@ public class Cookie {
      * @param domain the host domain for which the cookie is valid
      */
     public Cookie(String name, String value, String path, String domain) {
-        this.name = name;
-        this.value = value;
-        this.domain = domain;
-        this.path = path;
+        this(name, value, path, domain, DEFAULT_VERSION);
     }
     
     /**
@@ -80,8 +79,7 @@ public class Cookie {
      * @param value the value of the cookie
      */
     public Cookie(String name, String value) {
-        this.name = name;
-        this.value = value;
+        this(name, value, null, null);
     }
     
     /**

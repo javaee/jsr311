@@ -477,6 +477,11 @@ public abstract class Response {
         public abstract ResponseBuilder cookie(NewCookie... cookies);
     }
     
+    /**
+     * Commonly used status codes defined by HTTP, see 
+     * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>}
+     * for the complete list.
+     */
     public enum Status {
         /**
          * 200 OK, see {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">HTTP/1.1 documentation</a>}.

@@ -23,7 +23,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 /**
- * An abstraction for the value of a HTTP Entity Tag, used as the value of an ETag response header.
+ * An abstraction for the value of a HTTP Entity Tag, used as the value 
+ * of an ETag response header.
  * @see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.11">HTTP/1.1 section 3.11</a>
  */
 public class EntityTag {
@@ -37,18 +38,21 @@ public class EntityTag {
     /**
      * Creates a new instance of a strong EntityTag. 
      * @param value the value of the tag, quotes not included. 
+     * @throws IllegalArgumentException if value is null
      */
     public EntityTag(String value) {
-        this.value = value;
-        this.weak = false;
+        this(value, false);
     }
     
     /**
      * Creates a new instance of an EntityTag
      * @param value the value of the tag, quotes not included.
      * @param weak true if this represents a weak tag, false otherwise
+     * @throws IllegalArgumentException if value is null
      */
     public EntityTag(String value, boolean weak) {
+        if (value == null)
+            throw new IllegalArgumentException("value==null");
         this.value = value;
         this.weak = weak;
     }
@@ -95,6 +99,18 @@ public class EntityTag {
         if (value.equals(other.getValue()) && weak==other.isWeak())
             return true;
         return false;
+    }
+
+    /**
+     * Generate hashCode based on value and weakness.
+     * @return the hashCode
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + (this.value != null ? this.value.hashCode() : 0);
+        hash = 17 * hash + (this.weak ? 1 : 0);
+        return hash;
     }
 
     /**

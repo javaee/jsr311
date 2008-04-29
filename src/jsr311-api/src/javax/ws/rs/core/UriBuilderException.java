@@ -25,6 +25,7 @@ package javax.ws.rs.core;
  * builder.
  */
 public class UriBuilderException extends java.lang.RuntimeException {
+    private static final long serialVersionUID = 956255913370721193L;    
     
     /**
      * Creates a new instance of <code>UriBuilderException</code> without detail message.

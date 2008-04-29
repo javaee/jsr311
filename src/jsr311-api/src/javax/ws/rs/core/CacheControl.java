@@ -316,4 +316,81 @@ public class CacheControl {
     public String toString() {
         return delegate.toString(this);
     }
+
+    /**
+     * Generate hash code from cache control properties.
+     * @return the hashCode
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + (this._public ? 1 : 0);
+        hash = 41 * hash + (this._private ? 1 : 0);
+        hash = 41 * hash + (this.privateFields != null ? this.privateFields.hashCode() : 0);
+        hash = 41 * hash + (this.noCache ? 1 : 0);
+        hash = 41 * hash + (this.noCacheFields != null ? this.noCacheFields.hashCode() : 0);
+        hash = 41 * hash + (this.noStore ? 1 : 0);
+        hash = 41 * hash + (this.noTransform ? 1 : 0);
+        hash = 41 * hash + (this.mustRevalidate ? 1 : 0);
+        hash = 41 * hash + (this.proxyRevalidate ? 1 : 0);
+        hash = 41 * hash + this.maxAge;
+        hash = 41 * hash + this.sMaxAge;
+        hash = 41 * hash + (this.cacheExtension != null ? this.cacheExtension.hashCode() : 0);
+        return hash;
+    }
+
+    /**
+     * Compares obj to this cache control to see if they are the same 
+     * considering all property values.
+     * @param obj the object to compare to
+     * @return true if the two cache controls are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CacheControl other = (CacheControl) obj;
+        if (this._public != other._public) {
+            return false;
+        }
+        if (this._private != other._private) {
+            return false;
+        }
+        if (this.privateFields != other.privateFields && (this.privateFields == null || !this.privateFields.equals(other.privateFields))) {
+            return false;
+        }
+        if (this.noCache != other.noCache) {
+            return false;
+        }
+        if (this.noCacheFields != other.noCacheFields && (this.noCacheFields == null || !this.noCacheFields.equals(other.noCacheFields))) {
+            return false;
+        }
+        if (this.noStore != other.noStore) {
+            return false;
+        }
+        if (this.noTransform != other.noTransform) {
+            return false;
+        }
+        if (this.mustRevalidate != other.mustRevalidate) {
+            return false;
+        }
+        if (this.proxyRevalidate != other.proxyRevalidate) {
+            return false;
+        }
+        if (this.maxAge != other.maxAge) {
+            return false;
+        }
+        if (this.sMaxAge != other.sMaxAge) {
+            return false;
+        }
+        if (this.cacheExtension != other.cacheExtension && (this.cacheExtension == null || !this.cacheExtension.equals(other.cacheExtension))) {
+            return false;
+        }
+        return true;
+    }
+    
 }

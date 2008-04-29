@@ -19,6 +19,7 @@
 
 package javax.ws.rs.core;
 
+import java.io.StringWriter;
 import java.util.List;
 import javax.ws.rs.ext.RuntimeDelegate;
 
@@ -65,6 +66,59 @@ public class Variant {
      */
     public String getEncoding() {
         return encoding;
+    }
+
+    /**
+     * Generate hash code from variant properties.
+     * @return the hash code
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (this.language != null ? this.language.hashCode() : 0);
+        hash = 29 * hash + (this.mediaType != null ? this.mediaType.hashCode() : 0);
+        hash = 29 * hash + (this.encoding != null ? this.encoding.hashCode() : 0);
+        return hash;
+    }
+
+    /**
+     * Compares obj to this variant to see if they are the same 
+     * considering all property values.
+     * @param obj the object to compare to
+     * @return true if the two variants are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Variant other = (Variant) obj;
+        if (this.language != other.language && (this.language == null || !this.language.equals(other.language))) {
+            return false;
+        }
+        if (this.mediaType != other.mediaType && (this.mediaType == null || !this.mediaType.equals(other.mediaType))) {
+            return false;
+        }
+        if (this.encoding != other.encoding && (this.encoding == null || !this.encoding.equals(other.encoding))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringWriter w = new StringWriter();
+        w.append("Variant[mediaType=");
+        w.append(mediaType==null ? "null" : mediaType.toString());
+        w.append(", language=");
+        w.append(language==null ? "null" : language);
+        w.append(", encoding=");
+        w.append(encoding==null ? "null" : encoding);
+        w.append("]");
+        return w.toString();
     }
     
     /**
