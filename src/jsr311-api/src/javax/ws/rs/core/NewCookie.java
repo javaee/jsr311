@@ -44,6 +44,7 @@ public class NewCookie extends Cookie {
      * Create a new instance.
      * @param name the name of the cookie
      * @param value the value of the cookie
+     * @throws IllegalArgumentException if name is null
      */
     public NewCookie(String name, String value) {
         super(name, value);
@@ -58,6 +59,7 @@ public class NewCookie extends Cookie {
      * @param comment the comment
      * @param maxAge the maximum age of the cookie in seconds
      * @param secure specifies whether the cookie will only be sent over a secure connection
+     * @throws IllegalArgumentException if name is null
      */
     public NewCookie(String name, String value, String path, String domain, String comment, int maxAge, boolean secure) {
         super(name, value, path, domain);
@@ -76,6 +78,7 @@ public class NewCookie extends Cookie {
      * @param comment the comment
      * @param maxAge the maximum age of the cookie in seconds
      * @param secure specifies whether the cookie will only be sent over a secure connection
+     * @throws IllegalArgumentException if name is null
      */
     public NewCookie(String name, String value, String path, String domain, int version, String comment, int maxAge, boolean secure) {
         super(name, value, path, domain, version);

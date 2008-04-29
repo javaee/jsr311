@@ -51,6 +51,7 @@ public class Cookie {
      * @param path the URI path for which the cookie is valid
      * @param domain the host domain for which the cookie is valid
      * @param version the version of the specification to which the cookie complies
+     * @throws IllegalArgumentException if name is null
      */
     public Cookie(String name, String value, String path, String domain, int version) {
         if (name == null)
@@ -68,6 +69,7 @@ public class Cookie {
      * @param value the value of the cookie
      * @param path the URI path for which the cookie is valid
      * @param domain the host domain for which the cookie is valid
+     * @throws IllegalArgumentException if name is null
      */
     public Cookie(String name, String value, String path, String domain) {
         this(name, value, path, domain, DEFAULT_VERSION);
@@ -77,6 +79,7 @@ public class Cookie {
      * Create a new instance.
      * @param name the name of the cookie
      * @param value the value of the cookie
+     * @throws IllegalArgumentException if name is null
      */
     public Cookie(String name, String value) {
         this(name, value, null, null);
