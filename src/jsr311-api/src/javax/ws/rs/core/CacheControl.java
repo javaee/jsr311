@@ -30,7 +30,6 @@ import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
  * @see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">HTTP/1.1 section 14.9</a>
  */
 public class CacheControl {
-    private boolean _public;
     private boolean _private;
     private List<String> privateFields;
     private boolean noCache;
@@ -52,7 +51,6 @@ public class CacheControl {
      * following default settings:
      *
      * <ul>
-     * <li>public = true</li>
      * <li>private = false</li>
      * <li>noCache = false</li>
      * <li>noStore = false</li>
@@ -65,7 +63,6 @@ public class CacheControl {
      * </ul>
      */
     public CacheControl() {
-        _public = true;
         _private = false;
         noCache = false;
         noStore = false;
@@ -197,26 +194,6 @@ public class CacheControl {
     }
 
     /**
-     * Corresponds to the public cache control directive.
-     * @return true if the public cache control directive will be included in the
-     * response, false otherwise.
-     * @see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1">HTTP/1.1 section 14.9.1</a>
-     */
-    public boolean isPublic() {
-        return _public;
-    }
-
-    /**
-     * Corresponds to the public cache control directive.
-     * @param _public true if the public cache control directive should be included in the
-     * response, false otherwise.
-     * @see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1">HTTP/1.1 section 14.9.1</a>
-     */
-    public void setPublic(boolean _public) {
-        this._public = _public;
-    }
-
-    /**
      * Corresponds to the private cache control directive.
      * @return true if the private cache control directive will be included in the
      * response, false otherwise.
@@ -324,7 +301,6 @@ public class CacheControl {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + (this._public ? 1 : 0);
         hash = 41 * hash + (this._private ? 1 : 0);
         hash = 41 * hash + (this.privateFields != null ? this.privateFields.hashCode() : 0);
         hash = 41 * hash + (this.noCache ? 1 : 0);
@@ -354,9 +330,6 @@ public class CacheControl {
             return false;
         }
         final CacheControl other = (CacheControl) obj;
-        if (this._public != other._public) {
-            return false;
-        }
         if (this._private != other._private) {
             return false;
         }
