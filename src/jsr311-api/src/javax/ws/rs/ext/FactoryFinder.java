@@ -84,7 +84,7 @@ class FactoryFinder {
         String serviceId = "META-INF/services/" + factoryId;
         // try to find services in CLASSPATH
         try {
-            InputStream is = null;
+            InputStream is;
             if (classLoader == null) {
                 is = ClassLoader.getSystemResourceAsStream(serviceId);
             } else {

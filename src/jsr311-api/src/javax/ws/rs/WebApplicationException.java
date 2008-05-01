@@ -82,7 +82,7 @@ public class WebApplicationException extends RuntimeException {
     public WebApplicationException(Throwable cause, Response response) {
         super(cause);
         if (response==null)
-            response = Response.serverError().build();
+            this.response = Response.serverError().build();
         else
             this.response = response;        
     }
