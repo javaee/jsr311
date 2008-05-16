@@ -261,11 +261,11 @@ In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is n
 \section{Matching Requests to Resource Methods}
 \label{mapping_requests_to_java_methods}
 
-This section describes how a request is matched to a resource class and method.
+This section describes how a request is matched to a resource class and method. Implementations are not required to use the algorithm as written but MUST produce results equivalent to those produced by the algorithm.
 
 \subsection{Request Preprocessing}
 
-For the purposes of matching, Request URIs are preprocessed to support URI-based content negotiation as follows:
+Prior to matching, request URIs are preprocessed to support URI-based content negotiation as follows:
 
 \begin{enumerate}
 \item Set
@@ -332,6 +332,7 @@ foo.xml.en.json.de.bar & foo.xml.en.json.de.bar & text/html & fr \tabularnewline
 The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in steps \ref{removematchingext1} and \ref{removematchingext2} above MUST still be present in URIs returned from the methods of \UriInfo\footnote{Explicitly platonic methods excluded.}. In contrast, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
 
 \subsection{Request Matching}
+\label{request_matching}
 
 A request is matched to the corresponding resource method or sub-resource method by comparing the preprocessed request URI, the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
 
@@ -356,16 +357,18 @@ A request is matched to the corresponding resource method or sub-resource method
 
 \item Sort $E$ using the number of literal characters\footnote{Here, literal characters means those not resulting from template variable substitution.} in each member as the primary key (descending order) and the number of capturing groups as a secondary key (descending order).
 
-\item Set $R_{\mbox{match}}$ to be the first member of $E$, set $U$ to be the value of the final capturing group of $R(T_{\mbox{match}})$ when matched against $U$, and instantiate an object $O$ of the associated class.
+\item Set $R_{\mbox{match}}$ to be the first member of $E$, set $U$ to be the value of the final capturing group of $R_{\mbox{match}}$ when matched against $U$, and instantiate an object $O$ of the associated class.
 
 \end{enumerate}
 
-\item \label{find_object} Obtain the object that will handle the request:
+\item \label{find_object} Obtain the object that will handle the request and a set of candidate methods:
 
 \begin{enumerate}
-\item \label{check_null} If $U$ is null or \lq/\rq\ go to step \ref{find_method}
+\item \label{check_null} If $U$ is null or \lq/\rq, set
+$$M = \{\mbox{resource methods of } O \mbox{ (excluding sub resource methods)}\}$$
+and go to step \ref{find_method}
 
-\item Set $C=\mbox{class of} O, E=\{\}$
+\item Set $C=\mbox{class of } O, E=\{\}$
 
 \item For class $C$ add regular expressions to $E$ for each sub-resource method and locator as follows:
 \begin{enumerate}
@@ -385,7 +388,8 @@ A request is matched to the corresponding resource method or sub-resource method
 
 \item Set $R_{\mbox{match}}$ to be the first member of $E$
 
-\item If $R_{\mbox{match}}$ was derived from $T_{\mbox{method}}$ then go to step \ref{find_method}.
+\item If $R_{\mbox{match}}$ was derived from $T_{\mbox{method}}$, then set 
+$$M = \{\mbox{subresource methods of }O \mbox{ where } R(T_{\mbox{method}}) = R_{\mbox{match}}\}$$ and go to step \ref{find_method}.
 
 \item Set $U$ to be the value of the final capturing group of $R(T_{\mbox{match}})$ when matched against $U$,  invoke the sub-resource locator method of $O$ and set $O$ to the value returned from that method.
 
@@ -396,9 +400,8 @@ A request is matched to the corresponding resource method or sub-resource method
 \item \label{find_method} Identify the method that will handle the request:
 
 \begin{enumerate}
-\item Find the set of resource methods $M$ of $O$ that meet the following criteria:
+\item \label{filter_methods} Filter $M$ by removing members that do not meet the following criteria:
 \begin{itemize}
-\item If $U$ is neither empty nor equal to \lq/\rq, the method must be annotated with  a URI template that, when transformed into a regular expression using the process described in section \ref{template_to_regex}, matches $U$ with a final capturing group value that is either empty or equal to \lq/\rq.
 \item The request method is supported. If no methods support the request method an implementation MUST generate a \WebAppExc\ with a method not allowed response (HTTP 405 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}. Note the additional support for \code{HEAD} and \code{OPTIONS} described in section \ref{head_and_options}.
 \item The media type of the request entity body (if any) is a supported input data format (see section \ref{declaring_method_capabilities}). If no methods support the media type of the request entity body an implementation MUST generate a \WebAppExc\ with an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \item At least one of the acceptable response entity body media types is a supported output data format (see section \ref{declaring_method_capabilities}). If no methods support one of the acceptable response entity body media types an implementation MUST generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
@@ -411,7 +414,7 @@ A request is matched to the corresponding resource method or sub-resource method
 
 Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7. See section 14.1 of \cite{http11} for more details.
 
-\item \label{dispatch_method} If $M$ is not empty then the request is dispatched to the first Java method in the set; otherwise no matching resource method can be found and the algorithm terminates.
+\item \label{dispatch_method} The request is dispatched to the first Java method in the set\footnote{Step \ref{filter_methods} ensures the set contains at least one member.}.
 \end{enumerate}
 
 \end{enumerate}
