@@ -98,7 +98,7 @@ A resource method, sub-resource method or sub-resource locator may throw any che
 
 \begin{enumerate}
 \item Instances of \WebAppExc\ MUST be mapped to a response as follows. If the \code{response} property of the exception does not contain an entity and an exception mapping provider (see section \ref{exceptionmapper}) is available for \WebAppExc\, an implementation MUST use the provider to create a new \Response\ instance, otherwise the \code{response} property is used directly. The resulting \Response\ instance is then processed according to section \ref{resource_method_return}.
-\item If an exception mapping provider (see section \ref{exceptionmapper}) is available for the exception or one of its superclasses, an implementation MUST use the closest matching provider to  create a \Response\ instance that is then processed according to section \ref{resource_method_return}.
+\item If an exception mapping provider (see section \ref{exceptionmapper}) is available for the exception or one of its superclasses, an implementation MUST use the provider whose generic type is the nearest superclass of the exception to create a \Response\ instance that is then processed according to section \ref{resource_method_return}.
 \item\label{runtimeexc} Unchecked exceptions MUST be re-thrown and allowed to propagate to the underlying container.
 \item\label{checkedexc} Checked exceptions that cannot be thrown directly MUST be wrapped in a container-specific exception that is then thrown and allowed to propagate to the underlying container. Servlet-based implementations MUST use \code{Servlet\-Exception} as the wrapper. JAX-WS \code{Provider}-based implementations MUST use \code{Web\-Service\-Exception} as the wrapper.
 \end{enumerate}
@@ -121,12 +121,12 @@ On receipt of an \code{OPTIONS} request an implementation MUST either:
 
 \begin{enumerate}
 \item Call a method annotated with a request method designator for \code{OPTIONS} or, if none present,
-\item Generate an automatic response from the declared metadata of the matching class.
+\item Generate an automatic response using the metadata provided by the \jaxrs\ annotations on the matching class and its methods.
 \end{enumerate}
 
 \section{URI Templates}
 
-A resource class is anchored in URI space using the \Path\ annotation. The value of the annotation is a relative URI path template whose base URI is provided by the deployment context. Root resource classes are anchored directly using a \Path\ annotation on the class.
+A root resource class is anchored in URI space using the \Path\ annotation. The value of the annotation is a relative URI path template whose base URI is provided by the deployment context.
 
 \begin{ednote}Add reference to URI Templates ID when available.\end{ednote}
 
@@ -164,7 +164,7 @@ In the above example the \code{Widget} resource class can be used for any reques
 \subsection{Sub Resources}
 \label{sub_resources}
 
-Methods of a resource class that are annotated with \Path\ are either sub-resource methods or sub-resource locators. The differentiator is the presence or absence of request method designator:
+Methods of a resource class that are annotated with \Path\ are either sub-resource methods or sub-resource locators. Sub-resource methods handle a HTTP request directly whilst sub-resource locators return an object that will handle a HTTP request. The presence or absence of a request method designator (e.g. @GET) differentiates between the two:
 
 \begin{description}
 \item[Present] Such methods, known as {\em sub-resource methods}, are treated like a normal resource method (see section \ref{resource_method}) except the method is only invoked for request URIs that match a URI template created by concatenating the URI template of the resource class with the URI template of the method\footnote{If the resource class URI template does not end with a \lq/\rq\ character then one is added during the concatenation.}.
@@ -193,38 +193,41 @@ In the above a \code{GET} request for the \code{widgets/offers} resource is hand
 \section{Declaring Media Type Capabilities}
 \label{declaring_method_capabilities}
 
-Application classes can declare the supported request and response media types using the \ProduceMime\ and \ConsumeMime\ annotations. These annotations MAY be applied to a resource method, a resource class, or to an entity provider (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class or on an entity provider for a method argument or return type. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
+Application classes can declare the supported request and response media types using the \ConsumeMime\ and \ProduceMime\ annotations respectively. These annotations MAY be applied to a resource method, a resource class, or to an entity provider (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class or on an entity provider for a method argument or return type. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
 
-The following example illustrates the \ProduceMime\ annotation:
+The following example illustrates the use of these annotations:
 
 \begin{listing}{1}
 @Path("widgets")
-@ProduceMime("application/xml")
+@ProduceMime("application/widgets+xml")
 public class WidgetsResource {
   
   @GET
-  public String getAll() {...}
+  public Widgets getAsXML() {...}
   
   @GET
-  @Path("{id}")
-  public Widget getWidget(@UriParam("id") String id) {...}
-
-  @GET
-  @Path("{id}/description")
   @ProduceMime("text/html")
-  public String getDescription(@UriParam("id") String id) {...}
+  public String getAsHtml() {...}
+  
+  @POST
+  @ConsumeMime("application/widgets+xml")
+  public void addWidget(Widget widget) {...}
 }
 
 @Provider
-@ProduceMime({"application/xml", "application/json"})
-public class WidgetProvider implements MessageBodyWriter<Widget> {...}
+@ProduceMime("application/widgets+xml")
+public class WidgetsProvider implements MessageBodyWriter<Widgets> {...}
+
+@Provider
+@ConsumeMime("application/widgets+xml")
+public class WidgetProvider implements MessageBodyReader<Widget> {...}
 \end{listing}
 
 In the above:
 \begin{itemize}
-\item The \code{getAll} resource method returns a \code{String} in the \code{application/xml} format, 
-\item The \code{getDescription} sub-resource method returns a \code{String} as \code{text/html}, and
-\item The \code{getWidget} sub-resource method returns a \code{Widget} entity instance that can be mapped to either \code{application/xml} or \code{application/json} using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \MsgWrite).
+\item The \code{getAsXML} resource method will be called for \code{GET} requests that specify a response media type of \code{application/widgets+xml}. It returns a \code{Widgets} instance that will be mapped to that format using the \code{WidgetsProvider} class (see section \ref{entity_providers} for more information on \MsgWrite).
+\item The \code{getAsHtml} resource method will be called for \code{GET} requests that specify a response media type of \code{text/html}. It returns a \code{String} containing \code{text/html} that will be written using the default implementation of \code{MessageBodyWriter<String>}.
+\item The \code{addWidget} resource method will be called for \code{POST} requests that contain an entity of the media type \code{application/widgets+xml}. The value of the \code{widget} parameter will be mapped from the request entity using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \MsgRead).
 \end{itemize}
 
 An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
@@ -264,6 +267,7 @@ In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is n
 This section describes how a request is matched to a resource class and method. Implementations are not required to use the algorithm as written but MUST produce results equivalent to those produced by the algorithm.
 
 \subsection{Request Preprocessing}
+\label{reqpreproc}
 
 Prior to matching, request URIs are preprocessed to support URI-based content negotiation as follows:
 
@@ -334,7 +338,7 @@ The above preprocessing MUST NOT impact the URIs obtained from an injected \code
 \subsection{Request Matching}
 \label{request_matching}
 
-A request is matched to the corresponding resource method or sub-resource method by comparing the preprocessed request URI, the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
+A request is matched to the corresponding resource method or sub-resource method by comparing the effective request URI (see section \ref{reqpreproc}), the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
 
 \begin{enumerate}
 \item Identify the root resource class:
@@ -350,7 +354,7 @@ A request is matched to the corresponding resource method or sub-resource method
 \item Filter $E$ by matching each member against $U$ as follows:
 \begin{itemize}
 \item Remove members that do not match $U$.
-\item Remove members for which the final capturing group value is neither empty nor \lq/\rq\ and the class associated with $R(T_{\mbox{class}})$ had no sub-resource methods or locators.
+\item Remove members for which the final regular expression capturing group (henceforth simply referred to as a capturing group) value is neither empty nor \lq/\rq\ and the class associated with $R(T_{\mbox{class}})$ had no sub-resource methods or locators.
 \end{itemize}
 
 \item If $E$ is empty then no matching resource can be found, the algorithm terminates and an implementation MUST generate a \WebAppExc\ with a not found response (HTTP 404 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.

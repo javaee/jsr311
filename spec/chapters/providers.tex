@@ -36,7 +36,7 @@ The following describes the logical\footnote{Implementations are free to optimiz
 \item Else generate a \WebAppExc\ that contains an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
-A \MsgRead\code{readFrom} method MAY throw \WebAppExc. If thrown, the resource method is not invoked and the exception is treated as if it originated from a resource method, see section \ref{method_exc}.
+A \MsgRead\code{.readFrom} method MAY throw \WebAppExc. If thrown, the resource method is not invoked and the exception is treated as if it originated from a resource method, see section \ref{method_exc}.
 
 \subsection{Message Body Writer}
 \label{message_body_writer}
@@ -55,7 +55,7 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 \item Else generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
-A \MsgWrite\code{write} method MAY throw \WebAppExc. If thrown before the response is committed, the exception is treated as if it originated from a resource method, see section \ref{method_exc}. To avoid an infinite loop, implementations SHOULD NOT attempt to map exceptions thrown during serialization of an response previously mapped from an exception and SHOULD instead simply return a server error (status code 500) response.
+A \MsgWrite\code{.write} method MAY throw \WebAppExc. If thrown before the response is committed, the exception is treated as if it originated from a resource method, see section \ref{method_exc}. To avoid an infinite loop, implementations SHOULD NOT attempt to map exceptions thrown during serialization of an response previously mapped from an exception and SHOULD instead simply return a server error (status code 500) response.
 
 \subsection{Declaring Media Type Capabilities}
 \label{declaring_provider_capabilities}
@@ -109,6 +109,8 @@ Section \ref{contextresolver} describes how to access a context provider from a 
 
 \section{Exception Mapping Providers}
 \label{exceptionmapper}
+
+When a resource class or provider method throws an exception, the \jaxrs\ runtime will attempt to map the exception to a suitable HTTP response - see section \ref{method_exc}. An application can supply exception mapping providers to customize this mapping.
 
 Exception mapping providers map a checked or runtime exception to an instance of \Response. An exception mapping provider implements the \code{ExceptionMapper<T>} interface and is annotated with \Provider. When a resource method throws an exception for which there is an exception mapping provider, the matching provider is used to obtain a \Response\ instance. The resulting \Response\ is processed as if the method throwing the exception had instead returned the \Response, see section \ref{resource_method_return}.
 
