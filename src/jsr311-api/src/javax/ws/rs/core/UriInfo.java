@@ -66,6 +66,7 @@ public interface UriInfo {
      * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see PathSegment
+     * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
      */
     public List<PathSegment> getPathSegments();
     
@@ -80,6 +81,7 @@ public interface UriInfo {
      * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      * @see PathSegment
+     * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
      */
     public List<PathSegment> getPathSegments(boolean decode);
     

@@ -54,6 +54,7 @@ import java.lang.annotation.Target;
  *
  * @see DefaultValue
  * @see Encoded
+ * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
