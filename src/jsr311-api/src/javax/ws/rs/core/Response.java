@@ -38,6 +38,13 @@ import javax.ws.rs.ext.RuntimeDelegate;
 public abstract class Response {
     
     /**
+     * Protected constructor, use one of the static methods to obtain a 
+     * {@link ResponseBuilder} instance and obtain a Response from that.
+     */
+    protected Response() {}
+    
+    
+    /**
      * Return the entity for the response. The response will be serialized using a
      * MessageBodyWriter for the class of the entity.
      * @return an object instance or null if there is no entity
