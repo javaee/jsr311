@@ -393,14 +393,12 @@ public abstract class UriBuilder {
     public abstract UriBuilder fragment(String fragment) throws IllegalArgumentException;
     
     /**
-     * Build a URI, any URI template parameters will be replaced by the empty
-     * string. The <code>build</code> method does not change the state of the
+     * Build a URI. The <code>build</code> method does not change the state of the
      * <code>UriBuilder</code> and it may be called multiple times on the same
      * builder instance.
      * @return the URI built from the UriBuilder
      * @throws UriBuilderException if there are any URI template parameters, or
-     * if a URI cannot be constructed based on the
-     * current state of the builder.
+     * if a URI cannot be constructed based on the current state of the builder.
      */
     public abstract URI build() throws UriBuilderException;
 
