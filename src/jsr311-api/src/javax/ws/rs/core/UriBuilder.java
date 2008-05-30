@@ -28,7 +28,7 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * URI template aware utility class for building URIs from their components. See
  * {@link javax.ws.rs.Path#value} for an explanation of URI templates.
  * 
- * <p>Many methods support automatic encoding of illegal characters, see
+ * <p>Many methods support automatic encoding of illegal characters, see the
  * {@link #encode} method. Encoding and validation of URI
  * components follow the rules of the 
  * <a href="http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1">application/x-www-form-urlencoded</a>
@@ -45,7 +45,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * would result in encoding of the '#' such that the resulting URI is 
  * "foo%23bar". To create a URI "foo#bar" use
  * <blockquote><code>UriBuilder.fromPath("{arg1}").fragment("{arg2}").build("foo", "bar")</code></blockquote>
- * instead.
+ * instead. URI template names are never encoded but their values may be encoded when
+ * a URI is built, see the {@link #encode} method.
  * 
  * @see java.net.URI
  * @see javax.ws.rs.Path
@@ -164,8 +165,10 @@ public abstract class UriBuilder {
     
     /**
      * Controls whether the UriBuilder will automatically encode URI components
-     * added by subsequent operations or not. Defaults to true unless
-     * overridden during creation or set via this method.
+     * added by subsequent operations or not. Also controls whether template
+     * parameter values are encoded when building a URI using 
+     * {@link #build(Map)} or {@link #build(java.lang.Object[])}.
+     * Defaults to true unless overridden during creation or set via this method.
      * @param enable automatic encoding (true) or disable it (false). 
      * If false, subsequent components added must be valid with all illegal
      * characters already escaped.
@@ -341,6 +344,7 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if matrix cannot be parsed, or
      * if automatic encoding is disabled and
      * any matrix parameter name or value contains illegal characters
+     * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
      */
     public abstract UriBuilder replaceMatrixParams(String matrix) throws IllegalArgumentException;
 
@@ -355,6 +359,7 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if name or value is null, or
      * if automatic encoding is disabled and
      * name or value contains illegal characters
+     * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
      */
     public abstract UriBuilder matrixParam(String name, String value) throws IllegalArgumentException;
 
@@ -405,7 +410,8 @@ public abstract class UriBuilder {
     /**
      * Build a URI, any URI template parameters will be replaced by the value in
      * the supplied map. Values are converted to <code>String</code> using
-     * their <code>toString</code> method. The <code>build</code> method does
+     * their <code>toString</code> method and are then encoded if 
+     * {@link #isEncode} is <code>true</code>. The <code>build</code> method does
      * not change the state of the
      * <code>UriBuilder</code> and it may be called multiple times on the same
      * builder instance.
@@ -424,7 +430,8 @@ public abstract class UriBuilder {
     /**
      * Build a URI, using the supplied values in order to replace any URI
      * template parameters. Values are converted to <code>String</code> using
-     * their <code>toString</code> method. The <code>build</code> method does 
+     * their <code>toString</code> method and are then encoded if 
+     * {@link #isEncode} is <code>true</code>. The <code>build</code> method does 
      * not change the state of the
      * <code>UriBuilder</code> and it may be called multiple times on the same
      * builder instance.
