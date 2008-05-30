@@ -63,7 +63,7 @@ public interface MessageBodyWriter<T> {
      * Called before <code>writeTo</code> to ascertain the length in bytes of 
      * the serialized form of <code>t</code>. A non-negative return value is 
      * used in a HTTP <code>Content-Length</code> header.
-     * @param t the type
+     * @param t the instance to write
      * @return length in bytes or -1 if the length cannot be determined in
      * advance
      */
