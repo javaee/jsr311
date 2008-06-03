@@ -9,7 +9,7 @@ By default a single instance of each provider class is instantiated for each \ja
 
 An implementation MAY offer other provider lifecycles, mechanisms for specifying these are outside the scope of this specification. E.g. an implementation based on an inversion-of-control framework may support all of the lifecycle options provided by that framework.
 
-\section{Constructors}
+\subsection{Constructors}
 \label{provider_class_constructor}
 
 Provider classes are instantiated by the \jaxrs\ runtime and MUST have a public constructor for which the \jaxrs\ runtime can provide all parameter values. Note that a zero argument constructor is permissible under this rule.
