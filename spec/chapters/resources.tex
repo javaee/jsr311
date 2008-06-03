@@ -333,7 +333,7 @@ foo.xml.en.json.de.bar & foo.xml.en.json.de.bar & text/html & fr \tabularnewline
 \caption{URI-based Content Negotiation Examples}
 \end{longtable}
 
-The above preprocessing MUST NOT impact the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in steps \ref{removematchingext1} and \ref{removematchingext2} above MUST still be present in URIs returned from the methods of \UriInfo\footnote{Explicitly platonic methods excluded.}. In contrast, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
+The above preprocessing MUST be reflected in the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in steps \ref{removematchingext1} and \ref{removematchingext2} above MUST not be present in URIs returned from the methods of \UriInfo. Similarly, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
 
 \subsection{Request Matching}
 \label{request_matching}

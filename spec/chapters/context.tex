@@ -27,7 +27,9 @@ public String listQueryParamNames(@Context UriInfo info) {
   }
   return buf.toString();
 }
-\end{listing} 
+\end{listing}
+
+Note that the methods of \UriInfo\ provide access to request URI information following the pre-processing described in section \ref{reqpreproc}.
 
 \subsection{Headers}
 
@@ -46,7 +48,9 @@ public String listHeaderNames(@Context HttpHeaders headers) {
 }
 \end{listing}
 
-Note that response headers may be provided using the \Response\ class, see \ref{resource_method_return} for more details.
+Note that the methods of \HttpHeaders\ provide access to request information following the pre-processing described in section \ref{reqpreproc}.
+
+Response headers may be provided using the \Response\ class, see \ref{resource_method_return} for more details.
 
 \subsection{Content Negotiation and Preconditions}
 
