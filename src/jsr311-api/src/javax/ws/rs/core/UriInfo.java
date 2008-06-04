@@ -155,7 +155,9 @@ public interface UriInfo {
      * nor any matrix parameters that might be present after the extension.
      * E.g. if the request URI is "foo.xml" and 
      * {@link ApplicationConfig#getMediaTypeMappings()} includes a mapping for
-     * "xml", then this method will return "xml".
+     * "xml", then this method will return "xml". Note that the extension might
+     * include both a media type and language extension, e.g. "xml.en", if
+     * both are in use.
      * @return the URI extension that was removed during URI-based content
      * negotiation preprocessing or null if nothing was removed
      */
