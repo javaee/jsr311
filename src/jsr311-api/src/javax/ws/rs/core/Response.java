@@ -45,8 +45,10 @@ public abstract class Response {
     
     
     /**
-     * Return the entity for the response. The response will be serialized using a
-     * MessageBodyWriter for the class of the entity.
+     * Return the response entity. Entities of type {@link GenericEntity} 
+     * will be unwrapped. The response will be serialized using a
+     * MessageBodyWriter for either the class of the entity or, in the case of
+     * {@link GenericEntity}, the value of {@link GenericEntity#getRawType()}.
      * @return an object instance or null if there is no entity
      * @see javax.ws.rs.ext.MessageBodyWriter
      */
@@ -120,7 +122,9 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder that contains a representation.
+     * Create a new ResponseBuilder that contains a representation. Wrap the 
+     * actual entity with {@link GenericEntity} if the generic type should be
+     * preserved.
      * 
      * @param entity the representation entity data
      * @return a new ResponseBuilder
@@ -132,7 +136,9 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder that contains a representation.
+     * Create a new ResponseBuilder that contains a representation. If
+     * required, wrap the actual entity with {@link GenericEntity} to preserve
+     * the generic type.
      * 
      * @param entity the representation entity data
      * @param type the media type of the entity
@@ -146,7 +152,9 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder that contains a representation.
+     * Create a new ResponseBuilder that contains a representation. If
+     * required, wrap the actual entity with {@link GenericEntity} to preserve
+     * the generic type.
      * 
      * @param entity the representation entity data
      * @param type the media type of the entity
@@ -160,7 +168,9 @@ public abstract class Response {
     }
 
     /**
-     * Create a new ResponseBuilder that contains a representation.
+     * Create a new ResponseBuilder that contains a representation. If
+     * required, wrap the actual entity with {@link GenericEntity} to preserve
+     * the generic type.
      * 
      * @param entity the representation entity data
      * @param variant representation metadata
@@ -356,8 +366,8 @@ public abstract class Response {
         };
         
         /**
-         * Set the entity on the ResponseBuilder.
-         * 
+         * Set the entity on the ResponseBuilder. If required, wrap the actual
+         * entity with {@link GenericEntity} to preserve the generic type.
          * 
          * @param entity the response entity
          * @return the updated ResponseBuilder
