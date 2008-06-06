@@ -28,7 +28,6 @@ package javax.ws.rs.core;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -60,64 +59,65 @@ import javax.ws.rs.ext.MessageBodyWriter;
  */
 public class GenericEntity<T> {
 
-  final Class<?> rawType;
-  final Type type;
-  final T entity;
+    final Class<?> rawType;
+    final Type type;
+    final T entity;
 
-  /**
-   * Constructs a new generic entity. Derives represented class from type
-   * parameter. Note that this constructor is protected, users should create
-   * a (usually anonymous) subclass as shown above.
-   *
-   * @param entity the entity instance, must not be null
-   * @throws IllegalArgumentException if entity is null
-   */
-  protected GenericEntity(T entity) {
-    if (entity==null)
-        throw new IllegalArgumentException("The entity must not be null");
-    this.entity = entity;
-    this.type = getSuperclassTypeParameter(getClass());
-    this.rawType = entity.getClass();
-  }
-
-  /**
-   * Returns the type from super class's type parameter.
-   */
-  private static Type getSuperclassTypeParameter(Class<?> subclass) {
-    Type superclass = subclass.getGenericSuperclass();
-    if (!(superclass instanceof ParameterizedType)) {
-      throw new RuntimeException("Missing type parameter.");
+    /**
+     * Constructs a new generic entity. Derives represented class from type
+     * parameter. Note that this constructor is protected, users should create
+     * a (usually anonymous) subclass as shown above.
+     *
+     * @param entity the entity instance, must not be null
+     * @throws IllegalArgumentException if entity is null
+     */
+    protected GenericEntity(T entity) {
+        if (entity == null) {
+            throw new IllegalArgumentException("The entity must not be null");
+        }
+        this.entity = entity;
+        this.type = getSuperclassTypeParameter(getClass());
+        this.rawType = entity.getClass();
     }
-    ParameterizedType parameterized = (ParameterizedType) superclass;
-    return parameterized.getActualTypeArguments()[0];
-  }
 
-  /**
-   * Gets the raw type of the enclosed entity. Note that this is the raw type of
-   * the instance, not the raw type of the type parameter. I.e. in the example
-   * in the introduction, the raw type is {@code ArrayList} not {@code List}.
-   * @return the raw type
-   */
-  public final Class<?> getRawType() {
-    return rawType;
-  }
+    /**
+     * Returns the type from super class's type parameter.
+     */
+    private static Type getSuperclassTypeParameter(Class<?> subclass) {
+        Type superclass = subclass.getGenericSuperclass();
+        if (!(superclass instanceof ParameterizedType)) {
+            throw new RuntimeException("Missing type parameter.");
+        }
+        ParameterizedType parameterized = (ParameterizedType) superclass;
+        return parameterized.getActualTypeArguments()[0];
+    }
 
-  /**
-   * Gets underlying {@code Type} instance. Note that this is derived from the
-   * type parameter, not the enclosed instance. I.e. in the example
-   * in the introduction, the type is {@code List<String>} not
-   * {@code ArrayList<String>}.
-   * @return the type
-   */
-  public final Type getType() {
-    return type;
-  }
+    /**
+     * Gets the raw type of the enclosed entity. Note that this is the raw type of
+     * the instance, not the raw type of the type parameter. I.e. in the example
+     * in the introduction, the raw type is {@code ArrayList} not {@code List}.
+     * @return the raw type
+     */
+    public final Class<?> getRawType() {
+        return rawType;
+    }
 
-  /**
-   * Get the enclosed entity
-   * @return the enclosed entity
-   */
-  public final T getEntity() {
-      return entity;
-  }
+    /**
+     * Gets underlying {@code Type} instance. Note that this is derived from the
+     * type parameter, not the enclosed instance. I.e. in the example
+     * in the introduction, the type is {@code List<String>} not
+     * {@code ArrayList<String>}.
+     * @return the type
+     */
+    public final Type getType() {
+        return type;
+    }
+
+    /**
+     * Get the enclosed entity
+     * @return the enclosed entity
+     */
+    public final T getEntity() {
+        return entity;
+    }
 }
