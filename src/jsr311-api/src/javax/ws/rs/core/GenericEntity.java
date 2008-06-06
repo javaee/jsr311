@@ -74,7 +74,7 @@ public class GenericEntity<T> {
    */
   protected GenericEntity(T entity) {
     if (entity==null)
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("The entity must not be null");
     this.entity = entity;
     this.type = getSuperclassTypeParameter(getClass());
     this.rawType = entity.getClass();
