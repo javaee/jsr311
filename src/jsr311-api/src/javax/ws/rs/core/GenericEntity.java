@@ -43,13 +43,14 @@ import javax.ws.rs.ext.MessageBodyWriter;
  * {@link MessageBodyWriter}, this class may be used to wrap the entity and
  * capture its generic type.</p>
  * 
- * <p>Users are required to create a subclass of this class which enables
- * retrieval of the type information at runtime despite type erasure. For 
- * example, the following code shows how to create a {@link Response}
- * containing an entity of type {@code List<String>} whose generic type will be
- * available at runtime for selection of a suitable {@link MessageBodyWriter}:
+ * <p>Users are required to create a (typically anonymous) subclass of this 
+ * class which enables retrieval of the type information at runtime despite 
+ * type erasure. For example, the following code shows how to create a
+ * {@link Response} containing an entity of type {@code List<String>} whose
+ * generic type will be available at runtime for selection of a suitable
+ * {@link MessageBodyWriter}:
  * 
- * <pre>List&lt;String&gt; list = new ArrayList<String>();
+ * <pre>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
  *GenericEntity&lt;List&lt;String&gt;&gt; entity = new GenericEntity&lt;List&lt;String&gt;&gt;(list) {};
  *Response response = Response.ok(entity);</pre>
  *
@@ -65,9 +66,11 @@ public class GenericEntity<T> {
 
   /**
    * Constructs a new generic entity. Derives represented class from type
-   * parameter.
+   * parameter. Note that this constructor is protected, users should create
+   * a (usually anonymous) subclass as shown above.
    *
-   * @param entity the entity instance
+   * @param entity the entity instance, must not be null
+   * @throws IllegalArgumentException if entity is null
    */
   protected GenericEntity(T entity) {
     if (entity==null)
@@ -82,7 +85,7 @@ public class GenericEntity<T> {
    */
   private static Type getSuperclassTypeParameter(Class<?> subclass) {
     Type superclass = subclass.getGenericSuperclass();
-    if (superclass instanceof Class) {
+    if (!(superclass instanceof ParameterizedType)) {
       throw new RuntimeException("Missing type parameter.");
     }
     ParameterizedType parameterized = (ParameterizedType) superclass;

@@ -46,10 +46,10 @@ public interface MessageBodyWriter<T> {
      * Ascertain if the MessageBodyWriter supports a particular type.
      *
      * @param type the class of object that is to be written.
-     * @param genericType the type of object to be written. E.g. if the 
-     * message body is to be produced from a field, this will be
-     * the declared type of the field as returned by 
-     * <code>Field.getGenericType</code>.
+     * @param genericType the type of object to be written, obtained either
+     * by reflection of a resource method return type or via inspection
+     * of the returned instance. {@link javax.ws.rs.core.GenericEntity}
+     * provides a way to specify this information at runtime.
      * @param annotations an array of the annotations on the declaration of the
      * artifact that will be written. E.g. if the 
      * message body is to be produced from a field, this will be
@@ -76,10 +76,10 @@ public interface MessageBodyWriter<T> {
      * 
      * @param t the instance to write.
      * @param type the class of object that is to be written.
-     * @param genericType the type of object to be written. E.g. if the 
-     * message body is to be produced from a field, this will be
-     * the declared type of the field as returned by 
-     * <code>Field.getGenericType</code>.
+     * @param genericType the type of object to be written, obtained either
+     * by reflection of a resource method return type or by inspection
+     * of the returned instance. {@link javax.ws.rs.core.GenericEntity}
+     * provides a way to specify this information at runtime.
      * @param annotations an array of the annotations on the declaration of the
      * artifact that will be written. E.g. if the 
      * message body is to be produced from a field, this will be
