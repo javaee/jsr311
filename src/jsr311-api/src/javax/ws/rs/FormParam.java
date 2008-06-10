@@ -26,10 +26,12 @@ import java.lang.annotation.Target;
 
 /**
  * Binds the value(s) of a form parameter contained within a request entity body
- * of type application/x-www-form-urlencoded to a resource method parameter, 
- * resource class field, or resource class bean property.
+ * to a resource method parameter, resource class field, or resource class bean 
+ * property.
  * A default value can be specified using the {@link DefaultValue}
  * annotation.
+ * If the request entity body is absent or is of any media type other than 
+ * application/x-www-form-urlencoded, the default value is used.
  * 
  * The type <code>T</code> of the annotated parameter, field or property must 
  * either:
