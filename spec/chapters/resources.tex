@@ -31,6 +31,7 @@ When a resource class is instantiated, the values of fields and bean properties 
 \item[\MatrixParam] Extracts the value of a URI matrix parameter.
 \item[\QueryParam] Extracts the value of a URI query parameter.
 \item[\PathParam] Extracts the value of a URI template parameter.
+\item[\FormParam] Extracts the value of a form parameter contained within a request entity body.
 \item[\CookieParam] Extracts the value of a cookie.
 \item[\HeaderParam] Extracts the value of a header.
 \item[\Context] Injects an instance of a supported resource, see chapters \ref{context} and \ref{environment} for more details.
@@ -51,7 +52,7 @@ Valid parameter types for each of the above annotations are listed in the corres
 
 The \code{Default\-Value} annotation may be used to supply a default value for some of the above, see the Javadoc for \code{Default\-Value} for usage details and rules for generating a value in the absence of this annotation and the requested data. The \code{Encoded} annotation may be used to disable automatic URI decoding for \MatrixParam, \QueryParam\ and \PathParam\ annotated fields and properties.
 
-A \WebAppExc\ thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above is processed directly as described in section \ref{method_exc}. Other exceptions thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above are treated as client errors: if the field or property is annotated with \MatrixParam, \QueryParam\ or \PathParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with a not found response (404 status) and no entity; if the field or property is annotated with \HeaderParam\ or \CookieParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with  a client error response (400 status) and no entity. The \WebAppExc\ MUST be then be processed as described in section \ref{method_exc}.
+A \WebAppExc\ thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above is processed directly as described in section \ref{method_exc}. Other exceptions thrown during construction of field or property values using \ref{stringctor} or \ref{valueofmethod} above are treated as client errors: if the field or property is annotated with \MatrixParam, \QueryParam\ or \PathParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with a not found response (404 status) and no entity; if the field or property is annotated with \FormParam, \HeaderParam\ or \CookieParam\ then an implementation MUST generate a \WebAppExc\ that wraps the thrown exception with  a client error response (400 status) and no entity. The \WebAppExc\ MUST be then be processed as described in section \ref{method_exc}.
 
 \section{Resource Methods}
 \label{resource_method}
@@ -74,7 +75,11 @@ When a resource method is invoked, parameters annotated with one of the  annotat
 \item Exceptions thrown during construction of parameter values are treated the same as exceptions thrown during construction of field or bean property values, see section \ref{resource_field}.
 \end{itemize}
 
-The value of a non-annotated  parameter, called the entity parameter, is mapped from the request entity body. Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
+\subsubsection{Entity Parameters}
+
+The value of a non-annotated parameter, called the entity parameter, is mapped from the request entity body. Conversion between an entity body and a Java type is the responsibility of an entity provider, see section \ref{entity_providers}.
+
+Resource methods MUST NOT have more than one parameter that is not annotated with one of the above-listed annotations. If a sibling method parameter, class field, or property, is annotated with \FormParam, the type of the entity parameter MUST be \code{Multi\-valued\-Map<String, String>}.
 
 \subsection{Return Type}
 \label{resource_method_return}
