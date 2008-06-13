@@ -21,6 +21,7 @@ package javax.ws.rs.core;
 
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Locale;
 import javax.ws.rs.ext.RuntimeDelegate;
 
 /**
@@ -28,7 +29,7 @@ import javax.ws.rs.ext.RuntimeDelegate;
  */
 public class Variant {
     
-    private String language;
+    private Locale language;
     private MediaType mediaType;
     private String encoding;
     
@@ -38,7 +39,7 @@ public class Variant {
      * @param language the language of the variant - may be null
      * @param encoding the content encoding of the variant - may be null
      */
-    public Variant(MediaType mediaType, String language, String encoding) {
+    public Variant(MediaType mediaType, Locale language, String encoding) {
         this.encoding = encoding;
         this.language = language;
         this.mediaType = mediaType;
@@ -48,7 +49,7 @@ public class Variant {
      * Get the language of the variant
      * @return the language or null if none set
      */
-    public String getLanguage() {
+    public Locale getLanguage() {
         return language;
     }
 
@@ -114,7 +115,7 @@ public class Variant {
         w.append("Variant[mediaType=");
         w.append(mediaType==null ? "null" : mediaType.toString());
         w.append(", language=");
-        w.append(language==null ? "null" : language);
+        w.append(language==null ? "null" : language.toString());
         w.append(", encoding=");
         w.append(encoding==null ? "null" : encoding);
         w.append("]");
@@ -168,7 +169,7 @@ public class Variant {
          * @param languages the available languages
          * @return the updated builder
          */
-        public abstract VariantListBuilder languages(String... languages);
+        public abstract VariantListBuilder languages(Locale... languages);
         
         /**
          * Set the encoding[s] for this variant.

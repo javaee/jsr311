@@ -22,6 +22,7 @@ package javax.ws.rs.core;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.ws.rs.ext.RuntimeDelegate;
 
 /**
@@ -307,8 +308,12 @@ public abstract class Response {
      *   return Response.created(widgetId).build();
      * }</pre>
      * 
-     * Several methods have parameters of type URI, {@link UriBuilder} provides
-     * convenient methods to create such values as does <code>URI.create()</code>.
+     * <p>Several methods have parameters of type URI, {@link UriBuilder} provides
+     * convenient methods to create such values as does <code>URI.create()</code>.</p>
+     * 
+     * <p>Where multiple variants of the same method are provided, the type of
+     * the supplied parameter is retained in the metadata of the built 
+     * {@code Response}.</p>  
      * 
      */
     public static abstract class ResponseBuilder {
@@ -417,6 +422,15 @@ public abstract class Response {
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder language(String language);
+        
+        /**
+         * Set the language on the ResponseBuilder.
+         * 
+         * 
+         * @param language the language of the response entity
+         * @return the updated ResponseBuilder
+         */
+        public abstract ResponseBuilder language(Locale language);
         
         /**
          * Set the location on the ResponseBuilder.
