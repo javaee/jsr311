@@ -103,6 +103,7 @@ public class MediaType {
      * @param type the media type string
      * @return the newly created MediaType
      * @throws IllegalArgumentException if the supplied string cannot be parsed
+     * or is null
      */
     public static MediaType valueOf(String type) throws IllegalArgumentException {
         return delegate.fromString(type);

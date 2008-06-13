@@ -111,6 +111,7 @@ public class NewCookie extends Cookie {
      * @param value the cookie string
      * @return the newly created NewCookie
      * @throws IllegalArgumentException if the supplied string cannot be parsed
+     * or is null
      */
     public static NewCookie valueOf(String value) throws IllegalArgumentException {
         return delegate.fromString(value);

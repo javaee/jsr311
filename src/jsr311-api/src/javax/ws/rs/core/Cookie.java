@@ -90,6 +90,7 @@ public class Cookie {
      * @param value the cookie string
      * @return the newly created Cookie
      * @throws IllegalArgumentException if the supplied string cannot be parsed
+     * or is null
      */
     public static Cookie valueOf(String value) throws IllegalArgumentException {
         return delegate.fromString(value);

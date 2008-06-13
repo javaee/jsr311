@@ -76,6 +76,7 @@ public class CacheControl {
      * @param value the cache control string
      * @return the newly created CacheControl
      * @throws IllegalArgumentException if the supplied string cannot be parsed
+     * or is null
      */
     public static CacheControl valueOf(String value) throws IllegalArgumentException {
         return delegate.fromString(value);
