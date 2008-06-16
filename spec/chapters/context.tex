@@ -17,7 +17,7 @@ This section describes the types of context available to resource classes and pr
 An instance of \UriInfo\ can be injected into a class field or method parameter using the \Context\ annotation. \UriInfo\ provides both static and dynamic, per-request information, about the components of a request URI. E.g. the following would return the names of any query parameters in a request:
 
 \begin{listing}{1}
-@HttpMethod(GET)
+@GET
 @ProduceMime{"text/plain"}
 public String listQueryParamNames(@Context UriInfo info) {
   StringBuilder buf = new StringBuilder();
@@ -36,7 +36,7 @@ Note that the methods of \UriInfo\ provide access to request URI information fol
 An instance of \HttpHeaders\ can be injected into a class field or method parameter using the \Context\ annotation. \HttpHeaders\ provides access to request header information either in map form or via strongly typed convenience methods. E.g. the following would return the names of all the headers in a request:
 
 \begin{listing}{1}
-@HttpMethod(GET)
+@GET
 @ProduceMime{"text/plain"}
 public String listHeaderNames(@Context HttpHeaders headers) {
   StringBuilder buf = new StringBuilder();
@@ -57,7 +57,7 @@ Response headers may be provided using the \Response\ class, see \ref{resource_m
 \jaxrs\ simplifies support for content negotiation and preconditions using the \Request\ interface. An instance of \Request\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \Request\ allow a caller to determine the best matching representation variant and to evaluate whether the current state of the resource matches any preconditions in the request. Precondition support methods return a \ResponseBuilder\ that can be returned to the client to inform it that the request preconditions were not met. E.g. the following checks if the current entity tag matches any preconditions in the request before updating the resource:
 
 \begin{listing}{1}
-@HttpMethod(PUT)
+@PUT
 public Response updateFoo(@Context Request request, Foo foo) {
 	EntityTag tag = getCurrentTag();
 	ResponseBuilder responseBuilder = request.evaluatePreconditions(tag);
