@@ -450,13 +450,13 @@ $$M = \{\mbox{subresource methods of }O \mbox{ where } R(T_{\mbox{method}}) = R_
 \item The media type of the request entity body (if any) is a supported input data format (see section \ref{declaring_method_capabilities}). If no methods support the media type of the request entity body an implementation MUST generate a \WebAppExc\ with an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \item At least one of the acceptable response entity body media types is a supported output data format (see section \ref{declaring_method_capabilities}). If no methods support one of the acceptable response entity body media types an implementation MUST generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{itemize} 
-\item Sort $M$ a follows:
+\item Sort $M$ in descending order as follows:
 \begin{itemize}
 \item The primary key is the media type of input data. Methods whose \ConsumeMime\ value most closely match the media type of the request are sorted first.
 \item The secondary key is the \ProduceMime\ value. Methods whose value of \ProduceMime\ most closely match the value of the request accept header are sorted first.
 \end{itemize}
 
-Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7. See section 14.1 of \cite{http11} for more details.
+Sorting of media types follows the general rule: $\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that n/m;q=1.0 $>$ n/m;q=0.7. See section 14.1 of \cite{http11} for more details.
 
 \item \label{dispatch_method} The request is dispatched to the first Java method in the set\footnote{Step \ref{filter_methods} ensures the set contains at least one member.}.
 \end{enumerate}
@@ -470,7 +470,8 @@ The function $R(A)$ converts a URI path template annotation $A$ into a regular e
 \begin{enumerate}
 \item If $A.\mbox{encode}=\mbox{true}$, URI encode the template, ignoring URI template variable specifications.
 \item Escape any regular expression characters in the URI template, again ignoring URI template variable specifications.
-\item Replace all but the final URI template variable\footnote{The regular expression to match a URI path template variable is $\backslash$\{([$\backslash$w-$\backslash.\sim$]+?)$\backslash$\}.} with the regular expression \lq([\^{ }/]+?)\rq.
+\item Replace all but the final URI template variable\footnote{The regular expression to match a URI path template variable is 
+$\backslash \{([\mbox{a-zA-Z0-9}][\mbox{-}\backslash\mbox{w}.]*)\backslash\}$.} with the regular expression \lq([\^{ }/]+?)\rq.
 \item If $A.\mbox{limited}=\mbox{false}$ and the final URI template variable is the last thing in the URI template then replace the final URI template variable with the regular expression \lq(.*?)\rq\ otherwise replace the final URI template variable with the regular expression \lq([\^{ }/]+?)\rq
 \item If the resulting string ends with \lq/\rq\ then remove the final character.
 \item If $A.\mbox{limited}=\mbox{true}$, append \lq(/.*)?\rq\ to the result, else append \lq(/)?\rq\ to the result.
@@ -494,7 +495,7 @@ In many cases it is not possible to statically determine the media type of a res
 
 \item Obtain the acceptable media types $A$. If $A = \{\}$, set $A = \{\mbox{\lq*/*\rq}\}$
 
-\item Sort $A$ and $P$ in descending order, each with a primary key of q-value and secondary key of specificity ($\mbox{\lq n/m\rq} > \mbox{\lq n/*\rq} > \mbox{\lq*/*\rq}$).
+\item Sort $A$ and $P$ in descending order, each with a primary key of q-value and secondary key of specificity ($\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$).
 
 \item Set $M=\{\}$. For each member of $A, a$:
 \begin{itemize}
