@@ -312,6 +312,7 @@ This section describes how a request is matched to a resource class and method. 
 Prior to matching, request URIs are preprocessed to support URI-based content negotiation as follows:
 
 \begin{enumerate}
+\item Normalize the request URI\footnote{Note: some containers might perform this functionality prior to passing the request to an implementation.} by following the rules for case, path segment, and percent encoding normalization described in section 6.2.2 of RFC 3986\cite{uri}.
 \item Set
 \begin{itemize}
 \item $M = \{\mbox{\code{config.getMediaTypeMappings().keySet()}}\}$
