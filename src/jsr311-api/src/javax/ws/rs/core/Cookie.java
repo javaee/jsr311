@@ -145,4 +145,54 @@ public class Cookie {
     public String toString() {
         return delegate.toString(this);
     }
+
+    /**
+     * Generate a hashcode by hashing all of the cookies properties
+     * @return the hashcode
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 97 * hash + (this.value != null ? this.value.hashCode() : 0);
+        hash = 97 * hash + this.version;
+        hash = 97 * hash + (this.path != null ? this.path.hashCode() : 0);
+        hash = 97 * hash + (this.domain != null ? this.domain.hashCode() : 0);
+        return hash;
+    }
+
+    /**
+     * Compare for equality
+     * @param obj
+     * @return true if the object is a {@code Cookie} with the same value for
+     * all properties, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cookie other = (Cookie) obj;
+        if (this.name != other.name && (this.name == null || !this.name.equals(other.name))) {
+            return false;
+        }
+        if (this.value != other.value && (this.value == null || !this.value.equals(other.value))) {
+            return false;
+        }
+        if (this.version != other.version) {
+            return false;
+        }
+        if (this.path != other.path && (this.path == null || !this.path.equals(other.path))) {
+            return false;
+        }
+        if (this.domain != other.domain && (this.domain == null || !this.domain.equals(other.domain))) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
