@@ -489,11 +489,12 @@ public abstract class Response {
         public abstract ResponseBuilder cacheControl(CacheControl cacheControl);
         
         /**
-         * Set the value of a specific header on the ResponseBuilder.
+         * Add a header to the ResponseBuilder.
          * 
          * @param name the name of the header
          * @param value the value of the header, the header will be serialized
-         * using its toString method
+         * using its toString method. If null then all current headers of the
+         * same name will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder header(String name, Object value);
@@ -502,7 +503,8 @@ public abstract class Response {
          * Add cookies to the ResponseBuilder. If more than one cookie with
          * the same is supplied, later ones overwrite earlier ones.
          * 
-         * @param cookies new cookies that will accompany the response.
+         * @param cookies new cookies that will accompany the response. A null
+         * value will remove all cookies.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder cookie(NewCookie... cookies);
