@@ -88,7 +88,7 @@ public interface MessageBodyWriter<T> {
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders a mutable map of the HTTP response headers.
      * @param entityStream the {@link OutputStream} for the HTTP entity. The 
-     * implementation should not close the input stream.
+     * implementation should not close the output stream.
      * @throws java.io.IOException if an IO error arises 
      * @throws javax.ws.rs.WebApplicationException if a specific 
      * HTTP error response needs to be produced. Only effective if thrown prior

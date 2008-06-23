@@ -30,7 +30,7 @@ public interface ContextResolver<T> {
      * Get a context of type <code>T</code> that is applicable to the supplied
      * type.
      * @param type the class of object for which a context is desired 
-     * @return a context for the supplied type or <code>null<code> if a 
+     * @return a context for the supplied type or <code>null</code> if a 
      * context for the supplied type is not available from this provider.
      */
     T getContext(Class<?> type);
