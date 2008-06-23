@@ -45,8 +45,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * would result in encoding of the '#' such that the resulting URI is 
  * "foo%23bar". To create a URI "foo#bar" use
  * <blockquote><code>UriBuilder.fromPath("{arg1}").fragment("{arg2}").build("foo", "bar")</code></blockquote>
- * instead. URI template names are never encoded but their values may be encoded when
- * a URI is built, see the {@link #encode} method.
+ * instead. URI template names and delimiters are never encoded but their 
+ * values may be encoded when a URI is built, see the {@link #encode} method.
  * 
  * @see java.net.URI
  * @see javax.ws.rs.Path
@@ -371,18 +371,40 @@ public abstract class UriBuilder {
 
     /**
      * Append a matrix parameter to the existing set of matrix parameters of 
-     * the current final segment of the URI path. Note that the matrix parameters
+     * the current final segment of the URI path. If multiple values are supplied
+     * the parameter will be added once per value. Note that the matrix parameters
      * are tied to a particular path segment; subsequent addition of path segments
      * will not affect their position in the URI path.
      * @param name the matrix parameter name, may contain URI template parameters
-     * @param value the matrix parameter value, may contain URI template parameters
+     * @param values the matrix parameter value(s), each object will be converted
+     * to a {@code String} using its {@code toString()} method. Stringified
+     * values may contain URI template parameters.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if name or value is null, or
      * if automatic encoding is disabled and
-     * name or value contains illegal characters
+     * the name or any stringified value contains illegal characters
      * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
      */
-    public abstract UriBuilder matrixParam(String name, String value) throws IllegalArgumentException;
+    public abstract UriBuilder matrixParam(String name, Object... values) throws IllegalArgumentException;
+
+    /**
+     * Replace the existing value(s) of a matrix parameter on 
+     * the current final segment of the URI path. If multiple values are supplied
+     * the parameter will be added once per value. Note that the matrix parameters
+     * are tied to a particular path segment; subsequent addition of path segments
+     * will not affect their position in the URI path.
+     * @param name the matrix parameter name, may contain URI template parameters
+     * @param values the matrix parameter value(s), each object will be converted
+     * to a {@code String} using its {@code toString()} method. Stringified
+     * values may contain URI template parameters. If {@code values} is empty 
+     * or null then all current values of the parameter are removed.
+     * @return the updated UriBuilder
+     * @throws IllegalArgumentException if name is null, or
+     * if automatic encoding is disabled and
+     * the name or any stringified value contains illegal characters.
+     * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs</a>
+     */
+    public abstract UriBuilder replaceMatrixParam(String name, Object... values) throws IllegalArgumentException;
 
     /**
      * Set the URI query string. This method will overwrite any existing query
@@ -397,15 +419,33 @@ public abstract class UriBuilder {
     public abstract UriBuilder replaceQueryParams(String query) throws IllegalArgumentException;
 
     /**
-     * Append a query parameter to the existing set of query parameters.
+     * Append a query parameter to the existing set of query parameters. If
+     * multiple values are supplied the parameter will be added once per value.
      * @param name the query parameter name, may contain URI template parameters
-     * @param value the query parameter value, may contain URI template parameters
+     * @param values the query parameter value(s), each object will be converted
+     * to a {@code String} using its {@code toString()} method. Stringified
+     * values may contain URI template parameters.
      * @return the updated UriBuilder
      * @throws IllegalArgumentException if name or value is null, or
      * if automatic encoding is disabled and
      * name or value contains illegal characters
      */
-    public abstract UriBuilder queryParam(String name, String value) throws IllegalArgumentException;
+    public abstract UriBuilder queryParam(String name, Object... values) throws IllegalArgumentException;
+    
+    /**
+     * Replace the existing value(s) of a query parameter. If
+     * multiple values are supplied the parameter will be added once per value.
+     * @param name the query parameter name, may contain URI template parameters
+     * @param values the query parameter value(s), each object will be converted
+     * to a {@code String} using its {@code toString()} method. Stringified
+     * values may contain URI template parameters. If {@code values} is empty
+     * or null then all current values of the parameter are removed.
+     * @return the updated UriBuilder
+     * @throws IllegalArgumentException if name is null, or
+     * if automatic encoding is disabled and name or value contains illegal 
+     * characters.
+     */
+    public abstract UriBuilder replaceQueryParam(String name, Object... values) throws IllegalArgumentException;
     
     /**
      * Set the URI fragment using an unencoded value.
