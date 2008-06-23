@@ -149,7 +149,7 @@ public class NewCookie extends Cookie {
     
     /**
      * Obtain a new instance of a {@link Cookie} with the same name, value, path,
-     * domain and version as this {@Code NewCookie}. This method can be used to
+     * domain and version as this {@code NewCookie}. This method can be used to
      * obtain an object that can be compared for equality with another {@code Cookie};
      * since a {@code Cookie} will never compare equal to a {@code NewCookie}.
      * @return a {@link Cookie}
