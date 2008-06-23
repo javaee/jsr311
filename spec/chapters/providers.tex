@@ -19,7 +19,7 @@ A public constructor MAY include parameters annotated with \Context - chapter \r
 \section{Entity Providers}
 \label{entity_providers}
 
-Entity providers supply mapping services between representations and their associated Java types. Entity providers come in two flavors: \MsgRead\ and \MsgWrite\ described below.
+Entity providers supply mapping services between representations and their associated Java types. Entity providers come in two flavors: \MsgRead\ and \MsgWrite\ described below. In the absence of a suitable entity provider, \jaxrs\ implementations are REQUIRED to use to the JavaBeans Activation Framework\cite{jaf} to try to obtain a suitable data handler to perform the mapping instead.
 
 \subsection{Message Body Reader}
 \label{message_body_reader}
@@ -33,6 +33,7 @@ The following describes the logical\footnote{Implementations are free to optimiz
 \item Select the set of \MsgRead\ classes that support the media type of the request, see section \ref{declaring_provider_capabilities}.
 \item\label{findreader} Iterate through the selected \MsgRead\ classes and, utilizing the \code{isReadable} method of each, choose a \MsgRead\ provider that supports the desired Java type.
 \item If step \ref{findreader} locates a suitable \MsgRead\ then use its \code{readFrom} method to map the entity body to the desired Java type.
+\item Else if a suitable data handler can be found using the JavaBeans Activation Framework\cite{jaf} then use it to map the entity body to the desired Java type.
 \item Else generate a \WebAppExc\ that contains an unsupported media type response (HTTP 415 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
@@ -52,6 +53,7 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 \item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
 \item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
 \item If step \ref{findwriter} locates a suitable \MsgWrite\ then use its \code{writeTo} method to map the object to the entity body.
+\item Else if a suitable data handler can be found using the JavaBeans Activation Framework\cite{jaf} then use it to map the object to the entity body.
 \item Else generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
