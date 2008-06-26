@@ -68,6 +68,44 @@ public class Variant {
     public String getEncoding() {
         return encoding;
     }
+    
+    /**
+     * Create a {@link VariantListBuilder} initialized with a set of supported
+     * media types.
+     * @param mediaTypes the available mediaTypes. If specific charsets
+     * are supported they should be included as parameters of the respective
+     * media type.
+     * @return the initailized builder
+     */
+    public static VariantListBuilder mediaTypes(MediaType... mediaTypes) {
+        VariantListBuilder b = VariantListBuilder.newInstance();
+        b.mediaTypes(mediaTypes);
+        return b;
+    }
+    
+    /**
+     * Create a {@link VariantListBuilder} initialized with a set of supported
+     * languages.
+     * @param languages the available languages.
+     * @return the initailized builder
+     */
+    public static VariantListBuilder languages(Locale... languages) {
+        VariantListBuilder b = VariantListBuilder.newInstance();
+        b.languages(languages);
+        return b;
+    }
+    
+    /**
+     * Create a {@link VariantListBuilder} initialized with a set of supported
+     * encodings.
+     * @param encodings the available encodings.
+     * @return the initailized builder
+     */
+    public static VariantListBuilder encodings(String... encodings) {
+        VariantListBuilder b = VariantListBuilder.newInstance();
+        b.encodings(encodings);
+        return b;
+    }
 
     /**
      * Generate hash code from variant properties.
@@ -137,7 +175,7 @@ public class Variant {
          * Create a new builder instance.
          * @return a new Builder
          */
-        public static VariantListBuilder newInstance() {
+        protected static VariantListBuilder newInstance() {
             VariantListBuilder b = RuntimeDelegate.getInstance().createVariantListBuilder();
             return b;
         }
