@@ -75,15 +75,9 @@ The application could also set the content location, expiry date and cache contr
 
 The \SecurityContext\ interface provides access to information about the security context of the current request. An instance of \SecurityContext\ can be injected into a class field or method parameter using the \Context\ annotation. The methods of \SecurityContext\ provide access to the current user principle, information about roles assumed by the requester, whether the request arrived over a secure channel and the authentication scheme used.
 
-\subsection{Message Body Workers}
+\subsection{Providers}
+\label{providercontext}
 
-The \code{MessageBodyWorkers} interface allows for lookup of \MsgRead\ and \MsgWrite\ instances based on a set of search criteria including support media and Java type. An instance of \code{MessageBodyWorkers} can be injected into a class field or method parameter using the \Context\ annotation.
+The \code{Providers} interface allows for lookup of provider instances based on a set of search criteria. An instance of \code{Providers} can be injected into a class field or method parameter using the \Context\ annotation.
 
-This interface is expected to be primarily of interest to entity provider authors wishing to use other entity providers to process a composite entity.
-
-\subsection{Context Resolver}
-\label{contextresolver}
-
-Section \ref{contextprovider} describes how an application can supply a \code{ContextResolver} for a particular context type. An instance of \code{ContextResolver} can be injected into a class field or method parameter using the \Context\ annotation. 
-
-The generic type of the annotation target is used select providers of the desired context type. The injected instance is not an instance of an application supplied context provider, rather it is a proxy that iterates through all the providers of the desired context type until one returns a non-\code{null} context for the type supplied in \code{getContext}. If no providers return a non-\code{null} context then the \code{getContext} method returns \code{null}.
+This interface is expected to be primarily of interest to provider authors wishing to use other providers functionality.

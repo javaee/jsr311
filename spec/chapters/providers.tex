@@ -5,7 +5,7 @@ The \jaxrs\ runtime is extended using application-supplied provider classes. A p
 
 \section{Lifecycle and Environment}
 
-By default a single instance of each provider class is instantiated for each \jaxrs\ application. First the constructor (see section \ref{provider_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate provider methods may be called multiple times (simultaneously), and finally the object is made available for garbage collection.
+By default a single instance of each provider class is instantiated for each \jaxrs\ application. First the constructor (see section \ref{provider_class_constructor}) is called, then any requested dependencies are injected (see chapter \ref{context}), then the appropriate provider methods may be called multiple times (simultaneously), and finally the object is made available for garbage collection. Section \ref{providercontext} describes how a provider obtains access to other providers via dependency injection.
 
 An implementation MAY offer other provider lifecycles, mechanisms for specifying these are outside the scope of this specification. E.g. an implementation based on an inversion-of-control framework may support all of the lifecycle options provided by that framework.
 
@@ -84,6 +84,8 @@ An implementation MUST include pre-packaged \MsgRead\ and \MsgWrite\ implementat
 \item[\code{StreamingOutput}] All media types (\code{*/*}), \MsgWrite\ only.
 \end{description}
 
+The implementation-supplied entity provider(s) for \code{javax\-.xml\-.bind\-.JAXBElement} and application-supplied JAXB classes MUST use \code{JAXBContext} instances provided by application-supplied context resolvers, see section \ref{contextprovider}. If an application does not supply a \code{JAXBContext} for a particular type, the implementation-supplied entity provider MUST use its own default context instead.
+
 When writing responses, implementations SHOULD respect application-supplied character set metadata and SHOULD use UTF-8 if a character set is not specified by the application or if the application specifies a character set that is unsupported.
 
 An implementation MUST support application-provided entity providers and MUST use those in preference to its own pre-packaged providers when either could handle the same request.
@@ -91,8 +93,6 @@ An implementation MUST support application-provided entity providers and MUST us
 \subsection{Transfer Encoding}
 
 Transfer encoding for inbound data is handled by a component of the container or the \jaxrs\ runtime. \MsgRead\ providers always operate on the decoded HTTP entity body rather than directly on the HTTP message body.
-
-\begin{ednote}Should JAX-RS require support for specific transfer encodings ?\end{ednote}
 
 A JAX-RS runtime or container MAY transfer encode outbound data or this MAY be done by application code.
 
@@ -107,7 +107,11 @@ Context providers supply context to resource classes and other providers. A cont
 
 Context providers MAY return \code{null} from the \code{getContext} method if they do not wish to provide their context for a particular Java type. E.g. a JAXB context provider may wish to only provide the context for certain JAXB classes. Context providers MAY also manage multiple contexts of the same type keyed to different Java types.
 
-Section \ref{contextresolver} describes how to access a context provider from a resource class or provider.
+\subsection{Declaring Media Type Capabilities}
+
+Context providers MAY restrict the media types they support using the \ConsumeMime\ and \ProduceMime\ annotations respectively. The absence of these annotations is equivalent to their inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
+
+When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media types is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
 
 \section{Exception Mapping Providers}
 \label{exceptionmapper}

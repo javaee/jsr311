@@ -11,7 +11,7 @@
  */
 
 /*
- * MessageBodyWorkers.java
+ * Providers.java
  * 
  * Created on March 5, 2008, 9:00 AM
  * 
@@ -21,18 +21,18 @@ package javax.ws.rs.ext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.List;
 import javax.ws.rs.core.MediaType;
 
 /**
- * An injectable interface providing lookup of {@link MessageBodyReader} and
- * {@link MessageBodyWriter} instances. 
+ * An injectable interface providing runtime lookup of provider instances. 
  * 
  * @see javax.ws.rs.core.Context
  * @see MessageBodyReader
  * @see MessageBodyWriter
+ * @see ContextResolver
+ * @see ExceptionMapper
  */
-public interface MessageBodyWorkers {
+public interface Providers {
     
     /**
      * Get a message body reader that matches a set of criteria.
@@ -52,7 +52,7 @@ public interface MessageBodyWorkers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    public abstract <T> MessageBodyReader<T> getMessageBodyReader(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
+    <T> MessageBodyReader<T> getMessageBodyReader(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
     
     
     /**
@@ -73,5 +73,39 @@ public interface MessageBodyWorkers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    public abstract <T> MessageBodyWriter<T> getMessageBodyWriter(Class<T> type, Type genericType, Annotation annotations[],MediaType mediaType);
+    <T> MessageBodyWriter<T> getMessageBodyWriter(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
+    
+    /**
+     * Get an exception mapping provider for a particular class of exception. 
+     * Returns the provider whose generic type is the nearest superclass of
+     * {@code type}.
+     * @param type the class of exception
+     * @return an {@link ExceptionMapper} for the supplied type or null if none
+     * is found.
+     */
+    <T> ExceptionMapper<T> getExceptionMapper(Class<T> type);
+
+    /**
+     * Get a context of a particular type for a class of object. This method 
+     * calls {@code getContext(objectType)} on each {@link ContextResolver}
+     * with a generic type of {@code contextType} and matching media type
+     * capabilities until one returns a non-null context or the list is
+     * exhausted.
+     * @param contextType the class of context desired
+     * @param objectType the class of object for which the context is desired
+     * @param consumes the media type of data being consumed for which a 
+     * context is required. The value is compared to the values of 
+     * {@link javax.ws.rs.ConsumeMime} for each candidate and only matching
+     * providers will be considered. A null value indicates that the context
+     * will not be used for consuming data and the values of {@code ConsumeMime}
+     * annotations will not be used to filter the set of suitable providers.
+     * @param produces the media type of data being produced for which a 
+     * context is required. The value is compared to the values of 
+     * {@link javax.ws.rs.ProduceMime} for each candidate and only matching
+     * providers will be considered. A null value indicates that the context
+     * will not be used for producing data and the values of {@code ProduceMime}
+     * annotations will not be used to filter the set of suitable providers.
+     * @return a matching context or null if none is found.
+     */
+    <T> T getContext(Class<T> contextType, Class<?> objectType, MediaType consumes, MediaType produces);
 }
