@@ -48,6 +48,11 @@ public class MediaType {
     public static final String MEDIA_TYPE_WILDCARD = "*";
     
     // Common media type constants
+    /** "*&#47;*" */
+    public final static String WILDCARD = "*/*";
+    /** "*&#47;*" */
+    public final static MediaType WILDCARD_TYPE = new MediaType();
+    
     /** "application/xml" */
     public final static String APPLICATION_XML = "application/xml";
     /** "application/xml" */
@@ -145,6 +150,7 @@ public class MediaType {
 
     /**
      * Creates a new instance of MediaType, both type and subtype are wildcards.
+     * Consider using the constant {@link #WILDCARD_TYPE} instead.
      */
     public MediaType() {
         this(MEDIA_TYPE_WILDCARD, MEDIA_TYPE_WILDCARD);
