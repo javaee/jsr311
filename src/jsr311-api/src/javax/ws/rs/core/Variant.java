@@ -175,7 +175,7 @@ public class Variant {
          * Create a new builder instance.
          * @return a new Builder
          */
-        protected static VariantListBuilder newInstance() {
+        public static VariantListBuilder newInstance() {
             VariantListBuilder b = RuntimeDelegate.getInstance().createVariantListBuilder();
             return b;
         }
