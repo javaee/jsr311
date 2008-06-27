@@ -501,7 +501,7 @@ public abstract class Response {
         
         /**
          * Add cookies to the ResponseBuilder. If more than one cookie with
-         * the same is supplied, later ones overwrite earlier ones.
+         * the same name is supplied, later ones overwrite earlier ones.
          * 
          * @param cookies new cookies that will accompany the response. A null
          * value will remove all cookies.
