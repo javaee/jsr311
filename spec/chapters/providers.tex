@@ -109,9 +109,9 @@ Context providers MAY return \code{null} from the \code{getContext} method if th
 
 \subsection{Declaring Media Type Capabilities}
 
-Context providers MAY restrict the media types they support using the \ConsumeMime\ and \ProduceMime\ annotations respectively. The absence of these annotations is equivalent to their inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
+Context provider implementations MAY restrict the media types they support using the \ProduceMime\ annotation. The absence of this annotation is equivalent to its inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
 
-When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media types is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
+When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media type is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
 
 \section{Exception Mapping Providers}
 \label{exceptionmapper}

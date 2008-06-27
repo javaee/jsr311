@@ -93,19 +93,12 @@ public interface Providers {
      * exhausted.
      * @param contextType the class of context desired
      * @param objectType the class of object for which the context is desired
-     * @param consumes the media type of data being consumed for which a 
-     * context is required. The value is compared to the values of 
-     * {@link javax.ws.rs.ConsumeMime} for each candidate and only matching
-     * providers will be considered. A null value indicates that the context
-     * will not be used for consuming data and the values of {@code ConsumeMime}
-     * annotations will not be used to filter the set of suitable providers.
-     * @param produces the media type of data being produced for which a 
-     * context is required. The value is compared to the values of 
-     * {@link javax.ws.rs.ProduceMime} for each candidate and only matching
-     * providers will be considered. A null value indicates that the context
-     * will not be used for producing data and the values of {@code ProduceMime}
-     * annotations will not be used to filter the set of suitable providers.
+     * @param mediaType the media type of data for which a context is required.
+     * The value is compared to the values of {@link javax.ws.rs.ProduceMime} 
+     * for each candidate and only matching providers will be considered. 
+     * A null value is equivalent to
+     * {@link javax.ws.rs.core.MediaType#WILDCARD_TYPE}.
      * @return a matching context or null if none is found.
      */
-    <T> T getContext(Class<T> contextType, Class<?> objectType, MediaType consumes, MediaType produces);
+    <T> ContextResolver<T> getContextResolver(Class<T> contextType, Class<?> objectType, MediaType mediaType);
 }
