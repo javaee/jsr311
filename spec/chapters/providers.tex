@@ -48,7 +48,7 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 
 \begin{enumerate}
 \item Obtain the object that will be mapped to the response entity body. For a return type of \Response\ or subclasses the object is the value of the \code{entity} property, for other return types it is the returned object.
-\item Obtain the effective value of \ProduceMime\ (see section \ref{declaring_method_capabilities}) and intersect that with the requested response formats to obtain set of permissible media types for the response entity body. Note that section \ref{mapping_requests_to_java_methods} ensures that this set will not be empty.
+\item Obtain the effective value of \Produces\ (see section \ref{declaring_method_capabilities}) and intersect that with the requested response formats to obtain set of permissible media types for the response entity body. Note that section \ref{mapping_requests_to_java_methods} ensures that this set will not be empty.
 \item Select the set of \MsgWrite\ providers that support (see section \ref{declaring_provider_capabilities}) one or more of the permissible media types for the response entity body.
 \item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
 \item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
@@ -62,7 +62,7 @@ A \MsgWrite\code{.write} method MAY throw \WebAppExc. If thrown before the respo
 \subsection{Declaring Media Type Capabilities}
 \label{declaring_provider_capabilities}
 
-Message body readers and writers MAY restrict the media types they support using the \ConsumeMime\ and \ProduceMime\ annotations respectively. The absence of these annotations is equivalent to their inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported. An implementation MUST NOT use an entity provider for a media type that is not supported by that provider.
+Message body readers and writers MAY restrict the media types they support using the \Consumes\ and \Produces\ annotations respectively. The absence of these annotations is equivalent to their inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported. An implementation MUST NOT use an entity provider for a media type that is not supported by that provider.
 
 When choosing an entity provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media types is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
 
@@ -109,7 +109,7 @@ Context providers MAY return \code{null} from the \code{getContext} method if th
 
 \subsection{Declaring Media Type Capabilities}
 
-Context provider implementations MAY restrict the media types they support using the \ProduceMime\ annotation. The absence of this annotation is equivalent to its inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
+Context provider implementations MAY restrict the media types they support using the \Produces\ annotation. The absence of this annotation is equivalent to its inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
 
 When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media type is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
 

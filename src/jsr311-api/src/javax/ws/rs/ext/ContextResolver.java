@@ -12,21 +12,19 @@
 
 package javax.ws.rs.ext;
 
-import javax.ws.rs.core.MediaType;
-
 /**
  * Contract for a provider that supplies context information to resource
  * classes and other providers. An implementation of this interface must be
  * annotated with {@link Provider}.
  * 
  * A <code>ContextResolver</code> implementation may be annotated
- * with {@link javax.ws.rs.ProduceMime} to restrict the media types for
+ * with {@link javax.ws.rs.Produces} to restrict the media types for
  * which it will be considered suitable.
  *
  * @see javax.ws.rs.core.Context
  * @see Providers#getContextResolver(java.lang.Class, java.lang.Class, javax.ws.rs.core.MediaType) 
  * @see Provider
- * @see javax.ws.rs.ProduceMime
+ * @see javax.ws.rs.Produces
  */
 public interface ContextResolver<T> {
 

@@ -54,11 +54,11 @@ import java.lang.annotation.Target;
  * <code>getWidget</code> method. The same would apply if the value of either
  * <code>&#64;Path</code> annotation started with '/'.
  * 
- * <p>Classes may also be annotated with {@link ConsumeMime} and 
- * {@link ProduceMime} to filter the requests they will receive.</p>
+ * <p>Classes may also be annotated with {@link Consumes} and 
+ * {@link Produces} to filter the requests they will receive.</p>
  * 
- * @see ConsumeMime
- * @see ProduceMime
+ * @see Consumes
+ * @see Produces
  * @see PathParam
  */
 @Target({ElementType.TYPE, ElementType.METHOD})

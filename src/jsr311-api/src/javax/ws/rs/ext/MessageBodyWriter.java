@@ -33,12 +33,12 @@ import javax.ws.rs.core.MultivaluedMap;
  * implementation class with <code>@Provider</code>.
  *
  * A <code>MessageBodyWriter</code> implementation may be annotated
- * with {@link javax.ws.rs.ProduceMime} to restrict the media types for which it will
+ * with {@link javax.ws.rs.Produces} to restrict the media types for which it will
  * be considered suitable.
  *
  * @param T the type that can be written
  * @see Provider
- * @see javax.ws.rs.ProduceMime
+ * @see javax.ws.rs.Produces
  */
 public interface MessageBodyWriter<T> {
     

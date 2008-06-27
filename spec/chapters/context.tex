@@ -18,7 +18,7 @@ An instance of \UriInfo\ can be injected into a class field or method parameter 
 
 \begin{listing}{1}
 @GET
-@ProduceMime{"text/plain"}
+@Produces{"text/plain"}
 public String listQueryParamNames(@Context UriInfo info) {
   StringBuilder buf = new StringBuilder();
   for (String param: info.getQueryParameters().keySet()) {
@@ -37,7 +37,7 @@ An instance of \HttpHeaders\ can be injected into a class field or method parame
 
 \begin{listing}{1}
 @GET
-@ProduceMime{"text/plain"}
+@Produces{"text/plain"}
 public String listHeaderNames(@Context HttpHeaders headers) {
   StringBuilder buf = new StringBuilder();
   for (String header: headers.getRequestHeaders().keySet()) {

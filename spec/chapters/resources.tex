@@ -231,33 +231,33 @@ In the above a \code{GET} request for the \code{widgets/offers} resource is hand
 \section{Declaring Media Type Capabilities}
 \label{declaring_method_capabilities}
 
-Application classes can declare the supported request and response media types using the \ConsumeMime\ and \ProduceMime\ annotations respectively. These annotations MAY be applied to a resource method, a resource class, or to an entity provider (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class or on an entity provider for a method argument or return type. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
+Application classes can declare the supported request and response media types using the \Consumes\ and \Produces\ annotations respectively. These annotations MAY be applied to a resource method, a resource class, or to an entity provider (see section \ref{declaring_provider_capabilities}). Use of these annotations on a resource method overrides any on the resource class or on an entity provider for a method argument or return type. In the absence of either of these annotations, support for any media type (\lq\lq*/*\rq\rq) is assumed.
 
 The following example illustrates the use of these annotations:
 
 \begin{listing}{1}
 @Path("widgets")
-@ProduceMime("application/widgets+xml")
+@Produces("application/widgets+xml")
 public class WidgetsResource {
   
   @GET
   public Widgets getAsXML() {...}
   
   @GET
-  @ProduceMime("text/html")
+  @Produces("text/html")
   public String getAsHtml() {...}
   
   @POST
-  @ConsumeMime("application/widgets+xml")
+  @Consumes("application/widgets+xml")
   public void addWidget(Widget widget) {...}
 }
 
 @Provider
-@ProduceMime("application/widgets+xml")
+@Produces("application/widgets+xml")
 public class WidgetsProvider implements MessageBodyWriter<Widgets> {...}
 
 @Provider
-@ConsumeMime("application/widgets+xml")
+@Consumes("application/widgets+xml")
 public class WidgetProvider implements MessageBodyReader<Widget> {...}
 \end{listing}
 
@@ -268,7 +268,7 @@ In the above:
 \item The \code{addWidget} resource method will be called for \code{POST} requests that contain an entity of the media type \code{application/widgets+xml}. The value of the \code{widget} parameter will be mapped from the request entity using the \code{WidgetProvider} class (see section \ref{entity_providers} for more information on \MsgRead).
 \end{itemize}
 
-An implementation MUST NOT invoke a method whose effective value of \ProduceMime\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \ConsumeMime\ does not match the request \code{Content-Type} header.
+An implementation MUST NOT invoke a method whose effective value of \Produces\ does not match the request \code{Accept} header. An implementation MUST NOT invoke a method whose effective value of \Consumes\ does not match the request \code{Content-Type} header.
 
 \section{Annotation Inheritance}
 \label{annotationinheritance}
@@ -277,7 +277,7 @@ An implementation MUST NOT invoke a method whose effective value of \ProduceMime
 
 \begin{listing}{1}
 public interface ReadOnlyAtomFeed {
-  @GET @ProduceMime("application/atom+xml")
+  @GET @Produces("application/atom+xml")
   Feed getFeed();
 }
 
@@ -287,17 +287,17 @@ public class ActivityLog implements ReadOnlyAtomFeed {
 }
 \end{listing}
 
-In the above, \code{ActivityLog.getFeed} inherits the \code{@GET} and \ProduceMime\ annotations from the interface. Conversely:
+In the above, \code{ActivityLog.getFeed} inherits the \code{@GET} and \Produces\ annotations from the interface. Conversely:
 
 \begin{listing}{1}
 @Path("feed")
 public class ActivityLog implements ReadOnlyAtomFeed {
-  @ProduceMime("application/atom+xml")
+  @Produces("application/atom+xml")
   public Feed getFeed() {...}
 }
 \end{listing}
 
-In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is not inherited by \code{Activity-Log\-.get\-Feed} and it would require its own request method designator since it redefines the \ProduceMime\ annotation.
+In the above, the \code{@GET} annotation on \code{ReadOnlyAtomFeed.getFeed} is not inherited by \code{Activity-Log\-.get\-Feed} and it would require its own request method designator since it redefines the \Produces\ annotation.
 
 \section{Matching Requests to Resource Methods}
 \label{mapping_requests_to_java_methods}
@@ -451,8 +451,8 @@ $$M = \{\mbox{subresource methods of }O \mbox{ where } R(T_{\mbox{method}}) = R_
 \end{itemize} 
 \item Sort $M$ in descending order as follows:
 \begin{itemize}
-\item The primary key is the media type of input data. Methods whose \ConsumeMime\ value most closely match the media type of the request are sorted first.
-\item The secondary key is the \ProduceMime\ value. Methods whose value of \ProduceMime\ most closely match the value of the request accept header are sorted first.
+\item The primary key is the media type of input data. Methods whose \Consumes\ value most closely match the media type of the request are sorted first.
+\item The secondary key is the \Produces\ value. Methods whose value of \Produces\ most closely match the value of the request accept header are sorted first.
 \end{itemize}
 
 Sorting of media types follows the general rule: $\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that n/m;q=1.0 $>$ n/m;q=0.7. See section 14.1 of \cite{http11} for more details.
@@ -485,8 +485,8 @@ In many cases it is not possible to statically determine the media type of a res
 \begin{enumerate}
 \item Gather the set of producible media types $P$:
 \begin{itemize}
-\item If the method is annotated with \ProduceMime, set $P = \{ V(\mbox{method}) \}$ where $V(t)$ represents the values of \ProduceMime\ on the specified target $t$.
-\item Else if the class is annotated with \ProduceMime, set $P = \{ V(\mbox{class}) \}$.
+\item If the method is annotated with \Produces, set $P = \{ V(\mbox{method}) \}$ where $V(t)$ represents the values of \Produces\ on the specified target $t$.
+\item Else if the class is annotated with \Produces, set $P = \{ V(\mbox{class}) \}$.
 \item Else set $P = \{ V(\mbox{writers}) \}$ where \lq writers\rq\ is the set of \MsgWrite\ that support the class of the returned entity object.
 \end{itemize}
 
@@ -516,4 +516,4 @@ In many cases it is not possible to statically determine the media type of a res
 \item Generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}. Finish.
 \end{enumerate}
 
-Note that the above renders a response with a default media type of \lq application/octet-stream\rq\ when a concrete type cannot be determined. It is RECOMMENDED that \MsgWrite\ implementations specify at least one concrete type via \ProduceMime.
+Note that the above renders a response with a default media type of \lq application/octet-stream\rq\ when a concrete type cannot be determined. It is RECOMMENDED that \MsgWrite\ implementations specify at least one concrete type via \Produces.

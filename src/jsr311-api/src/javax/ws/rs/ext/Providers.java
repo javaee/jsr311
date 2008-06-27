@@ -37,7 +37,7 @@ public interface Providers {
     /**
      * Get a message body reader that matches a set of criteria.
      * @param mediaType the media type of the data that will be read, this will
-     * be compared to the values of {@link javax.ws.rs.ConsumeMime} for
+     * be compared to the values of {@link javax.ws.rs.Consumes} for
      * each candidate reader and only matching readers will be queried.
      * @param type the class of object to be produced.
      * @param genericType the type of object to be produced. E.g. if the 
@@ -58,7 +58,7 @@ public interface Providers {
     /**
      * Get a message body writer that matches a set of criteria.
      * @param mediaType the media type of the data that will be written, this will
-     * be compared to the values of {@link javax.ws.rs.ProduceMime} for
+     * be compared to the values of {@link javax.ws.rs.Produces} for
      * each candidate writer and only matching writers will be queried.
      * @param type the class of object that is to be written.
      * @param genericType the type of object to be written. E.g. if the 
@@ -94,7 +94,7 @@ public interface Providers {
      * @param contextType the class of context desired
      * @param objectType the class of object for which the context is desired
      * @param mediaType the media type of data for which a context is required.
-     * The value is compared to the values of {@link javax.ws.rs.ProduceMime} 
+     * The value is compared to the values of {@link javax.ws.rs.Produces} 
      * for each candidate and only matching providers will be considered. 
      * A null value is equivalent to
      * {@link javax.ws.rs.core.MediaType#WILDCARD_TYPE}.
