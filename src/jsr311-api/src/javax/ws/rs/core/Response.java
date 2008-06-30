@@ -500,11 +500,11 @@ public abstract class Response {
         public abstract ResponseBuilder header(String name, Object value);
         
         /**
-         * Add cookies to the ResponseBuilder. If more than one cookie with
-         * the same name is supplied, later ones overwrite earlier ones.
+         * Add cookies to the ResponseBuilder.
          * 
          * @param cookies new cookies that will accompany the response. A null
-         * value will remove all cookies.
+         * value will remove all cookies, including those added via the 
+         * {@link #header(java.lang.String, java.lang.Object)} method.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder cookie(NewCookie... cookies);
