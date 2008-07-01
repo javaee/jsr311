@@ -206,9 +206,10 @@ public interface UriInfo {
     
     /**
      * Get a read-only list of URIs for ancestor resources. Each entry is a 
-     * relative URI that is a partial path that matched a resource class, a 
+     * relative URI, whose base URI is the base URI of the application (see
+     * {@link #getBaseUri()}, that matched a resource class, a 
      * sub-resource method or a sub-resource locator. All sequences of escaped 
-     * octets are decoded, equivalent to <code>getAncestorResourceURIs(true)</code>.
+     * octets are decoded, equivalent to {@code getAncestorResourceURIs(true)}.
      * Entries do not include query parameters but do include matrix parameters
      * if present in the request URI. Entries are ordered in reverse request 
      * URI matching order, with the root resource URI last. E.g.:
@@ -234,28 +235,14 @@ public interface UriInfo {
     public List<String> getAncestorResourceURIs();
     
     /**
-     * Get a read-only list of URIs for ancestor resources. Each entry is a relative URI
-     * that is a partial path that matched a resource class, a sub-resource 
+     * Get a read-only list of URIs for ancestor resources. Each entry is a 
+     * relative URI, whose base URI is the base URI of the application (see
+     * {@link #getBaseUri()}, that matched a resource class, a sub-resource 
      * method or a sub-resource locator. Entries do not include query
      * parameters but do include matrix parameters if present in the request URI.
      * Entries are ordered in reverse request URI matching order, with the 
-     * root resource URI last. E.g.:
-     * 
-     * <pre>&#064;Path("foo")
-     *public class FooResource {
-     *  &#064;GET
-     *  public String getFoo() {...}
-     * 
-     *  &#064;Path("bar")
-     *  &#064;GET
-     *  public String getFooBar() {...}
-     *}</pre>
-     * 
-     * <p>A request <code>GET /foo</code> would return an empty list since
-     * <code>FooResource</code> is a root resource.</p>
-     * 
-     * <p>A request <code>GET /foo/bar</code> would return a list with one
-     * entry: "foo".</p>
+     * root resource URI last. See {@link #getAncestorResourceURIs()} for an
+     * example.
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
