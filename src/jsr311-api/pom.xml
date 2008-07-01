@@ -58,13 +58,46 @@
        </plugin>
        <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <reportOutputDirectory>target/docs</reportOutputDirectory>
+          <destDir>api</destDir>
+        </configuration>
+          <executions>
+            <execution>
+              <phase>validate</phase>
+              <goals>
+                <goal>javadoc</goal>
+              </goals>
+            </execution>
+          </executions>
+       </plugin>
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
             <id>attach-sources</id>
-            <phase>verify</phase>
+            <phase>validate</phase>
             <goals>
               <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/dist-assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+         <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
             </goals>
           </execution>
         </executions>
