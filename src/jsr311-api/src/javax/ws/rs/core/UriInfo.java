@@ -205,14 +205,15 @@ public interface UriInfo {
     public MultivaluedMap<String, String> getQueryParameters(boolean decode);
     
     /**
-     * Get a read-only list of URIs for ancestor resources. Each entry is a 
+     * Get a read-only list of URIs for matched resources. Each entry is a 
      * relative URI, whose base URI is the base URI of the application (see
      * {@link #getBaseUri()}, that matched a resource class, a 
      * sub-resource method or a sub-resource locator. All sequences of escaped 
-     * octets are decoded, equivalent to {@code getAncestorResourceURIs(true)}.
+     * octets are decoded, equivalent to {@code getMatchedResourceURIs(true)}.
      * Entries do not include query parameters but do include matrix parameters
      * if present in the request URI. Entries are ordered in reverse request 
-     * URI matching order, with the root resource URI last. E.g.:
+     * URI matching order, with the current resource URI first.  E.g. given the
+     * following resource classes:
      * 
      * <pre>&#064;Path("foo")
      *public class FooResource {
@@ -220,41 +221,69 @@ public interface UriInfo {
      *  public String getFoo() {...}
      * 
      *  &#064;Path("bar")
+     *  public BarResource getBarResource() {...}
+     *}
+     * 
+     *public class BarResource {
      *  &#064;GET
-     *  public String getFooBar() {...}
-     *}</pre>
+     *  public String getBar() {...}
+     *}
+     * </pre>
      * 
-     * <p>A request <code>GET /foo</code> would return an empty list since
-     * <code>FooResource</code> is a root resource.</p>
+     * <p>The values returned by this method based on request uri and where 
+     * the method is called from are:</p>
      * 
-     * <p>A request <code>GET /foo/bar</code> would return a list with one
-     * entry: "foo".</p>
+     * <table border="1">
+     * <tr>
+     *   <th>Request</th>
+     *   <th>Called from</th>
+     *   <th>Value(s)</th>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo</td>
+     *   <td>FooResource.getFoo</td>
+     *   <td>foo</td>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo/bar</td>
+     *   <td>FooResource.getBarResource</td>
+     *   <td>foo/bar, foo</td>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo/bar</td>
+     *   <td>BarResource.getBar</td>
+     *   <td>foo/bar, foo</td>
+     * </tr>
+     * </table>
      * 
-     * @return a read-only list of URI paths for ancestor resources.
+     * 
+     * @return a read-only list of URI paths for matched resources.
      */
-    public List<String> getAncestorResourceURIs();
+    public List<String> getMatchedResourceURIs();
     
     /**
-     * Get a read-only list of URIs for ancestor resources. Each entry is a 
+     * Get a read-only list of URIs for matched resources. Each entry is a 
      * relative URI, whose base URI is the base URI of the application (see
      * {@link #getBaseUri()}, that matched a resource class, a sub-resource 
      * method or a sub-resource locator. Entries do not include query
      * parameters but do include matrix parameters if present in the request URI.
      * Entries are ordered in reverse request URI matching order, with the 
-     * root resource URI last. See {@link #getAncestorResourceURIs()} for an
+     * current resource URI first. See {@link #getMatchedResourceURIs()} for an
      * example.
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
-     * @return a read-only list of URI paths for ancestor resources.
+     * @return a read-only list of URI paths for matched resources.
      */
-    public List<String> getAncestorResourceURIs(boolean decode);
+    public List<String> getMatchedResourceURIs(boolean decode);
     
     /**
-     * Get a read-only list of ancestor resource class instances. Each entry is a resource
-     * class instance that matched a resource class, a sub-resource method or
-     * a sub-resource locator. Entries are ordered according in reverse request URI 
-     * matching order, with the root resource last. E.g.:
+     * Get a read-only list of the currently matched resource class instances.
+     * Each entry is a resource class instance that matched the request URI 
+     * either directly or via a sub-resource method or a sub-resource locator. 
+     * Entries are ordered according to reverse request URI matching order,
+     * with the current resource first. E.g. given the following resource 
+     * classes:
      * 
      * <pre>&#064;Path("foo")
      *public class FooResource {
@@ -262,18 +291,42 @@ public interface UriInfo {
      *  public String getFoo() {...}
      * 
      *  &#064;Path("bar")
+     *  public BarResource getBarResource() {...}
+     *}
+     * 
+     *public class BarResource {
      *  &#064;GET
-     *  public String getFooBar() {...}
-     *}</pre>
+     *  public String getBar() {...}
+     *}
+     * </pre>
      * 
-     * <p>A request <code>GET /foo</code> would return an empty list since
-     * <code>FooResource</code> is a root resource.</p>
+     * <p>The values returned by this method based on request uri and where 
+     * the method is called from are:</p>
      * 
-     * <p>A request <code>GET /foo/bar</code> would return a list with one 
-     * entry: an instance of
-     * <code>FooResource</code>.</p>
+     * <table border="1">
+     * <tr>
+     *   <th>Request</th>
+     *   <th>Called from</th>
+     *   <th>Value(s)</th>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo</td>
+     *   <td>FooResource.getFoo</td>
+     *   <td>FooResource</td>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo/bar</td>
+     *   <td>FooResource.getBarResource</td>
+     *   <td>FooResource</td>
+     * </tr>
+     * <tr>
+     *   <td>GET /foo/bar</td>
+     *   <td>BarResource.getBar</td>
+     *   <td>BarResource, FooResource</td>
+     * </tr>
+     * </table>
      * 
-     * @return a read-only list of ancestor resource class instances.
+     * @return a read-only list of matched resource class instances.
      */
-    public List<Object> getAncestorResources();
+    public List<Object> getMatchedResources();
 }
