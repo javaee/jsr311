@@ -18,39 +18,42 @@ import java.util.Set;
 
 /**
  * Defines the components of a JAX-RS application and supplies additional
- * metadata.
+ * metadata. A JAX-RS application or implementation supplies a concrete
+ * subclass of this abstract class.
  * 
  */
 public abstract class ApplicationConfig {
-    private static final Set<Class<?>> emptySet = Collections.emptySet();
+    private static final Set<Object> emptySet = Collections.emptySet();
     private static final Map<String, MediaType> emptyMediaMap = Collections.emptyMap();
     private static final Map<String, String> emptyLanguageMap = Collections.emptyMap();
     
     /**
-     * Get a list of root resource classes. Resource classes are not required
-     * to implement any specific interface so the return type is necessarily
-     * loose, nevertheless, implementations should warn about
-     * and ignore classes that do not conform to the requirements of root 
-     * resource classes.
-     * @return a list of root resource classes.
-     * @see javax.ws.rs.Path
+     * Get a set of root resource and provider classes. The default lifecycle
+     * for resource class instances is per-request. The default lifecycle for
+     * providers is singleton.
+     * 
+     * <p>Implementations should warn about and ignore classes that do not 
+     * conform to the requirements of root resource or provider classes.
+     * Implementations should warn about and ignore classes for which
+     * {@link #getSingletons()} returns an instance.</p>
+     * 
+     * @return a set of root resource and provider classes.
      */
-    public abstract Set<Class<?>> getResourceClasses();
+    public abstract Set<Class<?>> getClasses();
     
     /**
-     * Get a list of provider classes. There is no common base class or 
-     * interface for providers so the return type is necessarily
-     * loose, nevertheless, implementations should warn about
-     * and ignore classes that do not conform to the requirements of a
-     * provider. The default implementation returns an empty set.
-     * @return a set of provider classes
-     * @see javax.ws.rs.ext.Provider
-     * @see javax.ws.rs.ext.MessageBodyReader
-     * @see javax.ws.rs.ext.MessageBodyWriter
-     * @see javax.ws.rs.ext.ContextResolver
-     * @see javax.ws.rs.ext.ExceptionMapper
+     * Get a set of root resource and provider instances. Fields and properties
+     * of returned instances are injected with their declared dependencies
+     * (see {@link Context}) prior to use.
+     * 
+     * <p>Implementations should warn about and ignore classes that do not
+     * conform to the requirements of root resource or provider classes.</p>
+     * 
+     * <p>The default implementation returns an empty set.</p>
+     * 
+     * @return a set of root resource and provider instances.
      */
-    public Set<Class<?>> getProviderClasses() {
+    public Set<Object> getSingletons() {
         return emptySet;
     }
     
@@ -62,6 +65,7 @@ public abstract class ApplicationConfig {
      * <pre>GET /resource
      *Accept: application/atom+xml</pre>
      * <p>The default implementation returns an empty map.</p>
+     * 
      * @return a map of file extension to media type
      */
     public Map<String, MediaType> getMediaTypeMappings() {
@@ -76,6 +80,7 @@ public abstract class ApplicationConfig {
      * <pre>GET /resource
      *Accept-Language: en</pre>
      * <p>The default implementation returns an empty map.</p>
+     * 
      * @return a map of file extension to language
      */
     public Map<String, String> getLanguageMappings() {
