@@ -206,8 +206,7 @@ public interface UriInfo {
     
     /**
      * Get a read-only list of URIs for matched resources. Each entry is a 
-     * relative URI, whose base URI is the base URI of the application (see
-     * {@link #getBaseUri()}, that matched a resource class, a 
+     * relative URI that matched a resource class, a 
      * sub-resource method or a sub-resource locator. All sequences of escaped 
      * octets are decoded, equivalent to {@code getMatchedResourceURIs(true)}.
      * Entries do not include query parameters but do include matrix parameters
@@ -263,8 +262,7 @@ public interface UriInfo {
     
     /**
      * Get a read-only list of URIs for matched resources. Each entry is a 
-     * relative URI, whose base URI is the base URI of the application (see
-     * {@link #getBaseUri()}, that matched a resource class, a sub-resource 
+     * relative URI that matched a resource class, a sub-resource 
      * method or a sub-resource locator. Entries do not include query
      * parameters but do include matrix parameters if present in the request URI.
      * Entries are ordered in reverse request URI matching order, with the 
