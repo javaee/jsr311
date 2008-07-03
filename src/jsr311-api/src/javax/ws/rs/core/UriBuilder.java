@@ -412,7 +412,7 @@ public abstract class UriBuilder {
      * @param query the URI query string, may contain URI template parameters.
      * A null value will remove all query parameters.
      * @return the updated UriBuilder
-     * @throws IllegalArgumentException if query cannot be parsed or is null, or
+     * @throws IllegalArgumentException if query cannot be parsed, or
      * if automatic encoding is disabled and
      * any query parameter name or value contains illegal characters
      */
