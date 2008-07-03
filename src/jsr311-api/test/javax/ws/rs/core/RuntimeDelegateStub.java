@@ -34,7 +34,7 @@ public class RuntimeDelegateStub extends RuntimeDelegate {
     }
 
     @Override
-    public <T> T createEndpoint(ApplicationConfig applicationConfig, Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException {
+    public <T> T createEndpoint(Application application, Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException {
         return null;
     }
 

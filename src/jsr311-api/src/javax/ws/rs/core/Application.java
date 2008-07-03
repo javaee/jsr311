@@ -22,7 +22,7 @@ import java.util.Set;
  * subclass of this abstract class.
  * 
  */
-public abstract class ApplicationConfig {
+public abstract class Application {
     private static final Set<Object> emptySet = Collections.emptySet();
     private static final Map<String, MediaType> emptyMediaMap = Collections.emptyMap();
     private static final Map<String, String> emptyLanguageMap = Collections.emptyMap();

@@ -317,7 +317,7 @@ Prior to matching, request URIs are preprocessed to support URI-based content ne
 \item $L = \{\mbox{\code{config.getLanguageMappings().keySet()}}\}$
 \item $m = \mbox{\code{null}}$
 \item $l = \mbox{\code{null}}$
-\item Where \code{config} is an instance of the application-supplied subclass of \code{Application\-Config}.
+\item Where \code{config} is an instance of the application-supplied subclass of \code{Application}.
 \end{itemize}
 \item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment scanning from right to left:
 \begin{enumerate}
@@ -336,7 +336,7 @@ The following table illustrates the preprocessing algorithm for a request with t
 \item[\code{Accept-Language}] \code{fr}
 \end{description}
 
-Also assumed is an \code{Application\-Config} subclass with the following mappings:
+Also assumed is an \code{Application} subclass with the following mappings:
 \begin{description}
 \item[Media Type] $\mbox{\lq\lq xml\rq\rq}\Rightarrow\mbox{\lq\lq application/xml\rq\rq}$; $\mbox{\lq\lq json\rq\rq}\Rightarrow\mbox{\lq\lq application/json\rq\rq}$
 \item[Language] $\mbox{\lq\lq en\rq\rq}\Rightarrow\mbox{\lq\lq en-US\rq\rq}$; $\mbox{\lq\lq de\rq\rq}\Rightarrow\mbox{\lq\lq de\rq\rq}$

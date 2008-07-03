@@ -21,7 +21,7 @@ package javax.ws.rs.ext;
 
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.ws.rs.core.ApplicationConfig;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.core.UriBuilder;
@@ -150,7 +150,7 @@ public abstract class RuntimeDelegate {
      * Create a configured instance of the supplied endpoint type. How the
      * returned endpoint instance is published is dependent on the type of
      * endpoint.
-     * @param applicationConfig the application configuration
+     * @param application the application configuration
      * @param endpointType the type of endpoint instance to be created. 
      * @return a configured instance of the requested type.
      * @throws java.lang.IllegalArgumentException if the requested endpoint
@@ -158,7 +158,7 @@ public abstract class RuntimeDelegate {
      * @throws java.lang.UnsupportedOperationException if the implementation
      * supports no endpoint types.
      */
-    public abstract <T> T createEndpoint(ApplicationConfig applicationConfig,
+    public abstract <T> T createEndpoint(Application application,
             Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException;
         
     /**

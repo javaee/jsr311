@@ -33,13 +33,13 @@ import java.util.List;
  * 
  * <p>Note that the URIs obtained from the methods of this interface provide
  * access to request URIs after URI-based content negotiation preprocessing. E.g.
- * if the request URI is "foo.xml" and {@link ApplicationConfig#getMediaTypeMappings()}
+ * if the request URI is "foo.xml" and {@link Application#getMediaTypeMappings()}
  * includes a mapping for "xml", then {@link #getPath()} will return "foo", not
  * "foo.xml". The removed "xml" extension is available via {@link #getConnegExtension}.</p>
  * 
  * @see Context
- * @see ApplicationConfig#getLanguageMappings() 
- * @see ApplicationConfig#getMediaTypeMappings() 
+ * @see Application#getLanguageMappings() 
+ * @see Application#getMediaTypeMappings() 
  */
 public interface UriInfo {
     
@@ -154,7 +154,7 @@ public interface UriInfo {
      * negotiation preprocessing. The extension does not include the leading "."
      * nor any matrix parameters that might be present after the extension.
      * E.g. if the request URI is "foo.xml" and 
-     * {@link ApplicationConfig#getMediaTypeMappings()} includes a mapping for
+     * {@link Application#getMediaTypeMappings()} includes a mapping for
      * "xml", then this method will return "xml". Note that the extension might
      * include both a media type and language extension, e.g. "xml.en", if
      * both are in use.
