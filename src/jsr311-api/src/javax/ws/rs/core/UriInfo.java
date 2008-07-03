@@ -208,7 +208,7 @@ public interface UriInfo {
      * Get a read-only list of URIs for matched resources. Each entry is a 
      * relative URI that matched a resource class, a 
      * sub-resource method or a sub-resource locator. All sequences of escaped 
-     * octets are decoded, equivalent to {@code getMatchedResourceURIs(true)}.
+     * octets are decoded, equivalent to {@code getMatchedURIs(true)}.
      * Entries do not include query parameters but do include matrix parameters
      * if present in the request URI. Entries are ordered in reverse request 
      * URI matching order, with the current resource URI first.  E.g. given the
@@ -258,7 +258,7 @@ public interface UriInfo {
      * 
      * @return a read-only list of URI paths for matched resources.
      */
-    public List<String> getMatchedResourceURIs();
+    public List<String> getMatchedURIs();
     
     /**
      * Get a read-only list of URIs for matched resources. Each entry is a 
@@ -266,14 +266,14 @@ public interface UriInfo {
      * method or a sub-resource locator. Entries do not include query
      * parameters but do include matrix parameters if present in the request URI.
      * Entries are ordered in reverse request URI matching order, with the 
-     * current resource URI first. See {@link #getMatchedResourceURIs()} for an
+     * current resource URI first. See {@link #getMatchedURIs()} for an
      * example.
      * 
      * @param decode controls whether sequences of escaped octets are decoded
      * (true) or not (false).
      * @return a read-only list of URI paths for matched resources.
      */
-    public List<String> getMatchedResourceURIs(boolean decode);
+    public List<String> getMatchedURIs(boolean decode);
     
     /**
      * Get a read-only list of the currently matched resource class instances.
