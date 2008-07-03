@@ -9,6 +9,50 @@
   <name>jsr311-api</name>
   <url>https://jsr311.dev.java.net</url>
 
+<!--
+  <scm>
+    <connection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</connection>
+    <developerConnection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</developerConnection>
+  </scm>
+-->
+
+
+    <organization>
+        <name>Sun Microsystems, Inc</name>
+        <url>http://www.sun.com/</url>
+    </organization>
+
+    <issueManagement>
+        <system>bugzilla</system>
+        <url>https://jsr311.dev.java.net/servlets/ProjectIssues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>JSR311 Dev List</name>
+            <archive>dev@jsr311.dev.java.net</archive>
+        </mailingList>
+        <mailingList>
+            <name>JSR311 Users List</name>
+            <archive>users@jsr311.dev.java.net</archive>
+        </mailingList>
+        <mailingList>
+            <name>JSR311 Announce List</name>
+            <archive>announce@jsr311.dev.java.net</archive>
+        </mailingList>
+    </mailingLists>
+
+    <licenses>
+        <license>
+            <name>
+                CDDL License
+            </name>
+            <url>http://www.opensource.org/licenses/cddl1.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -103,7 +147,22 @@
         </executions>
       </plugin>
     </plugins>
+        <extensions>
+          <extension>
+            <groupId>org.jvnet.wagon-svn</groupId>
+              <artifactId>wagon-svn</artifactId>
+              <version>1.8</version>
+          </extension>
+        </extensions>
   </build>
+
+    <repositories>
+        <repository>
+            <id>java.net.m2</id>
+            <url>http://download.java.net/maven/2</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
 
   <dependencies>
     <dependency>
@@ -113,5 +172,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+    <distributionManagement>
+      <repository>
+        <uniqueVersion>false</uniqueVersion>
+        <id>java.net-m2-repository</id>
+        <url>java-net:/maven2-repository/trunk/www/repository/</url>
+      </repository>
+    </distributionManagement>
 
 </project>
