@@ -309,7 +309,7 @@ public abstract class UriBuilder {
      * the final path, each segment will be separated by '/' if necessary.
      * The value of the encode property of the Path 
      * annotation will be used when processing the value of the {@link javax.ws.rs.Path} but it
-     * will not be used to modify the state of automaic encoding for the builder.
+     * will not be used to modify the state of automatic encoding for the builder.
      * 
      * @param methods a list of methods whose {@link javax.ws.rs.Path} values will be 
      * used to obtain the path segments
