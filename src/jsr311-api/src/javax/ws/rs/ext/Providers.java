@@ -86,11 +86,10 @@ public interface Providers {
     <T> ExceptionMapper<T> getExceptionMapper(Class<T> type);
 
     /**
-     * Get a context of a particular type for a class of object. This method 
-     * calls {@code getContext(objectType)} on each {@link ContextResolver}
-     * with a generic type of {@code contextType} and matching media type
-     * capabilities until one returns a non-null context or the list is
-     * exhausted.
+     * Get a context resolver for a particular type of context for a class of 
+     * object. Returns a ContextResolver whose generic type is assignable to
+     * {@code contextType} and that returns a non-null value from
+     * {@code getContext(objectType)}.
      * @param contextType the class of context desired
      * @param objectType the class of object for which the context is desired
      * @param mediaType the media type of data for which a context is required.
@@ -98,7 +97,8 @@ public interface Providers {
      * for each candidate and only matching providers will be considered. 
      * A null value is equivalent to
      * {@link javax.ws.rs.core.MediaType#WILDCARD_TYPE}.
-     * @return a matching context or null if none is found.
+     * @return a matching context resolver or null if none is found.
+     * @see ContextResolver#getContext(java.lang.Class) 
      */
     <T> ContextResolver<T> getContextResolver(Class<T> contextType, Class<?> objectType, MediaType mediaType);
 }
