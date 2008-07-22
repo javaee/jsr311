@@ -55,7 +55,6 @@ import java.lang.annotation.Target;
  * parameters.</p>
  *
  * @see DefaultValue
- * @see javax.ws.rs.core.Request#getFormParameters
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
