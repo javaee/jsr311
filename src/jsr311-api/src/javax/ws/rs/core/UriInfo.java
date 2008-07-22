@@ -31,12 +31,6 @@ import java.util.List;
  * {@link #getBaseUriBuilder} throw <code>java.lang.IllegalStateException</code>
  * if called outside the scope of a request (e.g. from a provider constructor).</p>
  * 
- * <p>Note that the URIs obtained from the methods of this interface provide
- * access to request URIs after URI-based content negotiation preprocessing. E.g.
- * if the request URI is "foo.xml" and {@link Application#getMediaTypeMappings()}
- * includes a mapping for "xml", then {@link #getPath()} will return "foo", not
- * "foo.xml". The removed "xml" extension is available via {@link #getConnegExtension}.</p>
- * 
  * @see Context
  * @see Application#getLanguageMappings() 
  * @see Application#getMediaTypeMappings() 
@@ -103,12 +97,9 @@ public interface UriInfo {
     public URI getRequestUri();
     
     /**
-     * Get the absolute request URI in the form of a UriBuilder. The returned 
-     * builder will have its extension initialized with 
-     * <code>extension(getConnegExtension())</code>.
+     * Get the absolute request URI in the form of a UriBuilder.
      * @return a UriBuilder initialized with the absolute request URI
      * @throws java.lang.IllegalStateException if called outside the scope of a request
-     * @see UriBuilder#extension(java.lang.String) 
      */
     public UriBuilder getRequestUriBuilder();
     
@@ -125,43 +116,24 @@ public interface UriInfo {
     /**
      * Get the absolute path of the request in the form of a UriBuilder.
      * This includes everything preceding the path (host, port etc) but excludes
-     * query parameters and fragment. The returned builder will have its 
-     * extension initialized with <code>extension(getConnegExtension())</code>.
+     * query parameters and fragment.
      * @return a UriBuilder initialized with the absolute path of the request
      * @throws java.lang.IllegalStateException if called outside the scope of a request
-     * @see UriBuilder#extension(java.lang.String) 
      */
     public UriBuilder getAbsolutePathBuilder();
 
     /**
-     * Get the base URI of the application. URIs of resource beans
+     * Get the base URI of the application. URIs of root resource classes
      * are all relative to this base URI.
      * @return the base URI of the application
      */
     public URI getBaseUri();
     
     /**
-     * Get the base URI of the application in the form of a UriBuilder. If
-     * called within the scope of a request, the builder will have its extension
-     * initialized with <code>extension(getConnegExtension())</code>.
+     * Get the base URI of the application in the form of a UriBuilder.
      * @return a UriBuilder initialized with the base URI of the application.
-     * @see UriBuilder#extension(java.lang.String) 
      */
     public UriBuilder getBaseUriBuilder();
-    
-    /**
-     * Get the request URI extension that was removed during URI-based content
-     * negotiation preprocessing. The extension does not include the leading "."
-     * nor any matrix parameters that might be present after the extension.
-     * E.g. if the request URI is "foo.xml" and 
-     * {@link Application#getMediaTypeMappings()} includes a mapping for
-     * "xml", then this method will return "xml". Note that the extension might
-     * include both a media type and language extension, e.g. "xml.en", if
-     * both are in use.
-     * @return the URI extension that was removed during URI-based content
-     * negotiation preprocessing or null if nothing was removed
-     */
-    public String getConnegExtension();
     
     /**
      * Get the values of any embedded URI template parameters.

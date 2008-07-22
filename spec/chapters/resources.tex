@@ -307,77 +307,12 @@ This section describes how a request is matched to a resource class and method. 
 \subsection{Request Preprocessing}
 \label{reqpreproc}
 
-Prior to matching, request URIs are preprocessed to support URI-based content negotiation as follows:
-
-\begin{enumerate}
-\item Normalize the request URI\footnote{Note: some containers might perform this functionality prior to passing the request to an implementation.} by following the rules for case, path segment, and percent encoding normalization described in section 6.2.2 of RFC 3986\cite{uri}.
-\item Set
-\begin{itemize}
-\item $M = \{\mbox{\code{config.getMediaTypeMappings().keySet()}}\}$
-\item $L = \{\mbox{\code{config.getLanguageMappings().keySet()}}\}$
-\item $m = \mbox{\code{null}}$
-\item $l = \mbox{\code{null}}$
-\item Where \code{config} is an instance of the application-supplied subclass of \code{Application}.
-\end{itemize}
-\item For each extension (a \lq.\rq\ character followed by one or more alphanumeric characters) $e$ in the final path segment scanning from right to left:
-\begin{enumerate}
-\item Remove the leading \lq.\rq\ character from $e$
-\item\label{removematchingext1} If $m$ is \code{null} and $e$ is a member of $M$ then remove the corresponding extension from the effective request URI and set $m=e$.
-\item\label{removematchingext2} Else if $l$ is \code{null} and $e$ is a member of $L$ then remove the corresponding extension from the effective request URI and set $l=e$.
-\item Else go to step \ref{replaceheaders}
-\end{enumerate}
-\item\label{replaceheaders} If $m$ is not \code{null} then set the value of the \code{Accept} header to \code{config\-.get\-Extension\-Mappings()\-.get($m$)}
-\item If $l$ is not \code{null} then set the value of the \code{Accept-Language} header to \code{config\-.get\-Language\-Mappings()\-.get($l$)}
-\end{enumerate}
-
-The following table illustrates the preprocessing algorithm for a request with the following initial header values: 
-\begin{description}
-\item[\code{Accept}] \code{text/html}
-\item[\code{Accept-Language}] \code{fr}
-\end{description}
-
-Also assumed is an \code{Application} subclass with the following mappings:
-\begin{description}
-\item[Media Type] $\mbox{\lq\lq xml\rq\rq}\Rightarrow\mbox{\lq\lq application/xml\rq\rq}$; $\mbox{\lq\lq json\rq\rq}\Rightarrow\mbox{\lq\lq application/json\rq\rq}$
-\item[Language] $\mbox{\lq\lq en\rq\rq}\Rightarrow\mbox{\lq\lq en-US\rq\rq}$; $\mbox{\lq\lq de\rq\rq}\Rightarrow\mbox{\lq\lq de\rq\rq}$
-\end{description}
-
-\begin{longtable}{|l|l|l|l|}
-\hline
-\bfseries Request URI & \bfseries Effective URI & \bfseries Accept  & \bfseries Accept-Language 
-\tabularnewline
-\hline\hline\endhead
-foo & foo & text/html & fr \tabularnewline
-\hline
-foo.bar & foo.bar & text/html & fr \tabularnewline
-\hline
-foo.xml & foo & application/xml & fr \tabularnewline
-\hline
-foo.bar.xml & foo.bar & application/xml & fr \tabularnewline
-\hline
-foo.xml.bar & foo.xml.bar & text/html & fr \tabularnewline
-\hline
-foo.en.xml & foo & application/xml & en-US \tabularnewline
-\hline
-foo.xml.en & foo & application/xml & en-US \tabularnewline
-\hline
-foo.json.xml & foo.json & application/xml & fr \tabularnewline
-\hline
-foo.xml.json & foo.xml & application/json & fr \tabularnewline
-\hline
-foo.xml.en.json.de & foo.xml.en & application/json & de \tabularnewline
-\hline
-foo.xml.en.json.de.bar & foo.xml.en.json.de.bar & text/html & fr \tabularnewline
-\hline
-\caption{URI-based Content Negotiation Examples}
-\end{longtable}
-
-The above preprocessing MUST be reflected in the URIs obtained from an injected \code{UriInfo}, in particular extensions removed in steps \ref{removematchingext1} and \ref{removematchingext2} above MUST not be present in URIs returned from the methods of \UriInfo. Similarly, the methods of \HttpHeaders\ MUST return the preprocessed values of the \code{Accept} and \code{Accept-Language} headers rather than the original values supplied with the request.
+Prior to matching, request URIs are normalized\footnote{Note: some containers might perform this functionality prior to passing the request to an implementation.} by following the rules for case, path segment, and percent encoding normalization described in section 6.2.2 of RFC 3986\cite{uri}. The normalized request URI MUST be reflected in the URIs obtained from an injected \code{UriInfo}.
 
 \subsection{Request Matching}
 \label{request_matching}
 
-A request is matched to the corresponding resource method or sub-resource method by comparing the effective request URI (see section \ref{reqpreproc}), the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
+A request is matched to the corresponding resource method or sub-resource method by comparing the normalized request URI (see section \ref{reqpreproc}), the media type of any request entity, and the requested response entity format to the metadata annotations on the resource classes and their methods. If no matching resource method or sub-resource method can be found then an appropriate error response is returned. Matching of requests to resource methods proceeds in three stages as follows:
 
 \begin{enumerate}
 \item Identify the root resource class:

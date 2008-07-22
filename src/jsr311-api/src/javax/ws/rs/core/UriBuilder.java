@@ -320,39 +320,6 @@ public abstract class UriBuilder {
     public abstract UriBuilder path(Method... methods) throws IllegalArgumentException;
     
     /**
-     * Set the extension that will be appended to the final path segment at
-     * build time. An initial "." will be appended if necessary. If the final
-     * path segment already contains an extension, it will be retained and the
-     * supplied extension will be appended to it as a new extension. E.g.:
-     * 
-     * <ul>
-     * <li><code>UriBuilder.fromPath("foo").extension("bar").build()</code> 
-     * returns "foo.bar".</li>
-     * <li><code>UriBuilder.fromPath("foo.baz").extension("bar").build()</code> 
-     * returns "foo.baz.bar".</li>
-     * <li><code>UriBuilder.fromPath("foo").extension("bar").path(baz).build()</code> 
-     * returns "foo/baz.bar".</li>
-     * </ul>
-     * 
-     * <p>Note that the extension will be appended to the path component, 
-     * matrix and query parameters will follow any appended extension.</p>
-     * 
-     * @param extension the extension to append at build time, a null value
-     * will result in no extension being appended.
-     * @return the updated UriBuilder
-     */
-    public abstract UriBuilder extension(String extension);
-    
-    /**
-     * Get the current value of the extension that will be appended to the 
-     * final path segment at build time.
-     * @return the extension that will be appended to the final path segment at
-     * build time
-     * @see #extension(java.lang.String) 
-     */
-    public abstract String getExtension();
-    
-    /**
      * Set the matrix parameters of the current final segment of the current URI path.
      * This method will overwrite any existing matrix parameters on the current final
      * segment of the current URI path. Note that the matrix parameters
