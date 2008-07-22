@@ -167,7 +167,7 @@ public abstract class UriBuilder {
      * Controls whether the UriBuilder will automatically encode URI components
      * added by subsequent operations or not. Also controls whether template
      * parameter values are encoded when building a URI using 
-     * {@link #build(Map)} or {@link #build(java.lang.Object[])}.
+     * {@link #buildFromMap(Map)} or {@link #build(java.lang.Object[])}.
      * Defaults to true unless overridden during creation or set via this method.
      * @param enable automatic encoding (true) or disable it (false). 
      * If false, subsequent components added must be valid with all illegal
@@ -426,16 +426,6 @@ public abstract class UriBuilder {
     public abstract UriBuilder fragment(String fragment) throws IllegalArgumentException;
     
     /**
-     * Build a URI. The <code>build</code> method does not change the state of the
-     * <code>UriBuilder</code> and it may be called multiple times on the same
-     * builder instance.
-     * @return the URI built from the UriBuilder
-     * @throws UriBuilderException if there are any URI template parameters, or
-     * if a URI cannot be constructed based on the current state of the builder.
-     */
-    public abstract URI build() throws UriBuilderException;
-
-    /**
      * Build a URI, any URI template parameters will be replaced by the value in
      * the supplied map. Values are converted to <code>String</code> using
      * their <code>toString</code> method and are then encoded if 
@@ -452,7 +442,7 @@ public abstract class UriBuilder {
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract URI build(Map<String, Object> values) 
+    public abstract URI buildFromMap(Map<String, ? extends Object> values) 
             throws IllegalArgumentException, UriBuilderException;
     
     /**
