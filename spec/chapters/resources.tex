@@ -220,11 +220,18 @@ public class WidgetsResource {
   
   @Path("{id}")
   public WidgetResource findWidget(@PathParam("id") String id) {
-    return lookupWidget(id);
+    return new WidgetResource(id);
   }
+}
+
+public class WidgetResource {
+  public WidgetResource(String id) {...}
+
+  @GET
+  public Widget getDetails() {...}
 }\end{listing}
 
-In the above a \code{GET} request for the \code{widgets/offers} resource is handled directly by the \code{getDiscounted} sub-resource method of the resource class \code{WidgetsResource} whereas a \code{GET} request for \code{widgets/{\em xxx}} is handled by whatever resource class instance is returned by the \code{findWidget} sub-resource locator (a \code{WidgetResource}).
+In the above a \code{GET} request for the \code{widgets/offers} resource is handled directly by the \code{get\-Discounted} sub-resource method of the resource class \code{Widgets\-Resource} whereas a \code{GET} request for \code{widgets/{\em xxx}} is handled by the \code{get\-Details} method of the \code{Widget\-Resource} resource class.
 
 \begin{nnnote}A set of sub-resource methods annotated with the same URI template value are functionally equivalent to a similarly annotated sub-resource locator that returns an instance of a resource class with the same set of resource methods.\end{nnnote}
 
