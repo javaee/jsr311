@@ -47,6 +47,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * <blockquote><code>UriBuilder.fromPath("{arg1}").fragment("{arg2}").build("foo", "bar")</code></blockquote>
  * instead. URI template names and delimiters are never encoded but their 
  * values may be encoded when a URI is built, see the {@link #encode} method.
+ * Template parameter regular expressions are ignored when building a URI, i.e.
+ * no validation is performed.
  * 
  * @see java.net.URI
  * @see javax.ws.rs.Path
