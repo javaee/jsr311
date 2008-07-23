@@ -32,7 +32,8 @@ import javax.ws.rs.ext.RuntimeDelegate;
  * methods to create an instance using a ResponseBuilder.
  * 
  * Several methods have parameters of type URI, {@link UriBuilder} provides
- * convenient methods to create such values as does <code>URI.create()</code>.
+ * convenient methods to create such values as does 
+ * {@link <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URI.html#create(java.lang.String)">URI.create()</a>}.
  * 
  * @see Response.ResponseBuilder
  */
