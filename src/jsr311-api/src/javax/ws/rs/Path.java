@@ -26,26 +26,7 @@ import java.lang.annotation.Target;
 
 /**
  * Identifies the URI path that a resource class or class method will serve 
- * requests for. Embedded template variables are allowed and are of the 
- * form:
- * 
- * <pre> param = "{" *WSP name *WSP [ ":" *WSP regex *WSP ] "}"
- * name = (ALPHA / DIGIT / "_")*(ALPHA / DIGIT / "." / "_" / "-" ) ; \w[\w\.-]*</pre>
- * 
- * <p>See {@link <a href="http://tools.ietf.org/html/rfc2234">RFC 2234</a>} for 
- * a description of the syntax used above and the expansions of {@code WSP}, 
- * {@code ALPHA} and {@code DIGIT}. In the above {@code name} is the template 
- * variable name and the optional {@code regex} specifies the contents of the 
- * capturing group for the parameter. If {@code regex} is not supplied then a 
- * default value of {@code [^/]+} which terminates at a path segment boundary is
- * used. Matching is performed against encoded path values, any literals in 
- * {@code regex} should be escaped according to the rules of
- * {@link <a href="http://tools.ietf.org/html/rfc3986#section-3.3">RFC 3986 section 3.3</a>}.
- * Caution is recommended in the use of {@code regex}, incorrect use can lead
- * to a template parameter matching unexpected URI paths. See 
- * {@link <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html">Pattern</a>}
- * for further information on the syntax of regular expressions.
- * Values of template variables may be extracted using {@link PathParam}.
+ * requests for.
  *
  * <p>Paths are relative. For an annotated class the base URI is the 
  * application context. For an annotated method the base URI is the
@@ -84,16 +65,35 @@ public @interface Path {
     /**
      * Defines a URI template for the resource class or method, must not 
      * include matrix parameters.
+     * 
+     * <p>Embedded template parameters are allowed and are of the form:</p>
+     * 
+     * <pre> param = "{" *WSP name *WSP [ ":" *WSP regex *WSP ] "}"
+     * name = (ALPHA / DIGIT / "_")*(ALPHA / DIGIT / "." / "_" / "-" ) ; \w[\w\.-]*</pre>
+     * 
+     * <p>See {@link <a href="http://tools.ietf.org/html/rfc2234">RFC 2234</a>} for 
+     * a description of the syntax used above and the expansions of {@code WSP}, 
+     * {@code ALPHA} and {@code DIGIT}. In the above {@code name} is the template 
+     * parameter name and the optional {@code regex} specifies the contents of the 
+     * capturing group for the parameter. If {@code regex} is not supplied then a 
+     * default value of {@code [^/]+} which terminates at a path segment boundary is
+     * used. Matching is performed against encoded path values, any literals in 
+     * {@code regex} should be escaped according to the rules of
+     * {@link <a href="http://tools.ietf.org/html/rfc3986#section-3.3">RFC 3986 section 3.3</a>}.
+     * Caution is recommended in the use of {@code regex}, incorrect use can lead
+     * to a template parameter matching unexpected URI paths. See 
+     * {@link <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html">Pattern</a>}
+     * for further information on the syntax of regular expressions.
+     * Values of template parameters may be extracted using {@link PathParam}.
+     *
+     * <p>The literal part of the supplied value (those characters
+     * that are not part of a template parameter) is automatically percent 
+     * encoded to conform to the {@code path} production of 
+     * {@link <a href="http://tools.ietf.org/html/rfc3986#section-3.3">RFC 3986 section 3.3</a>}.
+     * Note that percent encoded values are allowed in the literal part of the
+     * value, an implementation will recognize such values and will not double
+     * encode the '%' character.</p>
      */
     String value();
-    
-    /**
-     * Controls whether the literal part of the supplied value (those characters
-     * that are not part of a template variable) are URL encoded. If true, any 
-     * percent characters or characters that are not valid in a URI path will be
-     * automatically encoded. If false then all characters must be valid URI
-     * path characters.
-     */
-    boolean encode() default true;
     
 }

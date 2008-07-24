@@ -180,14 +180,12 @@ In the above example the \code{Widget} resource class is identified by the relat
 
 \begin{nnnote}Because \lq\{\rq and \lq\}\rq\ are not part of either the reserved or unreserved productions of URI\cite{uri} they will not appear in a valid URI.\end{nnnote}
 
-The \code{encode} property of \Path\ controls whether the value of the annotation is automatically encoded (the default) or not. E.g. the following two lines are equivalent:
+The value of the annotation is automatically encoded, e.g. the following two lines are equivalent:
 
 \begin{listing}{1}
 @Path("widget list/{id}")
-@Path(value="widget%20list/{id}", encode=false)
+@Path("widget%20list/{id}")
 \end{listing}
-
-When automatic encoding is disabled, care must be taken to ensure that the value of the URI template is valid.
 
 Template parameters can optionally specify the regular expression used to match their values. The default value matches any text and terminates at the end of a path segment but other values can be used to alter this behavior, e.g.:
 
@@ -409,7 +407,7 @@ Sorting of media types follows the general rule: $\mbox{n/m} > \mbox{n/*} > \mbo
 
 The function $R(A)$ converts a URI path template annotation $A$ into a regular expression as follows:
 \begin{enumerate}
-\item If $A.\mbox{encode}=\mbox{true}$, URI encode the template, ignoring URI template variable specifications.
+\item URI encode the template, ignoring URI template variable specifications.
 \item Escape any regular expression characters in the URI template, again ignoring URI template variable specifications.
 \item Replace each URI template variable with a capturing group containing the specified regular expression or \lq([\^{ }/]+?)\rq\ if no regular expression is specified.
 \item If the resulting string ends with \lq/\rq\ then remove the final character.

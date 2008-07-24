@@ -63,6 +63,10 @@ public @interface FormParam {
      * Defines the name of the form parameter whose value will be used
      * to initialize the value of the annotated method argument, class field or
      * bean property.
+     * 
+     * <p>The supplied value is automatically percent encoded. Note that percent
+     * encoded values are allowed in the value, an implementation will recognize
+     * such values and will not double encode the '%' character.</p>
      */
     String value();
 }
