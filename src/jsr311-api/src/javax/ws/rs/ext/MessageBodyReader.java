@@ -74,8 +74,9 @@ public interface MessageBodyReader<T> {
      * <code>Class.getParameterAnnotations</code>.
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders the read-only HTTP headers associated with HTTP entity.
-     * @param entityStream the {@link InputStream} of the HTTP entity. The 
-     * implementation should not close the input stream.
+     * @param entityStream the {@link InputStream} of the HTTP entity. The
+     * caller is responsible for ensuring that the input stream ends when the
+     * entity has been consumed. The implementation should not close the input stream.
      * @throws java.io.IOException if an IO error arises
      * @throws javax.ws.rs.WebApplicationException if a specific 
      * HTTP error response needs to be produced. Only effective if thrown prior
