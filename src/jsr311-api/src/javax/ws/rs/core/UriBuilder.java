@@ -374,18 +374,18 @@ public abstract class UriBuilder {
      * rules of the URI component to which they pertain. The state of the
      * builder is unaffected; this method may be called multiple times on the 
      * same builder instance.
+     * @param values a map of URI template parameter names and values
      * @param isEncoded specifies if the supplied values contain percent
      * encoded characters. If false then all '%' characters will be encoded, if
      * true then only % characters that are not followed by two hexadecimal
      * numbers will be encoded.
-     * @param values a map of URI template parameter names and values
      * @return the URI built from the UriBuilder
      * @throws IllegalArgumentException if there are any URI template parameters
      * without a supplied value, or if a template parameter value is null.
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract URI buildFromMap(boolean isEncoded, Map<String, ? extends Object> values) 
+    public abstract URI buildFromMap(Map<String, ? extends Object> values, boolean isEncoded) 
             throws IllegalArgumentException, UriBuilderException;
     
     /**
