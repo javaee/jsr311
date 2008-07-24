@@ -24,15 +24,17 @@
 \hline
 \code{QueryParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a URI query parameter. The value of the annotation identifies the name of a query parameter. \tabularnewline
 \hline
+\code{FormParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a form parameter in a request entity body. The value of the annotation identifies the name of a form parameter. \tabularnewline
+\hline
 \code{MatrixParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a URI matrix parameter. The value of the annotation identifies the name of a matrix parameter. \tabularnewline
 \hline
 \code{CookieParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a HTTP cookie. The value of the annotation identifies the name of a the cookie. \tabularnewline
 \hline
 \code{HeaderParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a HTTP header. The value of the annotation identifies the name of a HTTP header. \tabularnewline
 \hline
-\code{Encoded} & \raggedright Type, constructor, method, field or parameter & \raggedright Disables automatic URI decoding for path, query and matrix parameters. \tabularnewline
+\code{Encoded} & \raggedright Type, constructor, method, field or parameter & \raggedright Disables automatic URI decoding for path, query, form and matrix parameters. \tabularnewline
 \hline
-\code{DefaultValue} & \raggedright Parameter, field or method & \raggedright Specifies a default value for a method parameter annotated with \QueryParam, \MatrixParam, \CookieParam\ or \HeaderParam. The specified value will be used if the corresponding query or matrix parameter is not present in the request URI, or if the corresponding HTTP header is not included in the request.\tabularnewline
+\code{DefaultValue} & \raggedright Parameter, field or method & \raggedright Specifies a default value for a method parameter annotated with \QueryParam, \MatrixParam, \CookieParam, \FormParam\ or \HeaderParam. The specified value will be used if the corresponding query or matrix parameter is not present in the request URI, if the corresponding form parameter is not in the request entity body, or if the corresponding HTTP header is not included in the request.\tabularnewline
 \hline
 \code{Context} & \raggedright Field, method or parameter & \raggedright Identifies an injection target for one of the types listed in section \ref{contexttypes} or the applicable section of chapter \ref{environment}. \tabularnewline
 \hline

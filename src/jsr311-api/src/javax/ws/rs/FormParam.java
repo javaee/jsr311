@@ -27,9 +27,9 @@ import java.lang.annotation.Target;
 /**
  * Binds the value(s) of a form parameter contained within a request entity body
  * to a resource method parameter, resource class field, or resource class bean 
- * property.
- * A default value can be specified using the {@link DefaultValue}
- * annotation.
+ * property. Values are URL decoded unless this is disabled using the 
+ * {@link Encoded} annotation. A default value can be specified using the 
+ * {@link DefaultValue} annotation.
  * If the request entity body is absent or is of any media type other than 
  * application/x-www-form-urlencoded, the default value is used.
  * 
@@ -55,6 +55,7 @@ import java.lang.annotation.Target;
  * parameters.</p>
  *
  * @see DefaultValue
+ * @see Encoded
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
