@@ -389,6 +389,24 @@ public abstract class UriBuilder {
             throws IllegalArgumentException, UriBuilderException;
     
     /**
+     * Build a URI, equivalent to {@code buildFromMap(true, values)}.
+     * Any URI template parameters will be replaced by the value in
+     * the supplied map. Values are converted to <code>String</code> using
+     * their <code>toString</code> method and are then encoded to match the
+     * rules of the URI component to which they pertain. The state of the
+     * builder is unaffected; this method may be called multiple times on the 
+     * same builder instance.
+     * @param values a map of URI template parameter names and values
+     * @return the URI built from the UriBuilder
+     * @throws IllegalArgumentException if there are any URI template parameters
+     * without a supplied value, or if a template parameter value is null.
+     * @throws UriBuilderException if a URI cannot be constructed based on the
+     * current state of the builder.
+     */
+    public abstract URI buildFromMap(Map<String, ? extends Object> values) 
+            throws IllegalArgumentException, UriBuilderException;
+    
+    /**
      * Build a URI, using the supplied values in order to replace any URI
      * template parameters. Values are converted to <code>String</code> using
      * their <code>toString</code> method and are then encoded to match the
@@ -412,5 +430,28 @@ public abstract class UriBuilder {
      * current state of the builder.
      */
     public abstract URI build(boolean isEncoded, Object... values) 
+            throws IllegalArgumentException, UriBuilderException;
+    
+    /**
+     * Build a URI, equivalent to {@code build(true, values)}.
+     * Any URI templates parameters will be replaced with the supplied values in
+     * oreder. Values are converted to <code>String</code> using
+     * their <code>toString</code> method and are then encoded to match the
+     * rules of the URI component to which they pertain. The state of the
+     * builder is unaffected; this method may be called multiple times on the 
+     * same builder instance.
+     * <p>All instances of the same template parameter
+     * will be replaced by the same value that corresponds to the position of the
+     * first instance of the template parameter. e.g. the template "{a}/{b}/{a}"
+     * with values {"x", "y", "z"} will result in the the URI "x/y/x", <i>not</i>
+     * "x/y/z".
+     * @param values a list of URI template parameter values
+     * @return the URI built from the UriBuilder
+     * @throws IllegalArgumentException if there are any URI template parameters
+     * without a supplied value, or if a value is null.
+     * @throws UriBuilderException if a URI cannot be constructed based on the
+     * current state of the builder.
+     */
+    public abstract URI build(Object... values) 
             throws IllegalArgumentException, UriBuilderException;
 }
