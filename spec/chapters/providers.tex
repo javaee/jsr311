@@ -91,6 +91,7 @@ When writing responses, implementations SHOULD respect application-supplied char
 An implementation MUST support application-provided entity providers and MUST use those in preference to its own pre-packaged providers when either could handle the same request.
 
 \subsection{Transfer Encoding}
+\label{transfer_encoding}
 
 Transfer encoding for inbound data is handled by a component of the container or the \jaxrs\ runtime. \MsgRead\ providers always operate on the decoded HTTP entity body rather than directly on the HTTP message body.
 
