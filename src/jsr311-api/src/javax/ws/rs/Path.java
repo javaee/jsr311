@@ -71,7 +71,7 @@ public @interface Path {
      * <pre> param = "{" *WSP name *WSP [ ":" *WSP regex *WSP ] "}"
      * name = (ALPHA / DIGIT / "_")*(ALPHA / DIGIT / "." / "_" / "-" ) ; \w[\w\.-]*</pre>
      * 
-     * <p>See {@link <a href="http://tools.ietf.org/html/rfc2234">RFC 2234</a>} for 
+     * <p>See {@link <a href="http://tools.ietf.org/html/rfc5234">RFC 5234</a>} for 
      * a description of the syntax used above and the expansions of {@code WSP}, 
      * {@code ALPHA} and {@code DIGIT}. In the above {@code name} is the template 
      * parameter name and the optional {@code regex} specifies the contents of the 
