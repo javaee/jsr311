@@ -69,19 +69,23 @@ public @interface Path {
      * <p>Embedded template parameters are allowed and are of the form:</p>
      * 
      * <pre> param = "{" *WSP name *WSP [ ":" *WSP regex *WSP ] "}"
-     * name = (ALPHA / DIGIT / "_")*(ALPHA / DIGIT / "." / "_" / "-" ) ; \w[\w\.-]*</pre>
+     * name = (ALPHA / DIGIT / "_")*(ALPHA / DIGIT / "." / "_" / "-" ) ; \w[\w\.-]*
+     * regex = *( nonbrace / "{" *nonbrace "}" ) ; where nonbrace is any char other than "{" and "}"</pre>
      * 
-     * <p>See {@link <a href="http://tools.ietf.org/html/rfc5234">RFC 5234</a>} for 
-     * a description of the syntax used above and the expansions of {@code WSP}, 
-     * {@code ALPHA} and {@code DIGIT}. In the above {@code name} is the template 
-     * parameter name and the optional {@code regex} specifies the contents of the 
-     * capturing group for the parameter. If {@code regex} is not supplied then a 
-     * default value of {@code [^/]+} which terminates at a path segment boundary is
-     * used. Matching is performed against encoded path values, any literals in 
-     * {@code regex} should be escaped according to the rules of
+     * <p>See {@link <a href="http://tools.ietf.org/html/rfc5234">RFC 5234</a>} 
+     * for a description of the syntax used above and the expansions of 
+     * {@code WSP}, {@code ALPHA} and {@code DIGIT}. In the above {@code name}
+     * is the template parameter name and the optional {@code regex} specifies 
+     * the contents of the capturing group for the parameter. If {@code regex}
+     * is not supplied then a default value of {@code [^/]+} which terminates at
+     * a path segment boundary, is used. Matching of request URIs to URI 
+     * templates is performed against encoded path values and implementations
+     * will not escape literal characters in regex automatically, therefore any
+     * literals in {@code regex} should be escaped by the author according to
+     * the rules of
      * {@link <a href="http://tools.ietf.org/html/rfc3986#section-3.3">RFC 3986 section 3.3</a>}.
-     * Caution is recommended in the use of {@code regex}, incorrect use can lead
-     * to a template parameter matching unexpected URI paths. See 
+     * Caution is recommended in the use of {@code regex}, incorrect use can
+     * lead to a template parameter matching unexpected URI paths. See 
      * {@link <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html">Pattern</a>}
      * for further information on the syntax of regular expressions.
      * Values of template parameters may be extracted using {@link PathParam}.
