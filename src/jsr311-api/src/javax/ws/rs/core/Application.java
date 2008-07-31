@@ -47,7 +47,9 @@ public abstract class Application {
      * (see {@link Context}) prior to use.
      * 
      * <p>Implementations should warn about and ignore classes that do not
-     * conform to the requirements of root resource or provider classes.</p>
+     * conform to the requirements of root resource or provider classes.
+     * Implementations should flag an error if the returned set includes
+     * more than one instance of the same class.</p>
      * 
      * <p>The default implementation returns an empty set.</p>
      * 
