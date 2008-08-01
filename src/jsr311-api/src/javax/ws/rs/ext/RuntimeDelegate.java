@@ -164,7 +164,7 @@ public abstract class RuntimeDelegate {
     /**
      * Obtain an instance of a HeaderDelegate for the supplied class. An 
      * implementation is required to support the following values for type:
-     * Cookie, CacheControl, EntityTag, NewCookie, MediaType.
+     * Cookie, CacheControl, EntityTag, NewCookie, MediaType, Date.
      * @param type the class of the header
      * @return an instance of HeaderDelegate for the supplied type
      */

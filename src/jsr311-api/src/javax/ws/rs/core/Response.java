@@ -490,12 +490,25 @@ public abstract class Response {
         public abstract ResponseBuilder cacheControl(CacheControl cacheControl);
         
         /**
+         * Set the expires date on the ResponseBuilder.
+         * 
+         * 
+         * @param expires the expiration date
+         * @return the updated ResponseBuilder
+         */
+        public abstract ResponseBuilder expires(Date expires);
+        
+        /**
          * Add a header to the ResponseBuilder.
          * 
          * @param name the name of the header
          * @param value the value of the header, the header will be serialized
-         * using its toString method. If null then all current headers of the
-         * same name will be removed.
+         * using a {@link javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate} if
+         * one is available via
+         * {@link javax.ws.rs.ext.RuntimeDelegate#createHeaderDelegate(java.lang.Class)}
+         * for the class of {@code value} or using its toString method if a 
+         * header delegate is not available. If {@code value} is null then all 
+         * current headers of the same name will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder header(String name, Object value);
