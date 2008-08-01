@@ -38,6 +38,8 @@ The following table lists HTTP headers that are directly supported, either autom
 \hline
 \code{Expect} & \raggedright Depends on underlying container. \tabularnewline
 \hline
+\code{Expires} & \raggedright Set by application using  the \ResponseBuilder\code{.expires} method. \tabularnewline
+\hline
 \code{If-Match} & \raggedright Processed by runtime if application uses corresponding \Request\code{.evaluatePreconditions} method, see section \ref{conneg_and_preconditions}. \tabularnewline
 \hline
 \code{If-Modified-Since} & \raggedright Processed by runtime if application uses corresponding \Request\code{.evaluatePreconditions} method, see section \ref{conneg_and_preconditions}. \tabularnewline
