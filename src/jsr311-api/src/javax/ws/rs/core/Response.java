@@ -64,7 +64,12 @@ public abstract class Response {
 
     /**
      * Get metadata associated with the response as a map. The returned map
-     * may be subsequently modified by the JAX-RS runtime.
+     * may be subsequently modified by the JAX-RS runtime. Values will be
+     * serialized using a {@link javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate}
+     * if one is available via
+     * {@link javax.ws.rs.ext.RuntimeDelegate#createHeaderDelegate(java.lang.Class)}
+     * for the class of the value or using the values {@code toString} method if a 
+     * header delegate is not available.
      * @return response metadata as a map
      */
     public abstract MultivaluedMap<String, Object> getMetadata();
@@ -506,7 +511,7 @@ public abstract class Response {
          * using a {@link javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate} if
          * one is available via
          * {@link javax.ws.rs.ext.RuntimeDelegate#createHeaderDelegate(java.lang.Class)}
-         * for the class of {@code value} or using its toString method if a 
+         * for the class of {@code value} or using its {@code toString} method if a 
          * header delegate is not available. If {@code value} is null then all 
          * current headers of the same name will be removed.
          * @return the updated ResponseBuilder
