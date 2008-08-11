@@ -32,8 +32,6 @@ import java.util.List;
  * if called outside the scope of a request (e.g. from a provider constructor).</p>
  * 
  * @see Context
- * @see Application#getLanguageMappings() 
- * @see Application#getMediaTypeMappings() 
  */
 public interface UriInfo {
     
