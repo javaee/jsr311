@@ -13,7 +13,6 @@
 package javax.ws.rs.core;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,8 +23,6 @@ import java.util.Set;
  */
 public abstract class Application {
     private static final Set<Object> emptySet = Collections.emptySet();
-    private static final Map<String, MediaType> emptyMediaMap = Collections.emptyMap();
-    private static final Map<String, String> emptyLanguageMap = Collections.emptyMap();
     
     /**
      * Get a set of root resource and provider classes. The default lifecycle
@@ -59,33 +56,4 @@ public abstract class Application {
         return emptySet;
     }
     
-    /**
-     * Get a map of file extension to media type. This is used to drive 
-     * URI-based content negotiation such that, e.g.:
-     * <pre>GET /resource.atom</pre>
-     * <p>is equivalent to:</p>
-     * <pre>GET /resource
-     *Accept: application/atom+xml</pre>
-     * <p>The default implementation returns an empty map.</p>
-     * 
-     * @return a map of file extension to media type
-     */
-    public Map<String, MediaType> getMediaTypeMappings() {
-        return emptyMediaMap;
-    }
-
-    /**
-     * Get a map of file extension to language. This is used to drive 
-     * URI-based content negotiation such that, e.g.:
-     * <pre>GET /resource.english</pre>
-     * <p>is equivalent to:</p>
-     * <pre>GET /resource
-     *Accept-Language: en</pre>
-     * <p>The default implementation returns an empty map.</p>
-     * 
-     * @return a map of file extension to language
-     */
-    public Map<String, String> getLanguageMappings() {
-        return emptyLanguageMap;
-    }
 }
