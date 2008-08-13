@@ -5,7 +5,7 @@
   <groupId>javax.ws.rs</groupId>
   <artifactId>jsr311-api</artifactId>
   <packaging>jar</packaging>
-  <version>0.10-SNAPSHOT</version>
+  <version>0.10</version>
   <name>jsr311-api</name>
   <url>https://jsr311.dev.java.net</url>
 
