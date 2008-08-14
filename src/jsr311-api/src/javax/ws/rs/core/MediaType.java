@@ -237,7 +237,7 @@ public class MediaType {
     }
     
     /**
-     * Generate a hashcode from the type and subtype.
+     * Generate a hashcode from the type, subtype and parameters.
      * @return a hashcode
      */
     @Override
