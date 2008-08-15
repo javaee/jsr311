@@ -395,7 +395,7 @@ $$M = \{\mbox{subresource methods of }O \mbox{ where } R(T_{\mbox{method}}) = R_
 \item The secondary key is the \Produces\ value. Methods whose value of \Produces\ most closely match the value of the request accept header are sorted first.
 \end{itemize}
 
-Sorting of media types follows the general rule: $\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$, i.e. a method that explicitly lists one of the requested media types is sorted before a method that lists */*. Quality parameter values are also used such that n/m;q=1.0 $>$ n/m;q=0.7. See section 14.1 of \cite{http11} for more details.
+Sorting of media types follows the general rule: $\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$, i.e. a method that explicitly consumes the request media type or produces one of the requested media types is sorted before a method that consumes or produces */*. Quality parameter values in the accept header are also considered such that methods that produce media types with a higher acceptable q-value are sorted ahead of those with a lower acceptable q-value (i.e. n/m;q=1.0 $>$ n/m;q=0.7) - see section 14.1 of \cite{http11} for more details.
 
 \item \label{dispatch_method} The request is dispatched to the first Java method in the set\footnote{Step \ref{filter_methods} ensures the set contains at least one member.}.
 \end{enumerate}
@@ -433,7 +433,8 @@ In many cases it is not possible to statically determine the media type of a res
 
 \item Obtain the acceptable media types $A$. If $A = \{\}$, set $A = \{\mbox{\lq*/*\rq}\}$
 
-\item Sort $A$ and $P$ in descending order, each with a primary key of q-value and secondary key of specificity ($\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$).
+\item Sort $A$ in descending order, with a primary key of q-value and secondary key of specificity ($\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$).
+\item Sort $P$ in descending order, using specificity as the key ($\mbox{n/m} > \mbox{n/*} > \mbox{*/*}$).
 
 \item Set $M=\{\}$. For each member of $A, a$:
 \begin{itemize}
