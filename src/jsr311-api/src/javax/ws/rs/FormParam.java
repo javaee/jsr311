@@ -45,11 +45,15 @@ import java.lang.annotation.Target;
  * 
  * <p>If the type is not one of those listed in 4 above then the first value 
  * (lexically) of the parameter is used.</p>
+ * 
+ * <p>Note that, whilst the annotation target permits use on fields and methods,
+ * this annotation is only required to be supported on resource method
+ * parameters.</p>
  *
  * @see DefaultValue
  * @see Encoded
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FormParam {
     /**
