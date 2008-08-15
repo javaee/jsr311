@@ -19,6 +19,7 @@
 
 package javax.ws.rs.ext;
 
+import java.lang.reflect.ReflectPermission;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.ws.rs.core.Application;
@@ -43,6 +44,8 @@ public abstract class RuntimeDelegate {
     
     private static AtomicReference<RuntimeDelegate> rdr = 
             new AtomicReference<RuntimeDelegate>();
+    
+    private static ReflectPermission rp = new ReflectPermission("suppressAccessChecks");
 
     protected RuntimeDelegate() {
     }
@@ -118,8 +121,14 @@ public abstract class RuntimeDelegate {
      * is not called prior to {@link #getInstance} then an implementation will
      * be sought as described in {@link #getInstance}.
      * @param rd the runtime delegate instance
+     * @throws SecurityException if there is a security manager and the permission
+     * ReflectPermission("suppressAccessChecks") has not been granted.
      */
-    public static void setInstance(RuntimeDelegate rd) {
+    public static void setInstance(RuntimeDelegate rd) throws SecurityException {
+        SecurityManager security = System.getSecurityManager();
+        if (security != null) {
+            security.checkPermission(rp);
+        }
         rdr.set(rd);
     }
     
