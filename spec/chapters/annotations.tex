@@ -24,7 +24,7 @@
 \hline
 \code{QueryParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a URI query parameter. The value of the annotation identifies the name of a query parameter. \tabularnewline
 \hline
-\code{FormParam} & \raggedright Parameter & \raggedright Specifies that the value of a method parameter is to be extracted from a form parameter in a request entity body. The value of the annotation identifies the name of a form parameter. \tabularnewline
+\code{FormParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter is to be extracted from a form parameter in a request entity body. The value of the annotation identifies the name of a form parameter. Note that whilst the annotation target allows use on fields and methods, the specification only requires support for use on resource method parameters.\tabularnewline
 \hline
 \code{MatrixParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from a URI matrix parameter. The value of the annotation identifies the name of a matrix parameter. \tabularnewline
 \hline
