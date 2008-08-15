@@ -199,8 +199,8 @@ public class MediaType {
     /**
      * Check if this media type is compatible with another media type. E.g.
      * image/* is compatible with image/jpeg, image/png, etc. Media type
-     * parameters are ignored.
-     * @return true if other is a subtype of this media type, false otherwise.
+     * parameters are ignored. The function is commutative.
+     * @return true if the types are compatible, false otherwise.
      * @param other the media type to compare with
      */
     public boolean isCompatible(MediaType other) {
