@@ -64,7 +64,7 @@ A \MsgWrite\code{.write} method MAY throw \WebAppExc. If thrown before the respo
 
 Message body readers and writers MAY restrict the media types they support using the \Consumes\ and \Produces\ annotations respectively. The absence of these annotations is equivalent to their inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported. An implementation MUST NOT use an entity provider for a media type that is not supported by that provider.
 
-When choosing an entity provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media types is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
+When choosing an entity provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media types is sorted before a provider that lists */*.
 
 \subsection{Standard Entity Providers}
 \label{standard_entity_providers}
@@ -112,7 +112,7 @@ Context providers MAY return \code{null} from the \code{getContext} method if th
 
 Context provider implementations MAY restrict the media types they support using the \Produces\ annotation. The absence of this annotation is equivalent to its inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
 
-When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media type is sorted before a provider that lists */*. Quality parameter values are also used such that x/y;q=1.0 $<$ x/y;q=0.7.
+When choosing a context provider an implementation sorts the available providers according to the media types they declare support for. Sorting of media types follows the general rule: x/y $<$ x/* $<$ */*, i.e. a provider that explicitly lists a media type is sorted before a provider that lists */*.
 
 \section{Exception Mapping Providers}
 \label{exceptionmapper}
