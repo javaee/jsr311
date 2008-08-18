@@ -67,7 +67,7 @@ public interface Providers {
     /**
      * Get a message body writer that matches a set of criteria. The set of
      * writers is first filtered by comparing the supplied value of
-     * {@code mediaType} with the value of each reader's 
+     * {@code mediaType} with the value of each writer's 
      * {@link javax.ws.rs.Produces}, comparing the supplied value of
      * {@code type} with the generic type of the writer, and eliminating those
      * that do not match.
