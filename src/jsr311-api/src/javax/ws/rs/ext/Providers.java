@@ -35,11 +35,20 @@ import javax.ws.rs.core.MediaType;
 public interface Providers {
     
     /**
-     * Get a message body reader that matches a set of criteria.
-     * @param mediaType the media type of the data that will be read, this will
-     * be compared to the values of {@link javax.ws.rs.Consumes} for
-     * each candidate reader and only matching readers will be queried.
-     * @param type the class of object to be produced.
+     * Get a message body reader that matches a set of criteria. The set of
+     * readers is first filtered by comparing the supplied value of
+     * {@code mediaType} with the value of each reader's 
+     * {@link javax.ws.rs.Consumes}, comparing the supplied value of
+     * {@code type} with the generic type of the reader, and eliminating those 
+     * that do not match.
+     * The list of matching readers is then ordered with those with the best 
+     * matching values of {@link javax.ws.rs.Consumes} (x/y > x&#47;* > *&#47;*)
+     * sorted first. Finally, the 
+     * {@link MessageBodyReader#isReadable}
+     * method is called on each reader in order using the supplied criteria and
+     * the first reader that returns {@code true} is selected and returned.
+     * 
+     * @param mediaType the media type of the data that will be read.
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be
      * the formal type of the method parameter as returned by 
@@ -52,14 +61,24 @@ public interface Providers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    <T> MessageBodyReader<T> getMessageBodyReader(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
-    
+    <T> MessageBodyReader<T> getMessageBodyReader(Class<T> type, 
+            Type genericType, Annotation annotations[], MediaType mediaType);
     
     /**
-     * Get a message body writer that matches a set of criteria.
-     * @param mediaType the media type of the data that will be written, this will
-     * be compared to the values of {@link javax.ws.rs.Produces} for
-     * each candidate writer and only matching writers will be queried.
+     * Get a message body writer that matches a set of criteria. The set of
+     * writers is first filtered by comparing the supplied value of
+     * {@code mediaType} with the value of each reader's 
+     * {@link javax.ws.rs.Produces}, comparing the supplied value of
+     * {@code type} with the generic type of the writer, and eliminating those
+     * that do not match.
+     * The list of matching writers is then ordered with those with the best 
+     * matching values of {@link javax.ws.rs.Produces} (x/y > x&#47;* > *&#47;*)
+     * sorted first. Finally, the 
+     * {@link MessageBodyWriter#isWriteable}
+     * method is called on each writer in order using the supplied criteria and
+     * the first writer that returns {@code true} is selected and returned.
+     * 
+     * @param mediaType the media type of the data that will be written.
      * @param type the class of object that is to be written.
      * @param genericType the type of object to be written. E.g. if the 
      * message body is to be produced from a field, this will be
@@ -73,7 +92,8 @@ public interface Providers {
      * @return a MessageBodyReader that matches the supplied criteria or null
      * if none is found.
      */
-    <T> MessageBodyWriter<T> getMessageBodyWriter(Class<T> type, Type genericType, Annotation annotations[], MediaType mediaType);
+    <T> MessageBodyWriter<T> getMessageBodyWriter(Class<T> type, 
+            Type genericType, Annotation annotations[], MediaType mediaType);
     
     /**
      * Get an exception mapping provider for a particular class of exception. 
@@ -86,19 +106,25 @@ public interface Providers {
     <T> ExceptionMapper<T> getExceptionMapper(Class<T> type);
 
     /**
-     * Get a context resolver for a particular type of context for a class of 
-     * object. Returns a ContextResolver whose generic type is assignable to
-     * {@code contextType} and that returns a non-null value from
-     * {@code getContext(objectType)}.
+     * Get a context resolver for a particular type of context and media type.
+     * The set of resolvers is first filtered by comparing the supplied value of
+     * {@code mediaType} with the value of each resolver's 
+     * {@link javax.ws.rs.Produces}, comparing the supplied value of
+     * {@code type} with the generic type of the resolver, and eliminating those
+     * that do not match. If only one resolver matches the criteria then it is
+     * returned. If more than one resolver matches then the list of matching 
+     * resolvers is ordered with those with the best 
+     * matching values of {@link javax.ws.rs.Produces} (x/y > x&#47;* > *&#47;*)
+     * sorted first. A proxy is returned that delegates calls to
+     * {@link ContextResolver#getContext(java.lang.Class)} to each matching context
+     * resolver in order and returns the first non-null value it obtains or null
+     * if all matching context resolvers return null.
+     * 
      * @param contextType the class of context desired
-     * @param objectType the class of object for which the context is desired
      * @param mediaType the media type of data for which a context is required.
-     * The value is compared to the values of {@link javax.ws.rs.Produces} 
-     * for each candidate and only matching providers will be considered. 
-     * A null value is equivalent to
-     * {@link javax.ws.rs.core.MediaType#WILDCARD_TYPE}.
-     * @return a matching context resolver or null if none is found.
-     * @see ContextResolver#getContext(java.lang.Class) 
+     * @return a matching context resolver instance or null if no matching 
+     * context providers are found.
      */
-    <T> ContextResolver<T> getContextResolver(Class<T> contextType, Class<?> objectType, MediaType mediaType);
+    <T> ContextResolver<T> getContextResolver(Class<T> contextType, 
+            MediaType mediaType);
 }
