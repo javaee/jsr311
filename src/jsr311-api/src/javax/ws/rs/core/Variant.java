@@ -38,6 +38,8 @@ public class Variant {
      * @param mediaType the media type of the variant - may be null
      * @param language the language of the variant - may be null
      * @param encoding the content encoding of the variant - may be null
+     * @throws java.lang.IllegalArgumentException if all three parameters are
+     * null
      */
     public Variant(MediaType mediaType, Locale language, String encoding) {
         this.encoding = encoding;
@@ -76,6 +78,8 @@ public class Variant {
      * are supported they should be included as parameters of the respective
      * media type.
      * @return the initailized builder
+     * @throws java.lang.IllegalArgumentException if mediaTypes is null or
+     * contains no elements.
      */
     public static VariantListBuilder mediaTypes(MediaType... mediaTypes) {
         VariantListBuilder b = VariantListBuilder.newInstance();
@@ -88,6 +92,8 @@ public class Variant {
      * languages.
      * @param languages the available languages.
      * @return the initailized builder
+     * @throws java.lang.IllegalArgumentException if languages is null or
+     * contains no elements.
      */
     public static VariantListBuilder languages(Locale... languages) {
         VariantListBuilder b = VariantListBuilder.newInstance();
@@ -100,6 +106,8 @@ public class Variant {
      * encodings.
      * @param encodings the available encodings.
      * @return the initailized builder
+     * @throws java.lang.IllegalArgumentException if encodings is null or
+     * contains no elements.
      */
     public static VariantListBuilder encodings(String... encodings) {
         VariantListBuilder b = VariantListBuilder.newInstance();
@@ -197,8 +205,9 @@ public class Variant {
          * <p><pre>List<Variant> list = VariantListBuilder.newInstance().languages("en","fr")
          *   .encodings("zip", "identity").add().build()</pre>
          * 
-         * 
          * @return the updated builder
+         * @throws java.lang.IllegalStateException if there is not at least one
+         * mediaType, language or encoding set for the current variant.
          */
         public abstract VariantListBuilder add();
         

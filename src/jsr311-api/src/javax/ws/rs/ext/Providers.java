@@ -38,9 +38,9 @@ public interface Providers {
      * Get a message body reader that matches a set of criteria. The set of
      * readers is first filtered by comparing the supplied value of
      * {@code mediaType} with the value of each reader's 
-     * {@link javax.ws.rs.Consumes}, comparing the supplied value of
-     * {@code type} with the generic type of the reader, and eliminating those 
-     * that do not match.
+     * {@link javax.ws.rs.Consumes}, ensuring the supplied value of
+     * {@code type} is assignable to the generic type of the reader, and 
+     * eliminating those that do not match.
      * The list of matching readers is then ordered with those with the best 
      * matching values of {@link javax.ws.rs.Consumes} (x/y > x&#47;* > *&#47;*)
      * sorted first. Finally, the 
@@ -48,6 +48,7 @@ public interface Providers {
      * method is called on each reader in order using the supplied criteria and
      * the first reader that returns {@code true} is selected and returned.
      * 
+     * @param type the class of object that is to be written.
      * @param mediaType the media type of the data that will be read.
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be
@@ -68,9 +69,9 @@ public interface Providers {
      * Get a message body writer that matches a set of criteria. The set of
      * writers is first filtered by comparing the supplied value of
      * {@code mediaType} with the value of each writer's 
-     * {@link javax.ws.rs.Produces}, comparing the supplied value of
-     * {@code type} with the generic type of the writer, and eliminating those
-     * that do not match.
+     * {@link javax.ws.rs.Produces}, ensuring the supplied value of
+     * {@code type} is assignable to the generic type of the reader, and 
+     * eliminating those that do not match.
      * The list of matching writers is then ordered with those with the best 
      * matching values of {@link javax.ws.rs.Produces} (x/y > x&#47;* > *&#47;*)
      * sorted first. Finally, the 
@@ -109,11 +110,11 @@ public interface Providers {
      * Get a context resolver for a particular type of context and media type.
      * The set of resolvers is first filtered by comparing the supplied value of
      * {@code mediaType} with the value of each resolver's 
-     * {@link javax.ws.rs.Produces}, comparing the supplied value of
-     * {@code type} with the generic type of the resolver, and eliminating those
-     * that do not match. If only one resolver matches the criteria then it is
-     * returned. If more than one resolver matches then the list of matching 
-     * resolvers is ordered with those with the best 
+     * {@link javax.ws.rs.Produces}, ensuring the generic type of the context 
+     * resolver is assignable to the supplied value of {@code contextType}, and 
+     * eliminating those that do not match. If only one resolver matches the 
+     * criteria then it is returned. If more than one resolver matches then the
+     * list of matching resolvers is ordered with those with the best 
      * matching values of {@link javax.ws.rs.Produces} (x/y > x&#47;* > *&#47;*)
      * sorted first. A proxy is returned that delegates calls to
      * {@link ContextResolver#getContext(java.lang.Class)} to each matching context

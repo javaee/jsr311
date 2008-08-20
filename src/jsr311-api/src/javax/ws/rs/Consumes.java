@@ -26,8 +26,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines the media types that the methods of a resource class or MessageBodyReader
- * can accept. If
+ * Defines the media types that the methods of a resource class or 
+ * {@link javax.ws.rs.ext.MessageBodyReader} can accept. If
  * not specified, a container will assume that any media type is acceptable.
  * Method level annotations override a class level annotation. A container
  * is responsible for ensuring that the method invoked is capable of consuming

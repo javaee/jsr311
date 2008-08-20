@@ -39,7 +39,7 @@ public interface StreamingOutput {
      * @throws java.io.IOException if an IO error is encountered
      * @throws javax.ws.rs.WebApplicationException if a specific 
      * HTTP error response needs to be produced. Only effective if thrown prior
-     * to the response being committed.
+     * to any bytes being written to output.
      */
     void write(OutputStream output) throws IOException, WebApplicationException; 
 }

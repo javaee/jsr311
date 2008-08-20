@@ -83,6 +83,11 @@ public class MediaType {
     /** "application/x-www-form-urlencoded" */
     public final static MediaType APPLICATION_FORM_URLENCODED_TYPE = new MediaType("application","x-www-form-urlencoded");
 
+    /** "multipart/form-data" */
+    public final static String MULTIPART_FORM_DATA = "multipart/form-data";
+    /** "multipart/form-data" */
+    public final static MediaType MULTIPART_FORM_DATA_TYPE = new MediaType("multipart","form-data");
+
     /** "application/octet-stream" */
     public final static String APPLICATION_OCTET_STREAM = "application/octet-stream";
     /** "application/octet-stream" */
@@ -117,9 +122,12 @@ public class MediaType {
     /**
      * Creates a new instance of MediaType with the supplied type, subtype and
      * parameters. 
-     * @param type the primary type
-     * @param subtype the subtype
-     * @param parameters a map of media type parameters
+     * @param type the primary type, null is equivalent to 
+     * {@link #MEDIA_TYPE_WILDCARD}.
+     * @param subtype the subtype, null is equivalent to 
+     * {@link #MEDIA_TYPE_WILDCARD}.
+     * @param parameters a map of media type parameters, null is the same as an
+     * empty map.
      */
     public MediaType(String type, String subtype, Map<String, String> parameters) {
         this.type = type==null ? MEDIA_TYPE_WILDCARD : type;
@@ -141,8 +149,10 @@ public class MediaType {
     
     /**
      * Creates a new instance of MediaType with the supplied type and subtype.
-     * @param type the primary type
-     * @param subtype the subtype
+     * @param type the primary type, null is equivalent to 
+     * {@link #MEDIA_TYPE_WILDCARD}
+     * @param subtype the subtype, null is equivalent to 
+     * {@link #MEDIA_TYPE_WILDCARD}
      */
     public MediaType(String type, String subtype) {
         this(type,subtype,emptyMap);

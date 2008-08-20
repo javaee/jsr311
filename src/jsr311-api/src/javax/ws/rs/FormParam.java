@@ -29,8 +29,8 @@ import java.lang.annotation.Target;
  * to a resource method parameter. Values are URL decoded unless this is
  * disabled using the {@link Encoded} annotation. A default value can be
  * specified using the {@link DefaultValue} annotation.
- * If the request entity body is absent or is of any media type other than 
- * application/x-www-form-urlencoded, the default value is used.
+ * If the request entity body is absent or is an unsupported media type, the
+ * default value is used.
  * 
  * The type <code>T</code> of the annotated parameter must either:
  * <ol>

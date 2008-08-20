@@ -86,8 +86,7 @@ public interface UriInfo {
     public List<PathSegment> getPathSegments(boolean decode);
     
     /**
-     * Get the absolute request URI. This includes query parameters and
-     * any supplied fragment.
+     * Get the absolute request URI including any query parameters.
      * @return the absolute request URI
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
@@ -102,7 +101,7 @@ public interface UriInfo {
     
     /**
      * Get the absolute path of the request. This includes everything preceding
-     * the path (host, port etc) but excludes query parameters and fragment.
+     * the path (host, port etc) but excludes query parameters.
      * This is a shortcut for
      * <code>uriInfo.getBase().resolve(uriInfo.getPath()).</code>
      * @return the absolute path of the request
@@ -113,7 +112,7 @@ public interface UriInfo {
     /**
      * Get the absolute path of the request in the form of a UriBuilder.
      * This includes everything preceding the path (host, port etc) but excludes
-     * query parameters and fragment.
+     * query parameters.
      * @return a UriBuilder initialized with the absolute path of the request
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */

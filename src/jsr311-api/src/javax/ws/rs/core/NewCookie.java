@@ -90,6 +90,7 @@ public class NewCookie extends Cookie {
     /**
      * Create a new instance copying the information in the supplied cookie.
      * @param cookie the cookie to clone
+     * @throws IllegalArgumentException if cookie is null
      */
     public NewCookie(Cookie cookie) {
         super(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), cookie.getVersion());
@@ -101,6 +102,7 @@ public class NewCookie extends Cookie {
      * @param comment the comment
      * @param maxAge the maximum age of the cookie in seconds
      * @param secure specifies whether the cookie will only be sent over a secure connection
+     * @throws IllegalArgumentException if cookie is null
      */
     public NewCookie(Cookie cookie, String comment, int maxAge, boolean secure) {
         this(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), cookie.getVersion(), comment, maxAge, secure);
