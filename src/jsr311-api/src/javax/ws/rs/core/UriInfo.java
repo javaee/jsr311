@@ -27,8 +27,7 @@ import java.util.List;
  * URI information. Relative URIs are relative to the base URI of the
  * application, see {@link #getBaseUri}.
  * 
- * <p>All methods except {@link #getBaseUri} and 
- * {@link #getBaseUriBuilder} throw <code>java.lang.IllegalStateException</code>
+ * <p>All methods throw <code>java.lang.IllegalStateException</code>
  * if called outside the scope of a request (e.g. from a provider constructor).</p>
  * 
  * @see Context
