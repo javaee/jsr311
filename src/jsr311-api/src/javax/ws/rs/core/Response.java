@@ -28,7 +28,7 @@ import javax.ws.rs.ext.RuntimeDelegate;
 /**
  * Defines the contract between a returned instance and the runtime when
  * an application needs to provide metadata to the runtime. An application
- * class can extend this class directly or can use one the static 
+ * class can extend this class directly or can use one of the static 
  * methods to create an instance using a ResponseBuilder.
  * 
  * Several methods have parameters of type URI, {@link UriBuilder} provides
@@ -47,8 +47,7 @@ public abstract class Response {
     
     
     /**
-     * Return the response entity. Entities of type {@link GenericEntity} 
-     * will be unwrapped. The response will be serialized using a
+     * Return the response entity. The response will be serialized using a
      * MessageBodyWriter for either the class of the entity or, in the case of
      * {@link GenericEntity}, the value of {@link GenericEntity#getRawType()}.
      * @return an object instance or null if there is no entity
