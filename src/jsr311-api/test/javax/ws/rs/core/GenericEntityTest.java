@@ -16,7 +16,9 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import junit.framework.TestCase;
 
 public class GenericEntityTest extends TestCase {
@@ -39,6 +41,25 @@ public class GenericEntityTest extends TestCase {
         assertTrue(typeArgs[0] instanceof Class<?>);
         Class<?> typeArgType = (Class<?>)typeArgs[0];
         assertEquals(typeArgType, String.class);
+    }
+
+    public void testMapOfStringInteger() {
+        System.out.println("testMapOfStringInteger");
+        Map<String,Integer> map = new HashMap<String,Integer>();
+        GenericEntity<Map<String,Integer>> mapOfString = new GenericEntity<Map<String,Integer>>(map) {};
+        Class<?> rawType = mapOfString.getRawType();
+        assertEquals(rawType, HashMap.class);
+        Type type = mapOfString.getType();
+        assertTrue(type instanceof ParameterizedType);
+        ParameterizedType pType = (ParameterizedType)type;
+        Type typeArgs[] = pType.getActualTypeArguments();
+        assertEquals(2, typeArgs.length);
+        assertTrue(typeArgs[0] instanceof Class<?>);
+        Class<?> typeArgType = (Class<?>)typeArgs[0];
+        assertEquals(typeArgType, String.class);
+        assertTrue(typeArgs[1] instanceof Class<?>);
+        typeArgType = (Class<?>)typeArgs[1];
+        assertEquals(typeArgType, Integer.class);
     }
 
     @SuppressWarnings("unchecked")
