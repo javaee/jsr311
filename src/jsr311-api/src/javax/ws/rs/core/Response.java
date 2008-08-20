@@ -398,8 +398,8 @@ public abstract class Response {
         /**
          * Set the response media type on the ResponseBuilder.
          * 
-         * 
-         * @param type the media type of the response entity
+         * @param type the media type of the response entity, if null any 
+         * existing value for type will be removed
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder type(MediaType type);
@@ -407,17 +407,20 @@ public abstract class Response {
         /**
          * Set the response media type on the ResponseBuilder.
          * 
-         * @param type the media type of the response entity
+         * @param type the media type of the response entity, if null any 
+         * existing value for type will be removed
          * @return the updated ResponseBuilder
          * @throws IllegalArgumentException if type cannot be parsed
          */
         public abstract ResponseBuilder type(String type);
         
         /**
-         * Set representation metadata on the ResponseBuilder.
+         * Set representation metadata on the ResponseBuilder. Equivalent to
+         * setting the values of content type, content language, and content
+         * encoding separately using the values of the variant properties.
          * 
-         * @param variant metadata of the response entity a null value is
-         * equivalent to a variant with all null properties
+         * @param variant metadata of the response entity, a null value is
+         * equivalent to a variant with all null properties.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder variant(Variant variant);
@@ -426,7 +429,7 @@ public abstract class Response {
          * Add a Vary header that lists the available variants.
          * 
          * @param variants a list of available representation variants, a null
-         * value is equivalent to an empty list.
+         * value will remove an existing value for vary.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder variants(List<Variant> variants);
@@ -434,7 +437,8 @@ public abstract class Response {
         /**
          * Set the language on the ResponseBuilder.
          * 
-         * @param language the language of the response entity
+         * @param language the language of the response entity, if null any 
+         * existing value for language will be removed
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder language(String language);
@@ -443,7 +447,8 @@ public abstract class Response {
          * Set the language on the ResponseBuilder.
          * 
          * 
-         * @param language the language of the response entity
+         * @param language the language of the response entity, if null any 
+         * existing value for type will be removed
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder language(Locale language);
@@ -454,7 +459,8 @@ public abstract class Response {
          * @param location the location. If a relative URI is 
          * supplied it will be converted into an absolute URI by resolving it
          * relative to the base URI of the application (see 
-         * {@link UriInfo#getBaseUri}).
+         * {@link UriInfo#getBaseUri}). If null any 
+         * existing value for location will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder location(URI location);
@@ -463,7 +469,8 @@ public abstract class Response {
          * Set the content location on the ResponseBuilder.
          * 
          * @param location the content location. Relative or absolute URIs
-         * may be used for the value of content location.
+         * may be used for the value of content location. If null any 
+         * existing value for content location will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder contentLocation(URI location);
@@ -471,7 +478,8 @@ public abstract class Response {
         /**
          * Set an entity tag on the ResponseBuilder.
          * 
-         * @param tag the entity tag
+         * @param tag the entity tag, if null any 
+         * existing entity tag value will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder tag(EntityTag tag);
@@ -481,7 +489,8 @@ public abstract class Response {
          * for <code>tag(new EntityTag(<i>value</i>))</code>.
          * 
          * @param tag the string content of a strong entity tag. The JAX-RS
-         * runtime will quote the supplied value when creating the header.
+         * runtime will quote the supplied value when creating the header. If
+         * null any existing entity tag value will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder tag(String tag);
@@ -489,8 +498,8 @@ public abstract class Response {
         /**
          * Set the last modified date on the ResponseBuilder.
          * 
-         * 
-         * @param lastModified the last modified date
+         * @param lastModified the last modified date, if null any existing
+         * last modified value will be removed.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder lastModified(Date lastModified);
@@ -498,8 +507,8 @@ public abstract class Response {
         /**
          * Set the cache control data on the ResponseBuilder.
          * 
-         * 
-         * @param cacheControl the cache control directives
+         * @param cacheControl the cache control directives, if null removes any
+         * existing cache control directives.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder cacheControl(CacheControl cacheControl);
@@ -507,8 +516,8 @@ public abstract class Response {
         /**
          * Set the expires date on the ResponseBuilder.
          * 
-         * 
-         * @param expires the expiration date
+         * @param expires the expiration date, if null removes any existing
+         * expires value.
          * @return the updated ResponseBuilder
          */
         public abstract ResponseBuilder expires(Date expires);
