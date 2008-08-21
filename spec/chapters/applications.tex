@@ -8,6 +8,10 @@ A \jaxrs\ application consists of one or more resources (see chapter \ref{resour
 
 The resources and providers that make up a \jaxrs\ application are configured via an application-supplied subclass of \code{Application}. An implementation MAY provide alternate mechanisms for locating resource classes and providers (e.g. runtime class scanning) but use of \code{Application} is the only portable means of configuration.
 
+\section{Validation}
+
+Specific validation requirements are detailed throughout this specification and the \jaxrs\ Javadocs. Implementations MAY perform additional validation where feasible and SHOULD report any issues arising from such validation to the user.
+
 \section{Publication}
 
 Applications are published in different ways depending on whether the application is run in a Java SE environment or within a container. This section describes the alternate means of publication.
