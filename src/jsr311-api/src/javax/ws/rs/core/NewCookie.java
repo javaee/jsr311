@@ -93,7 +93,11 @@ public class NewCookie extends Cookie {
      * @throws IllegalArgumentException if cookie is null
      */
     public NewCookie(Cookie cookie) {
-        super(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), cookie.getVersion());
+        super(cookie==null ? null : cookie.getName(), 
+              cookie==null ? null : cookie.getValue(),
+              cookie==null ? null : cookie.getPath(),
+              cookie==null ? null : cookie.getDomain(),
+              cookie==null ? Cookie.DEFAULT_VERSION : cookie.getVersion());
     }
 
     /**
@@ -105,7 +109,10 @@ public class NewCookie extends Cookie {
      * @throws IllegalArgumentException if cookie is null
      */
     public NewCookie(Cookie cookie, String comment, int maxAge, boolean secure) {
-        this(cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getDomain(), cookie.getVersion(), comment, maxAge, secure);
+        this(cookie);
+        this.comment = comment;
+        this.maxAge = maxAge;
+        this.secure = secure;
     }
 
     /**
