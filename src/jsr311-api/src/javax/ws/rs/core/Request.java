@@ -60,7 +60,7 @@ public interface Request {
      * available representation variants.
      * @return the variant that best matches the request.
      * @see Variant.VariantListBuilder
-     * @throws java.lan.IllegalArgumentException if variants is empty or null
+     * @throws java.lang.IllegalArgumentException if variants is empty or null
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     Variant selectVariant(List<Variant> variants) throws IllegalArgumentException;
