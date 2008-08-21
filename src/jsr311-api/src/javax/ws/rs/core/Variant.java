@@ -42,6 +42,8 @@ public class Variant {
      * null
      */
     public Variant(MediaType mediaType, Locale language, String encoding) {
+        if (mediaType==null && language==null && encoding==null)
+            throw new IllegalArgumentException();
         this.encoding = encoding;
         this.language = language;
         this.mediaType = mediaType;
