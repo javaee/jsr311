@@ -104,7 +104,7 @@ public interface Providers {
      * @return an {@link ExceptionMapper} for the supplied type or null if none
      * is found.
      */
-    <T> ExceptionMapper<T> getExceptionMapper(Class<T> type);
+    <T extends Throwable> ExceptionMapper<T> getExceptionMapper(Class<T> type);
 
     /**
      * Get a context resolver for a particular type of context and media type.
