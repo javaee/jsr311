@@ -67,7 +67,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
  *    method.invoke(...), method.getGenericReturnType());
  *Response response = Response.ok(entity).build();</pre></li>
  * <p>The above obtains the generic type from the return type of the method,
- * the raw type is the class of entity.<p> 
+ * the raw type is the class of entity.</p> 
  * </ol>
  */
 public class GenericEntity<T> {
