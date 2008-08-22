@@ -94,16 +94,16 @@ Resource methods MAY return \code{void}, \Response, \code{Generic\-Entity}, or a
 
 Methods that need to provide additional metadata with a response should return an instance of \Response, the \Response\code{Builder} class provides a convenient way to create a \Response\ instance using a builder pattern.
 
-Conversion between a Java object and an entity body is the responsibility of an entity provider, see section \ref{entity_providers}. The return type of a resource method and the type of the returned instance\footnote{Or \code{Entity} property of returned instance if returning a \Response.} are used to determine the raw type and generic type supplied to the \code{isWritable} method of \MsgWrite as follows:
+Conversion between a Java object and an entity body is the responsibility of an entity provider, see section \ref{entity_providers}. The return type of a resource method and the type of the returned instance are used to determine the raw type and generic type supplied to the \code{isWritable} method of \MsgWrite as follows:
 
 \begin{longtable}{|l|l|l|l|}
 \hline
-\bfseries Return Type & \bfseries Returned Instance & \bfseries Raw Type  & \bfseries Generic Type 
+\bfseries Return Type & \bfseries Returned Instance\footnotemark & \bfseries Raw Type  & \bfseries Generic Type 
 \tabularnewline
 \hline\hline\endhead
-\code{GenericEntity} & \code{GenericEntity} subclass\footnote{Use of \code{GenericEntity} always entails creation of a, usually anonymous, subclass} & \code{RawType} property & \code{Type} property \tabularnewline
+\code{GenericEntity} & \code{GenericEntity} or subclass & \code{RawType} property & \code{Type} property \tabularnewline
 \hline
-\code{Response} & \code{GenericEntity} subclass & \code{RawType} property & \code{Type} property \tabularnewline
+\code{Response} & \code{GenericEntity} or subclass & \code{RawType} property & \code{Type} property \tabularnewline
 \hline
 \code{Response} & \code{Object} or subclass & Class of instance & Class of instance \tabularnewline
 \hline
@@ -111,6 +111,7 @@ Conversion between a Java object and an entity body is the responsibility of an 
 \hline
 \caption{Determining raw and generic types of return values}
 \end{longtable}
+\footnotetext{Or \code{Entity} property of returned instance if return type is \Response\ or a subclass thereof.}
 
 To illustrate the above consider a method that always returns an instance of \code{ArrayList<String>} either directly or wrapped in some combination of \Response\ and \code{GenericEntity}. The resulting raw and generic types are shown below.
 
