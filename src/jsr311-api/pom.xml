@@ -103,9 +103,6 @@
        <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <!--configuration>
-          <destDir>${project.build.directory}/javadoc/api</destDir>
-        </configuration-->
           <executions>
             <execution>
               <phase>validate</phase>
