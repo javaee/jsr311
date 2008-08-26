@@ -111,7 +111,7 @@
             <execution>
               <phase>validate</phase>
               <goals>
-                <goal>javadoc</goal>
+                <goal>jar</goal>
               </goals>
             </execution>
           </executions>
@@ -125,23 +125,6 @@
             <phase>validate</phase>
             <goals>
               <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/dist-assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-         <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attached</goal>
             </goals>
           </execution>
         </executions>
