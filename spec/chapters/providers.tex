@@ -48,13 +48,13 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 
 \begin{enumerate}
 \item Obtain the object that will be mapped to the response entity body. For a return type of \Response\ or subclasses the object is the value of the \code{entity} property, for other return types it is the returned object.
-\item Obtain the effective value of \Produces\ (see section \ref{declaring_method_capabilities}) and intersect that with the requested response formats to obtain set of permissible media types for the response entity body. Note that section \ref{mapping_requests_to_java_methods} ensures that this set will not be empty.
-\item Select the set of \MsgWrite\ providers that support (see section \ref{declaring_provider_capabilities}) one or more of the permissible media types for the response entity body.
+\item Determine the media type of the response, see section \ref{determine_response_type}.
+\item Select the set of \MsgWrite\ providers that support (see section \ref{declaring_provider_capabilities}) the object and media type of the response entity body.
 \item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
 \item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
 \item If step \ref{findwriter} locates a suitable \MsgWrite\ then use its \code{writeTo} method to map the object to the entity body.
 \item Else if a suitable data handler can be found using the JavaBeans Activation Framework\cite{jaf} then use it to map the object to the entity body.
-\item Else generate a \WebAppExc\ with a not acceptable response (HTTP 406 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
+\item Else generate a \WebAppExc\ with an internal server error response (HTTP 500 status) and no entity. The exception MUST be processed as described in section \ref{method_exc}.
 \end{enumerate}
 
 A \MsgWrite\code{.write} method MAY throw \WebAppExc. If thrown before the response is committed, the exception is treated as if it originated from a resource method, see section \ref{method_exc}. To avoid an infinite loop, implementations SHOULD NOT attempt to map exceptions thrown during serialization of an response previously mapped from an exception and SHOULD instead simply return a server error (status code 500) response.

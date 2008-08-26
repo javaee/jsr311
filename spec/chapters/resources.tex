@@ -423,6 +423,7 @@ Note that the above renders the name of template variables irrelevant for templa
 In many cases it is not possible to statically determine the media type of a response. The following algorithm is used to determine the response media type, $M_{\mbox{selected}}$, at run time:
 
 \begin{enumerate}
+\item If the method returns an instance of \Response\ whose metadata includes the response media type ($M_{\mbox{specified}}$) then set $M_{\mbox{selected}} = M_{\mbox{specified}}$, finish.
 \item Gather the set of producible media types $P$:
 \begin{itemize}
 \item If the method is annotated with \Produces, set $P = \{ V(\mbox{method}) \}$ where $V(t)$ represents the values of \Produces\ on the specified target $t$.
