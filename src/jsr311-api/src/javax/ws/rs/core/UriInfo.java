@@ -60,7 +60,7 @@ public interface UriInfo {
      * list of {@link PathSegment}. This method is useful when the
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the path. All sequences of escaped octets in path segments
-     * and matrix parmeter names and values are decoded,
+     * and matrix parameter values are decoded,
      * equivalent to <code>getPathSegments(true)</code>.
      * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
      * map of each path segment is also unmodifiable.
@@ -76,7 +76,7 @@ public interface UriInfo {
      * path needs to be parsed, particularly when matrix parameters may be
      * present in the path.
      * @param decode controls whether sequences of escaped octets in path segments
-     * and matrix parameter names and values are decoded (true) or not (false).
+     * and matrix parameter values are decoded (true) or not (false).
      * @return an unmodifiable list of {@link PathSegment}. The matrix parameter
      * map of each path segment is also unmodifiable.
      * @throws java.lang.IllegalStateException if called outside the scope of a request
@@ -156,7 +156,9 @@ public interface UriInfo {
     
     /**
      * Get the URI query parameters of the current request.
-     * All sequences of escaped octets in parameter names and values are decoded,
+     * The map keys are the names of the query parameters with any
+     * escaped characters decoded.
+     * All sequences of escaped octets in parameter values are decoded,
      * equivalent to <code>getQueryParameters(true)</code>.
      * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
@@ -165,8 +167,10 @@ public interface UriInfo {
     
     /**
      * Get the URI query parameters of the current request.
+     * The map keys are the names of the query parameters with any
+     * escaped characters decoded.
      * @param decode controls whether sequences of escaped octets in parameter
-     * names and values are decoded (true) or not (false).
+     * values are decoded (true) or not (false).
      * @return an unmodifiable map of query parameter names and values
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
