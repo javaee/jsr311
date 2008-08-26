@@ -109,6 +109,7 @@ Context providers supply context to resource classes and other providers. A cont
 Context providers MAY return \code{null} from the \code{getContext} method if they do not wish to provide their context for a particular Java type. E.g. a JAXB context provider may wish to only provide the context for certain JAXB classes. Context providers MAY also manage multiple contexts of the same type keyed to different Java types.
 
 \subsection{Declaring Media Type Capabilities}
+\label{context_media_type}
 
 Context provider implementations MAY restrict the media types they support using the \Produces\ annotation. The absence of this annotation is equivalent to its inclusion with media type (\lq\lq*/*\rq\rq), i.e. absence implies that any media type is supported.
 
