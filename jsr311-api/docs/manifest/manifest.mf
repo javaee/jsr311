@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Specification-Title: JAX-RS: Java API for RESTful Web Services
+Specification-Version: @@SPEC_VERSION@@
+Specification-Vendor: Sun Microsystems, Inc.
+Extension-Name: javax.ws.rs
+Build-Id: @@BUILD_ID@@
