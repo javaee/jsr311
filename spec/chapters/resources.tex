@@ -43,9 +43,9 @@ An implementation is only required to set the annotated field and bean property 
 Valid parameter types for each of the above annotations are listed in the corresponding Javadoc, however in general (excluding \Context) the following types are supported:
 
 \begin{enumerate}
-\item Primitive types
-\item\label{stringctor} Types that have a constructor that accepts a single \code{String} argument
-\item\label{valueofmethod} Types that have a static method named \code{valueOf} or \code{fromString} with a single \code{String} argument - if both methods are present then \code{valueOf} MUST be used unless the type is an enum in which case \code{fromString} MUST be used
+\item Primitive types.
+\item\label{stringctor} Types that have a constructor that accepts a single \code{String} argument.
+\item\label{valueofmethod} Types that have a static method named \code{valueOf} or \code{fromString} with a single \code{String} argument that return an instance of the type. If both methods are present then \code{valueOf} MUST be used unless the type is an enum in which case \code{fromString} MUST be used.
 \item \code{List<{\em T}>}, \code{Set<{\em T}>}, or \code{SortedSet<{\em T}>}, where \code{{\em T}} satisfies \ref{stringctor} or \ref{valueofmethod} above.
 \end{enumerate}
 
@@ -71,7 +71,7 @@ When a resource method is invoked, parameters annotated with \FormParam\ or one 
 \begin{itemize}
 \item The \code{Default\-Value} annotation may be used to supply a default value for parameters
 \item The \code{Encoded} annotation may be used to disable automatic URI decoding of parameter values
-\item Exceptions thrown during construction of parameter values are treated the same as exceptions thrown during construction of field or bean property values, see section \ref{resource_field}.
+\item Exceptions thrown during construction of parameter values are treated the same as exceptions thrown during construction of field or bean property values, see section \ref{resource_field}. Exceptions thrown during construction of \FormParam\ annotated parameter values are treated the same as if the parameter were annotated with \HeaderParam.
 \end{itemize}
 
 \subsubsection{Entity Parameters}

@@ -42,7 +42,13 @@ import javax.ws.rs.core.MultivaluedMap;
 public interface MessageBodyReader<T> {
     
     /**
-     * Ascertain if the MessageBodyReader can produce an instance of a particular type.
+     * Ascertain if the MessageBodyReader can produce an instance of a
+     * particular type. The type parameter gives the
+     * class of the object that should be produced, the genericType parameter
+     * gives the java.lang.reflect.Type of the object that should be produced.
+     * E.g. if the object to be produced is List<String>, the type parameter
+     * will be java.util.List and the genericType parameter will be
+     * java.lang.reflect.ParameterizedType.
      *
      * @param type the class of object to be produced.
      * @param genericType the type of object to be produced. E.g. if the 
