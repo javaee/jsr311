@@ -100,4 +100,17 @@ public interface Request {
      * @throws java.lang.IllegalStateException if called outside the scope of a request
      */
     ResponseBuilder evaluatePreconditions(Date lastModified, EntityTag eTag);
+    
+    /**
+     * Evaluate request preconditions for a resource that does not currently
+     * exist. The primary use of this method is to support the {@link <a
+     * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.26">
+     * If-None-Match: *</a>} precondition.
+     * 
+     * @return null if the preconditions are met or a ResponseBuilder set with
+     * the appropriate status if the preconditions are not met.
+     * @throws java.lang.IllegalStateException if called outside the scope of
+     * a request
+     */
+    ResponseBuilder evaluatePreconditions();
 }
