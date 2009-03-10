@@ -45,7 +45,7 @@ Valid parameter types for each of the above annotations are listed in the corres
 \begin{enumerate}
 \item Primitive types
 \item\label{stringctor} Types that have a constructor that accepts a single \code{String} argument
-\item\label{valueofmethod} Types that have a static method named \code{valueOf} with a single \code{String} argument
+\item\label{valueofmethod} Types that have a static method named \code{valueOf} or \code{fromString} with a single \code{String} argument - if both methods are present then \code{valueOf} MUST be used unless the type is an enum in which case \code{fromString} MUST be used
 \item \code{List<{\em T}>}, \code{Set<{\em T}>}, or \code{SortedSet<{\em T}>}, where \code{{\em T}} satisfies \ref{stringctor} or \ref{valueofmethod} above.
 \end{enumerate}
 
