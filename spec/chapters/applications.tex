@@ -27,12 +27,13 @@ How the resulting endpoint class instance is used to publish the application is 
 An implementation that supports publication via JAX-WS MUST support \code{create\-Endpoint} with an endpoint type of \code{javax\-.xml\-.ws\-.Provider}. JAX-WS describes how a \code{Provider} based endpoint can be published in an SE environment.
 
 \subsection{Servlet}
+\label{servlet}
 
-A \jaxrs\ application is packaged as a Servlet in a \code{.war} file. The \code{Application} subclass (see section \ref{config}), resource classes, and providers are packaged in \code{WEB-INF/classes}, required libraries are packaged in \code{WEB-INF/lib}. Included libraries MAY also contain resource classes and providers as desired. See the Servlet specification for full details on packaging of web applications.
+A \jaxrs\ application is packaged as a Web application in a \code{.war} ﬁle. The \code{Application} subclass (see section \ref{config}), resource classes, and providers are packaged in \code{WEB-INF/classes}, required libraries are packaged in \code{WEB-INF/lib}. Included libraries MAY also contain resource classes and providers as desired. See the Servlet speciﬁcation for full details on packaging of web applications.
 
-When using a \jaxrs\ aware servlet container, the \code{servlet-class} element of the \code{web.xml} descriptor SHOULD name the application-supplied subclass of \code{Application}.
+When using a Servlet 3 container, the \code{Application} subclass is optional. By default, all root resource classes and providers packaged in the web application MUST be included in the published JAX-RS application. An \code{Application} subclass MAY be included in a \code{.war} file to override the default behavior. If both \code{getClasses} and \code{getSingletons} return an empty list then the default set of classes MUST be used. It is RECOMMENDED that implementations support the Servlet 3 framework pluggability mechanism to enable portability between containers and to avail themselves of container-supplied class scanning facilities.
 
-When using a non-\jaxrs\ aware servlet container, the \code{servlet-class} element of the \code{web.xml} descriptor SHOULD name the \jaxrs\ implementation-supplied Servlet class. The application-supplied subclass of \code{Application} is identified using an \code{init-param} with a \code{param-name} of \code{javax\-.ws\-.rs\-.Application}.
+When using a non-\jaxrs\ aware servlet container, the \code{servlet-class} or \code{filter-class} element of the web.xml descriptor SHOULD name the JAX-RS implementation-supplied \code{Servlet} or \code{Filter} class respectively. The application-supplied subclass of \code{Application} is identiﬁed using an \code{init-param} with a \code{param-name} of \code{javax\-.ws\-.rs\-.Application}.
 
 \subsection{Other Container}
 

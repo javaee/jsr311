@@ -11,13 +11,16 @@ An injected \code{Http\-Servlet\-Request} allows a resource method to stream the
 
 An injected \code{Http\-Servlet\-Response} allows a resource method to commit the HTTP response prior to returning. An implementation MUST check the committed status and only process the return value if the response is not yet committed.
 
-\section{Java EE Container (Non-normative)}
+\section{Java EE Container}
+\label{javaee}
 
-This section describes the additional features anticipated to be available to a \jaxrs\ application hosted in a Java EE 6 container. It is planned that \jaxrs\ will be finalized prior to Java EE 6 so the contents of this section are preliminary and subject to change. Nothing in this section should be considered a conformance requirement.
+This section describes the additional features available to an application hosted in a Java EE 6 container that supports \jaxrs.
 
-\jaxrs\ root resource classes and providers are supplied with the same resource injection capabilities as are provided for a Servlet instance running in a Java EE Web container. In particular the following annotations may be used according to their individual semantics: \code{@Resource}, \code{@Resources}, \code{@EJB}, \code{@EJBs}, \code{@Web\-Service\-Ref}, \code{@Web\-Service\-Refs}, \code{@Persistence\-Context}, \code{@Persistence\-Contexts}, \code{@Persistence\-Unit} and \code{@Persistence\-Units}.
+An implementation MUST support applications packaged as described in section \ref{servlet}. An implementation MUST support use of session beans as root resource classes and stateless session and singleton beans as providers in a Web application. \jaxrs\ annotations MAY be applied to a bean's local interface or directly to a no-interface bean.
 
-\jaxrs\ root resource classes and providers may also make use of the following JSR 250 lifecycle management and security annotations:  \code{@Post\-Construct}, \code{@Pre\-Destroy}, \code{@RunAs}, \code{@Roles\-Allowed}, \code{@Permit\-All}, \code{@Deny\-All} and \code{@Declare\-Roles}.
+\begin{note}The new \code{java:module} JNDI context enables easy lookup of a bean instance given a bean local interface or class name.\end{note}
+
+In a container that also includes support for JSR-299 (Contexts and Dependency Injection for Java), an implementation MUST support use of JSR-299 beans as root resource classes, providers and as \code{Application} subclasses in a Web application. \code{Provider} and \code{Application} classes MUST use application scope. \jaxrs\ annotations MAY be directly applied to JSR-299 beans and the \jaxrs\ implementation MUST the appropriate APIs to obtain bean instances that use JSR-299 facilities.
 
 \section{Other}
 
