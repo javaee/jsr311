@@ -54,7 +54,9 @@ public interface MessageBodyReader<T> {
      * message body is to be converted into a method parameter, this will be
      * the annotations on that parameter returned by 
      * <code>Class.getParameterAnnotations</code>.
-     * @param mediaType the media type of the HTTP entity.
+     * @param mediaType the media type of the HTTP entity, if one is not
+     * specified in the request then <code>application/octet-stream</code> is
+     * used.
      * @return true if the type is supported, otherwise false.
      */
     boolean isReadable(Class<?> type, Type genericType, 

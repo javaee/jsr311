@@ -29,6 +29,7 @@ The \MsgRead\ interface defines the contract between the \jaxrs\ runtime and com
 The following describes the logical\footnote{Implementations are free to optimize their processing provided the results are equivalent to those that would be obtained if these steps are followed.} steps taken by a \jaxrs\ implementation when mapping a request entity body to a Java method parameter:
 
 \begin{enumerate}
+\item Obtain the media type of the request. If the request does not contain a \code{Content-Type} header then use \code{application/octet-stream}.
 \item Identify the Java type of the parameter whose value will be mapped from the entity body. Section \ref{mapping_requests_to_java_methods} describes how the Java method is chosen.
 \item Select the set of \MsgRead\ classes that support the media type of the request, see section \ref{declaring_provider_capabilities}.
 \item\label{findreader} Iterate through the selected \MsgRead\ classes and, utilizing the \code{isReadable} method of each, choose a \MsgRead\ provider that supports the desired Java type.
