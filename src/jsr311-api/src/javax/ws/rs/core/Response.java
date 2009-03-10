@@ -299,7 +299,7 @@ public abstract class Response {
     /**
      * Create a new ResponseBuilder for a not acceptable response.
      * 
-     * @param variants list of variants that were available, a null vaue is
+     * @param variants list of variants that were available, a null value is
      * equivalent to an empty list.
      * @return a new ResponseBuilder
      */

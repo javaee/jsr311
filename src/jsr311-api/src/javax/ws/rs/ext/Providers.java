@@ -48,7 +48,7 @@ public interface Providers {
      * method is called on each reader in order using the supplied criteria and
      * the first reader that returns {@code true} is selected and returned.
      * 
-     * @param type the class of object that is to be written.
+     * @param type the class of object that is to be read.
      * @param mediaType the media type of the data that will be read.
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be

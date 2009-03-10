@@ -48,12 +48,12 @@ public interface MessageBodyReader<T> {
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be
      * the formal type of the method parameter as returned by 
-     * <code>Class.getGenericParameterTypes</code>.
+     * <code>Method.getGenericParameterTypes</code>.
      * @param annotations an array of the annotations on the declaration of the
      * artifact that will be initialized with the produced instance. E.g. if the 
      * message body is to be converted into a method parameter, this will be
      * the annotations on that parameter returned by 
-     * <code>Class.getParameterAnnotations</code>.
+     * <code>Method.getParameterAnnotations</code>.
      * @param mediaType the media type of the HTTP entity, if one is not
      * specified in the request then <code>application/octet-stream</code> is
      * used.
@@ -70,12 +70,12 @@ public interface MessageBodyReader<T> {
      * @param genericType the type of object to be produced. E.g. if the 
      * message body is to be converted into a method parameter, this will be
      * the formal type of the method parameter as returned by 
-     * <code>Class.getGenericParameterTypes</code>.
+     * <code>Method.getGenericParameterTypes</code>.
      * @param annotations an array of the annotations on the declaration of the
      * artifact that will be initialized with the produced instance. E.g. if the 
      * message body is to be converted into a method parameter, this will be
      * the annotations on that parameter returned by 
-     * <code>Class.getParameterAnnotations</code>.
+     * <code>Method.getParameterAnnotations</code>.
      * @param mediaType the media type of the HTTP entity.
      * @param httpHeaders the read-only HTTP headers associated with HTTP entity.
      * @param entityStream the {@link InputStream} of the HTTP entity. The
