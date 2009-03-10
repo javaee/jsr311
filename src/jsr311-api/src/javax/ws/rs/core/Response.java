@@ -100,7 +100,7 @@ public abstract class Response {
      * @return a new ResponseBuilder
      * @throws IllegalArgumentException if status is null
      */
-    public static ResponseBuilder status(Status status) {
+    public static ResponseBuilder status(StatusType status) {
         ResponseBuilder b = ResponseBuilder.newInstance();
         b.status(status);
         return b;
@@ -379,7 +379,7 @@ public abstract class Response {
          * @return the updated ResponseBuilder
          * @throws IllegalArgumentException if status is null
          */
-        public ResponseBuilder status(Status status) {
+        public ResponseBuilder status(StatusType status) {
             if (status == null)
                 throw new IllegalArgumentException();
             return status(status.getStatusCode());
@@ -549,11 +549,41 @@ public abstract class Response {
     }
     
     /**
+     * Base interface for statuses used in responses.
+     */
+    public interface StatusType {
+        /**
+         * An enumeration representing the class of status code. Family is used
+         * here since class is overloaded in Java.
+         */
+        public enum Family {INFORMATIONAL, SUCCESSFUL, REDIRECTION, CLIENT_ERROR, SERVER_ERROR, OTHER};
+        
+        /**
+         * Get the associated status code
+         * @return the status code
+         */
+        public int getStatusCode();
+
+        /**
+         * Get the class of status code
+         * @return the class of status code
+         */
+        public Family getFamily();
+
+        /**
+         * Get the reason phrase
+         * @return the reason phrase
+         */
+        public String getReasonPhrase();
+    }
+    
+    /**
      * Commonly used status codes defined by HTTP, see 
      * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>}
-     * for the complete list.
+     * for the complete list. Additional status codes can be added by applications
+     * by creating an implementation of {@link StatusType}.
      */
-    public enum Status {
+    public enum Status implements StatusType {
         /**
          * 200 OK, see {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">HTTP/1.1 documentation</a>}.
          */
@@ -635,12 +665,6 @@ public abstract class Response {
         private final String reason;
         private Family family;
         
-        /**
-         * An enumeration representing the class of status code. Family is used
-         * here since class is overloaded in Java.
-         */
-        public enum Family {INFORMATIONAL, SUCCESSFUL, REDIRECTION, CLIENT_ERROR, SERVER_ERROR, OTHER};
-        
         Status(final int statusCode, final String reasonPhrase) {
             this.code = statusCode;
             this.reason = reasonPhrase;
@@ -668,6 +692,14 @@ public abstract class Response {
          */
         public int getStatusCode() {
             return code;
+        }
+        
+        /**
+         * Get the reason phrase
+         * @return the reason phrase
+         */
+        public String getReasonPhrase() {
+            return toString();
         }
         
         /**
