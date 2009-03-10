@@ -50,7 +50,7 @@ The following describes the logical steps taken by a \jaxrs\ implementation when
 \item Obtain the object that will be mapped to the response entity body. For a return type of \Response\ or subclasses the object is the value of the \code{entity} property, for other return types it is the returned object.
 \item Determine the media type of the response, see section \ref{determine_response_type}.
 \item Select the set of \MsgWrite\ providers that support (see section \ref{declaring_provider_capabilities}) the object and media type of the response entity body.
-\item Sort the selected \MsgWrite\ providers as described in section \ref{declaring_provider_capabilities}.
+\item Sort the selected \MsgWrite\ providers with a primary key of media type (see section \ref{declaring_provider_capabilities}) and a secondary key of generic type where providers whose generic type is the nearest superclass of the object class are sorted first.
 \item\label{findwriter} Iterate through the sorted \MsgWrite\ providers and, utilizing the \code{isWriteable} method of each, choose an \MsgWrite\ that supports the object that will be mapped to the entity body.
 \item If step \ref{findwriter} locates a suitable \MsgWrite\ then use its \code{writeTo} method to map the object to the entity body.
 \item Else if a suitable data handler can be found using the JavaBeans Activation Framework\cite{jaf} then use it to map the object to the entity body.
