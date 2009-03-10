@@ -84,6 +84,8 @@ An implementation MUST include pre-packaged \MsgRead\ and \MsgWrite\ implementat
 \item[\code{StreamingOutput}] All media types (\code{*/*}), \MsgWrite\ only.
 \end{description}
 
+When reading zero-length request entities, all implementation-supplied \MsgRead\ implementations except the JAXB-related one MUST create a corresponding Java object that represents zero-length data; they MUST NOT return null. The implementation-supplied JAXB \MsgRead\ implementation MUST throw a \WebAppExc\ with a client error response (HTTP 400) for zero-length request entities.
+
 The implementation-supplied entity provider(s) for \code{javax\-.xml\-.bind\-.JAXBElement} and application-supplied JAXB classes MUST use \code{JAXBContext} instances provided by application-supplied context resolvers, see section \ref{contextprovider}. If an application does not supply a \code{JAXBContext} for a particular type, the implementation-supplied entity provider MUST use its own default context instead.
 
 When writing responses, implementations SHOULD respect application-supplied character set metadata and SHOULD use UTF-8 if a character set is not specified by the application or if the application specifies a character set that is unsupported.
