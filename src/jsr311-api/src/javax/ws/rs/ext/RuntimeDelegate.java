@@ -21,7 +21,6 @@ package javax.ws.rs.ext;
 
 import java.lang.reflect.ReflectPermission;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
@@ -42,13 +41,12 @@ public abstract class RuntimeDelegate {
     private static final String JAXRS_DEFAULT_RUNTIME_DELEGATE
         = "com.sun.ws.rs.ext.RuntimeDelegateImpl";
     
-    private static AtomicReference<RuntimeDelegate> rdr = 
-            new AtomicReference<RuntimeDelegate>();
-    
     private static ReflectPermission rp = new ReflectPermission("suppressAccessChecks");
 
     protected RuntimeDelegate() {
     }
+
+    private static volatile RuntimeDelegate rd;
     
     /**
      * Obtain a RuntimeDelegate instance. If an instance had not already been
@@ -84,38 +82,47 @@ public abstract class RuntimeDelegate {
      * @return an instance of RuntimeDelegate
      */
     public static RuntimeDelegate getInstance() {
-        RuntimeDelegate rd = rdr.get();
-        if (rd != null)
-            return rd;
-        synchronized(rdr) {
-            rd = rdr.get();
-            if (rd != null)
-                return rd;
-            try {
-                Object delegate =
-                        FactoryFinder.find(JAXRS_RUNTIME_DELEGATE_PROPERTY,
-                        JAXRS_DEFAULT_RUNTIME_DELEGATE);
-                if (!(delegate instanceof RuntimeDelegate)) {
-                    Class pClass = RuntimeDelegate.class;
-                    String classnameAsResource = pClass.getName().replace('.', '/') + ".class";
-                    ClassLoader loader = pClass.getClassLoader();
-                    if(loader == null) {
-                        loader = ClassLoader.getSystemClassLoader();
-                    }
-                    URL targetTypeURL  = loader.getResource(classnameAsResource);
-                    throw new LinkageError("ClassCastException: attempting to cast" +
-                            delegate.getClass().getClassLoader().getResource(classnameAsResource) +
-                            "to" + targetTypeURL.toString() );
-                }
-                rd = (RuntimeDelegate) delegate;
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-            rdr.compareAndSet(null,rd);
-        }
-        return rdr.get();
+       // Double-check idiom for lazy initialization of fields.
+       RuntimeDelegate result = rd;
+       if (result == null) { // First check (no locking)
+           synchronized(RuntimeDelegate.class) {
+               result = rd;
+               if (result == null) { // Second check (with locking)
+                   rd = result = findDelegate();
+               }
+           }
+       }
+       return result;
     }
     
+    /**
+     * Obtain a RuntimeDelegate instance using the method described in
+     * {@link #getInstance}.
+     * @return an instance of RuntimeDelegate
+     */
+    private static RuntimeDelegate findDelegate() {
+        try {
+            Object delegate =
+                    FactoryFinder.find(JAXRS_RUNTIME_DELEGATE_PROPERTY,
+                    JAXRS_DEFAULT_RUNTIME_DELEGATE);
+            if (!(delegate instanceof RuntimeDelegate)) {
+                Class pClass = RuntimeDelegate.class;
+                String classnameAsResource = pClass.getName().replace('.', '/') + ".class";
+                ClassLoader loader = pClass.getClassLoader();
+                if(loader == null) {
+                    loader = ClassLoader.getSystemClassLoader();
+                }
+                URL targetTypeURL  = loader.getResource(classnameAsResource);
+                throw new LinkageError("ClassCastException: attempting to cast" +
+                        delegate.getClass().getClassLoader().getResource(classnameAsResource) +
+                        "to" + targetTypeURL.toString() );
+            }
+            return (RuntimeDelegate) delegate;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     /**
      * Set the runtime delegate that will be used by JAX-RS classes. If this method
      * is not called prior to {@link #getInstance} then an implementation will
@@ -129,7 +136,9 @@ public abstract class RuntimeDelegate {
         if (security != null) {
             security.checkPermission(rp);
         }
-        rdr.set(rd);
+        synchronized(RuntimeDelegate.class) {
+            RuntimeDelegate.rd = rd;
+        }
     }
     
     /**

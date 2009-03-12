@@ -23,9 +23,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Properties;
 
 class FactoryFinder {
+    
+    static ClassLoader getContextClassLoader() { 
+        return AccessController.doPrivileged( 
+            new PrivilegedAction<ClassLoader>() { 
+                public ClassLoader run() { 
+                    ClassLoader cl = null;
+                    try { 
+                        cl = Thread.currentThread().getContextClassLoader(); 
+                    } catch (SecurityException ex) { } 
+                    return cl; 
+                } 
+        }); 
+    }
 
     /**
      * Creates an instance of the specified class using the specified 
@@ -41,7 +56,11 @@ class FactoryFinder {
             if (classLoader == null) {
                 spiClass = Class.forName(className);
             } else {
-                spiClass = classLoader.loadClass(className);
+                try { 
+                    spiClass = Class.forName(className, false, classLoader); 
+                } catch (ClassNotFoundException ex) { 
+                    spiClass = Class.forName(className); 
+                } 
             }
             return spiClass.newInstance();
         } catch (ClassNotFoundException x) {
@@ -74,12 +93,7 @@ class FactoryFinder {
      * @exception WebServiceException if there is an error
      */
     static Object find(String factoryId, String fallbackClassName) throws ClassNotFoundException {
-        ClassLoader classLoader;
-        try {
-            classLoader = Thread.currentThread().getContextClassLoader();
-        } catch (Exception x) {
-            throw new ClassNotFoundException(x.toString(), x);
-        }
+        ClassLoader classLoader = getContextClassLoader();
 
         String serviceId = "META-INF/services/" + factoryId;
         // try to find services in CLASSPATH
