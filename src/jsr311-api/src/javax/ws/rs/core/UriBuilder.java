@@ -109,7 +109,7 @@ public abstract class UriBuilder {
      */
     public static UriBuilder fromPath(String path) throws IllegalArgumentException {
         UriBuilder b = newInstance();
-        b.replacePath(path);
+        b.path(path);
         return b;
     }
 
