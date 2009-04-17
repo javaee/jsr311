@@ -30,6 +30,6 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@HttpMethod(HttpMethod.DELETE)
+@HttpMethod(HttpMethod.OPTIONS)
 public @interface OPTIONS { 
 }
