@@ -110,6 +110,16 @@ public abstract class Response {
      * Create a new ResponseBuilder with the supplied status.
      * @param status the response status
      * @return a new ResponseBuilder
+     * @throws IllegalArgumentException if status is null
+     */
+    public static ResponseBuilder status(Status status) {
+        return status((StatusType)status);
+    }
+
+    /**
+     * Create a new ResponseBuilder with the supplied status.
+     * @param status the response status
+     * @return a new ResponseBuilder
      * @throws IllegalArgumentException if status is less than 100 or greater
      * than 599.
      */
@@ -386,6 +396,17 @@ public abstract class Response {
         };
         
         /**
+         * Set the status on the ResponseBuilder.
+         *
+         * @param status the response status
+         * @return the updated ResponseBuilder
+         * @throws IllegalArgumentException if status is null
+         */
+        public ResponseBuilder status(Status status) {
+            return status((StatusType)status);
+        };
+
+        /**
          * Set the entity on the ResponseBuilder. It is the
          * callers responsibility to wrap the actual entity with
          * {@link GenericEntity} if preservation of its generic type is required.
@@ -553,12 +574,6 @@ public abstract class Response {
      */
     public interface StatusType {
         /**
-         * An enumeration representing the class of status code. Family is used
-         * here since class is overloaded in Java.
-         */
-        public enum Family {INFORMATIONAL, SUCCESSFUL, REDIRECTION, CLIENT_ERROR, SERVER_ERROR, OTHER};
-        
-        /**
          * Get the associated status code
          * @return the status code
          */
@@ -568,7 +583,7 @@ public abstract class Response {
          * Get the class of status code
          * @return the class of status code
          */
-        public Family getFamily();
+        public Status.Family getFamily();
 
         /**
          * Get the reason phrase
@@ -665,6 +680,12 @@ public abstract class Response {
         private final String reason;
         private Family family;
         
+        /**
+         * An enumeration representing the class of status code. Family is used
+         * here since class is overloaded in Java.
+         */
+        public enum Family {INFORMATIONAL, SUCCESSFUL, REDIRECTION, CLIENT_ERROR, SERVER_ERROR, OTHER};
+
         Status(final int statusCode, final String reasonPhrase) {
             this.code = statusCode;
             this.reason = reasonPhrase;
