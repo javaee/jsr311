@@ -28,6 +28,7 @@ import java.lang.annotation.Target;
 /**
  * This annotation is used to inject information into a class
  * field, bean property or method parameter.
+ * @see Application
  * @see UriInfo
  * @see Request
  * @see HttpHeaders

@@ -19,10 +19,15 @@ import java.util.Set;
  * Defines the components of a JAX-RS application and supplies additional
  * metadata. A JAX-RS application or implementation supplies a concrete
  * subclass of this abstract class.
+ *
+ * <p>The implementation-created instance of an Application subclass may be
+ * injected into resource classes and providers using
+ * {@link javax.ws.rs.core.Context}.<p>
  * 
  */
-public abstract class Application {
-    private static final Set<Object> emptySet = Collections.emptySet();
+public class Application {
+    private static final Set<Object> emptyObjectSet = Collections.emptySet();
+    private static final Set<Class<?>> emptyClassSet = Collections.emptySet();
     
     /**
      * Get a set of root resource and provider classes. The default lifecycle
@@ -35,10 +40,14 @@ public abstract class Application {
      * {@link #getSingletons()} returns an instance. Implementations MUST
      * NOT modify the returned set.</p>
      * 
+     * <p>The default implementation returns an empty set.</p>
+     *
      * @return a set of root resource and provider classes. Returning null
      * is equivalent to returning an empty set.
      */
-    public abstract Set<Class<?>> getClasses();
+    public Set<Class<?>> getClasses() {
+        return emptyClassSet;
+    }
     
     /**
      * Get a set of root resource and provider instances. Fields and properties
@@ -57,7 +66,7 @@ public abstract class Application {
      * is equivalent to returning an empty set.
      */
     public Set<Object> getSingletons() {
-        return emptySet;
+        return emptyObjectSet;
     }
     
 }
