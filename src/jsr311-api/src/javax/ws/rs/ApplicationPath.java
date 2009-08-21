@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * @see Path
  * @since 1.1
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApplicationPath {
     /**
