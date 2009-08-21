@@ -17,13 +17,13 @@ Servlet filters may trigger consumption of a request body by accessing request p
 \section{Java EE Container}
 \label{javaee}
 
-This section describes the additional features available to an application hosted in a Java EE 6 container that supports \jaxrs.
+This section describes the additional requirements that apply to a \jaxrs\ implementation when combined in a product that supports these other Java specifications:
 
-An implementation MUST support applications packaged as described in section \ref{servlet}. An implementation MUST support use of session beans as root resource classes and stateless session and singleton beans as providers in a Web application. \jaxrs\ annotations MAY be applied to a bean's local interface or directly to a no-interface bean.
-
-\begin{note}The new \code{java:module} JNDI context enables easy lookup of a bean instance given a bean local interface or class name.\end{note}
-
-In a container that also includes support for JSR-299 (Contexts and Dependency Injection for Java), an implementation MUST support use of JSR-299 beans as root resource classes, providers and as \code{Application} subclasses in a Web application. \code{Provider} and \code{Application} classes MUST use application scope. \jaxrs\ annotations MAY be directly applied to JSR-299 beans and the \jaxrs\ implementation MUST the appropriate APIs to obtain bean instances that use JSR-299 facilities.
+\begin{itemize}
+\item In a product that also supports the Servlet specification, implementations MUST support \jaxrs\ applications that are packaged as a web application, see section \ref{servlet}.
+\item In a product that also supports Managed Beans, implementations MUST support use of Managed Beans as root resource classes, providers and \code{Application} subclasses. All such classes may make use of any container-supplied facilities including dependency injection and interceptors. Providers and \code{Application} subclasses MUST be singletons or use application scope.
+\item In a product that also supports EJB, an implementation MUST support use of stateless and singleton session beans as root resource classes, providers and \code{Application} subclasses in a Web application. \jaxrs\ annotations MAY be applied to a bean’s local interface or directly to a no-interface bean. If an \code{Exception\-Mapper} for a \code{EJBException} or subclass is not included with an application then exceptions thrown by an EJB resource class or provider method MUST be treated as EJB application exceptions: the embedded cause of the \code{EJBException} MUST be unwrapped and processed as described in section \ref{method_exc}.
+\end{itemize}
 
 \section{Other}
 

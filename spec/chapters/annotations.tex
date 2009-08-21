@@ -18,6 +18,8 @@
 \hline
 \code{HEAD} & \raggedright Method & \raggedright Specifies that the annotated method handles HTTP HEAD requests. Note that HEAD may be automatically handled, see section \ref{head_and_options}. \tabularnewline
 \hline
+\code{ApplicationPath} & \raggedright Type & \raggedright Specifies the resource-wide application path that forms the base URI of all root resource classes. \tabularnewline
+\hline
 \code{Path} & \raggedright Type or method & \raggedright Specifies a relative path for a resource. When used on a class this annotation identifies that class as a root resource. When used on a method this annotation identifies a sub-resource method or locator. \tabularnewline
 \hline
 \code{PathParam} & \raggedright Parameter, field or method & \raggedright Specifies that the value of a method parameter, class field, or bean property is to be extracted from the request URI path. The value of the annotation identifies the name of a URI template parameter.\tabularnewline

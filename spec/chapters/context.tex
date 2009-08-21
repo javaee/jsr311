@@ -10,7 +10,11 @@ Context is specific to a particular request but instances of certain \jaxrs\ com
 \section{Context Types}
 \label{contexttypes}
 
-This section describes the types of context available to resource classes and providers.
+This section describes the types of context available to resource classes, providers and \code{Application} subclasses.
+
+\subsection{Application}
+
+The instance of the application-supplied \code{Application} subclass can be injected into a class field or method parameter using the \Context\ annotation. Access to the \code{Application} subclass instance allows configuration information to be centralized in that class. Note that this cannot be injected into the \code{Application} subclass itself since this would create a circular dependency.
 
 \subsection{URIs and URI Templates}
 
