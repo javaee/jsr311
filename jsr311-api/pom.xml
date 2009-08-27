@@ -139,6 +139,7 @@
             </goals>
             <configuration>
               <instructions>
+                <Bundle-Version>1.1</Bundle-Version>
                 <Export-Package>javax.ws.rs.*</Export-Package>
               </instructions>
             </configuration>
