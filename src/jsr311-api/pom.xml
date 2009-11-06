@@ -141,6 +141,7 @@
               <instructions>
                 <Export-Package>javax.ws.rs.*</Export-Package>
                 <Import-Package></Import-Package>
+                <Bundle-Version>1.1.1</Bundle-Version> 
               </instructions>
             </configuration>
           </execution>
