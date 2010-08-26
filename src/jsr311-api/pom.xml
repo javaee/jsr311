@@ -1,25 +1,67 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>javax.ws.rs</groupId>
-  <artifactId>jsr311-api</artifactId>
-  <packaging>jar</packaging>
-  <version>1.1.2-SNAPSHOT</version>
-  <name>jsr311-api</name>
-  <url>https://jsr311.dev.java.net</url>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  <scm>
-    <connection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</connection>
-    <developerConnection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</developerConnection>
-  </scm>
+
+    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+    Copyright (c) 2010 Oracle and/or its affiliates. All rights reserved.
+
+    The contents of this file are subject to the terms of either the GNU
+    General Public License Version 2 only ("GPL") or the Common Development
+    and Distribution License("CDDL") (collectively, the "License").  You
+    may not use this file except in compliance with the License.  You can
+    obtain a copy of the License at
+    https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html
+    or packager/legal/LICENSE.txt.  See the License for the specific
+    language governing permissions and limitations under the License.
+
+    When distributing the software, include this License Header Notice in each
+    file and include the License file at packager/legal/LICENSE.txt.
+
+    GPL Classpath Exception:
+    Oracle designates this particular file as subject to the "Classpath"
+    exception as provided by Oracle in the GPL Version 2 section of the License
+    file that accompanied this code.
+
+    Modifications:
+    If applicable, add the following below the License Header, with the fields
+    enclosed by brackets [] replaced by your own identifying information:
+    "Portions Copyright [year] [name of copyright owner]"
+
+    Contributor(s):
+    If you wish your version of this file to be governed by only the CDDL or
+    only the GPL Version 2, indicate your decision by adding "[Contributor]
+    elects to include this software in this distribution under the [CDDL or GPL
+    Version 2] license."  If you don't indicate a single choice of license, a
+    recipient has the option to distribute your version of this file under
+    either the CDDL, the GPL Version 2 or to extend the choice of license to
+    its licensees as provided above.  However, if you add GPL Version 2 code
+    and therefore, elected the GPL Version 2 license, then the option applies
+    only if the new code is made subject to such option by the copyright
+    holder.
+
 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>jsr311-api</artifactId>
+    <packaging>jar</packaging>
+    <version>1.1.2-SNAPSHOT</version>
+    <name>jsr311-api</name>
+    <url>https://jsr311.dev.java.net</url>
+
+    <!--
+      <scm>
+        <connection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</connection>
+        <developerConnection>scm:svn:https://jsr311.dev.java.net/svn/jsr311/trunk/src</developerConnection>
+      </scm>
+    -->
 
 
     <organization>
-        <name>Sun Microsystems, Inc</name>
-        <url>http://www.sun.com/</url>
+        <name>Oracle Corporation</name>
+        <url>http://www.oracle.com/</url>
     </organization>
 
     <issueManagement>
@@ -44,119 +86,121 @@
 
     <licenses>
         <license>
-            <name>
-                CDDL License
-            </name>
-            <url>http://www.opensource.org/licenses/cddl1.php</url>
+            <name>CDDL 1.1</name>
+            <url>https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>GPL2 w/ CPE</name>
+            <url>https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
 
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
-
-    <plugins>
-      <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.0.2</version>
-          <configuration>
-              <source>1.5</source>
-              <target>1.5</target>
-          </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <archive>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-            <manifestEntries>
-              <Specification-Title>JAX-RS: Java API for RESTful Web Services</Specification-Title>
-              <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>Sun Microsystems, Inc.</Specification-Vendor>
-              <Extension-Name>javax.ws.rs</Extension-Name>
-              <Build-Id>${buildNumber}</Build-Id>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>buildnumber-maven-plugin</artifactId>
-          <version>1.0-beta-3</version>
-          <configuration>
-            <format>{0,date,MM/dd/yyyy hh:mm aa}</format>
-            <items>
-              <item>timestamp</item>
-            </items>
-          </configuration>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-              <goals>
-                <goal>create</goal>
-              </goals>
-            </execution>
-          </executions>
-       </plugin>
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-       </plugin>
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <id>bundle-manifest</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>manifest</goal>
-            </goals>
-            <configuration>
-              <instructions>
-                <Export-Package>javax.ws.rs.*</Export-Package>
-                <Import-Package></Import-Package>
-                <Bundle-Version>1.1.2</Bundle-Version> 
-              </instructions>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestEntries>
+                            <Specification-Title>JAX-RS: Java API for RESTful Web Services</Specification-Title>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Specification-Vendor>Sun Microsystems, Inc.</Specification-Vendor>
+                            <Extension-Name>javax.ws.rs</Extension-Name>
+                            <Build-Id>${buildNumber}</Build-Id>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.0-beta-3</version>
+                <configuration>
+                    <format>{0,date,MM/dd/yyyy hh:mm aa}</format>
+                    <items>
+                        <item>timestamp</item>
+                    </items>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <Export-Package>javax.ws.rs.*</Export-Package>
+                                <Import-Package></Import-Package>
+                                <Bundle-Version>1.1.2</Bundle-Version>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <extensions>
-          <extension>
-            <groupId>org.jvnet.wagon-svn</groupId>
-              <artifactId>wagon-svn</artifactId>
-              <version>1.8</version>
-          </extension>
+            <extension>
+                <groupId>org.jvnet.wagon-svn</groupId>
+                <artifactId>wagon-svn</artifactId>
+                <version>1.8</version>
+            </extension>
         </extensions>
-  </build>
+    </build>
 
     <repositories>
         <repository>
@@ -166,21 +210,21 @@
         </repository>
     </repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
-      <repository>
-        <uniqueVersion>false</uniqueVersion>
-        <id>java.net-m2-repository</id>
-        <url>java-net:/maven2-repository/trunk/repository/</url>
-      </repository>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>java.net-m2-repository</id>
+            <url>java-net:/maven2-repository/trunk/repository/</url>
+        </repository>
     </distributionManagement>
 
 </project>
